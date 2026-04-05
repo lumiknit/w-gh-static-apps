@@ -1,0 +1,336 @@
+/* Colors */
+
+:root {
+	--c-fg: #000;
+	--c-bg: #fff;
+	--c-form-bd: #aaa;
+
+	--l-bg: 90%;
+	--l-fg: 10%;
+
+	/* OK (Green) */
+	--h-ok: 138;
+	--s-ok: 85%;
+	--l-ok: 32%;
+
+	/* Danger (Red) */
+	--h-danger: 357;
+	--s-danger: 98%;
+	--l-danger: 45%;
+
+	/* Info (Blue) */
+	--h-info: 202;
+	--s-info: 98%;
+	--l-info: 45%;
+	--c-info: hsl(var(--h-info) var(--s-info) var(--l-info));
+
+	/* Warn (Yellow) */
+	--h-warn: 36;
+	--s-warn: 98%;
+	--l-warn: 50%;
+
+	/* Utils */
+	--cb-h: 89;
+	--cb-s: 3%;
+	--cb-l: var(--l-fg);
+	--cbc: hsl(var(--cb-h) var(--cb-s) var(--cb-l));
+	--cbc-hover: --cb-c: hsl(var(--cb-h) var(--cb-s) calc(var(--cb-l) + 10%));
+	--cbc-active: --cb-c: hsl(var(--cb-h) var(--cb-s) calc(var(--cb-l) - 10%));
+}
+
+@media (prefers-color-scheme: dark) {
+	:root {
+		--c-fg: #fff;
+		--c-bg: #000;
+		--c-form-bd: #555;
+
+		--l-bg: 10%;
+		--l-fg: 90%;
+	}
+}
+
+/* Core styles */
+
+:root {
+	--ff:
+		'Pretendard JP', 'Pretendard', -apple-system, Inter, system-ui, Avenir,
+		Helvetica, Arial, sans-serif;
+	line-height: 1.1;
+	font-weight: 400;
+	color-scheme: light dark;
+}
+
+* {
+	box-sizing: border-box;
+}
+
+:root,
+html,
+body,
+input,
+select,
+textarea {
+	font-family: var(--ff);
+	font-size: 16px;
+}
+
+html,
+body {
+	margin: 0;
+	color: var(--c-fg);
+	background-color: var(--c-bg);
+	min-height: 100svh;
+}
+
+a {
+	text-decoration: underline;
+	color: hsl(var(--h-info) var(--s-info) var(--l-info));
+}
+
+/* Forms */
+
+input,
+textarea,
+select {
+	display: block;
+	width: 100%;
+	padding: 0.33em 0.75em;
+	background: none;
+	border: 1px solid var(--c-form-bd);
+	border-radius: 0.25rem;
+
+	&:focus {
+		outline: 2px solid hsla(var(--h-info) var(--s-info) var(--l-info) / 50%);
+	}
+}
+
+textarea {
+	resize: vertical;
+}
+
+/* Layouts */
+main {
+	margin: 0 auto;
+	max-width: 768px;
+	padding: 0 0.5rem;
+}
+
+/* Core helpers */
+
+.hidden {
+	display: none;
+}
+
+.inset-0 {
+	inset: 0;
+}
+
+/* Size */
+
+.text-md {
+	font-size: 1rem;
+}
+.text-sm {
+	font-size: 0.875rem;
+}
+.text-xs {
+	font-size: 0.75rem;
+}
+.text-xxs {
+	font-size: 0.625rem;
+}
+.text-lg {
+	font-size: 1.125rem;
+}
+.text-xl {
+	font-size: 1.25rem;
+}
+.text-xxl {
+	font-size: 1.5rem;
+}
+
+/* Buttons */
+
+button,
+input[type='submit'],
+.btn,
+.badge {
+	--cb-c: hsl(var(--cb-h) var(--cb-s) var(--cb-l));
+	--cb-fg: var(--c-bg);
+	--cb-bg: var(--cb-c);
+
+	border: 1px solid var(--cb-c);
+	background-color: var(--cb-bg);
+	color: var(--cb-fg);
+
+	display: flex;
+	flex-direction: row;
+	justify-items: center;
+	align-items: center;
+	gap: 0.25em;
+
+	transition-property: border-color, background-color;
+	transition-duration: 0.1s;
+
+	cursor: pointer;
+	user-select: none;
+	-webkit-user-drag: none;
+
+	text-decoration: none;
+
+	&:hover {
+		--cb-c: hsl(var(--cb-h) var(--cb-s) calc(var(--cb-l) + 10%));
+	}
+
+	&:active {
+		--cb-c: hsl(var(--cb-h) var(--cb-s) calc(var(--cb-l) - 10%));
+	}
+
+	&:focus {
+		outline: 2px solid hsla(var(--cb-h) var(--cb-s) var(--cb-l) / 0.5);
+	}
+
+	&:disabled {
+		--cb-c: hsl(
+			var(--cb-h) calc(var(--cb-s) - 40%) calc(var(--cb-l) + 30%)
+		);
+	}
+}
+
+button,
+input[type='submit'],
+.btn {
+	border-radius: 0.25rem;
+	padding: 0.5em 0.75em;
+}
+
+.badge {
+	border-radius: 999rem;
+	padding: 0.5em 0.75em;
+}
+
+/* Color utils */
+
+.text-fg {
+	color: var(--c-fg);
+}
+
+.text-bg {
+	color: var(--c-bg);
+}
+
+.text-ok {
+	color: hsl(var(--h-ok) var(--s-ok) var(--l-ok));
+}
+
+.text-danger {
+	color: hsl(var(--h-danger) var(--s-danger) var(--l-danger));
+}
+
+.text-info {
+	color: hsl(var(--h-info) var(--s-info) var(--l-info));
+}
+
+.text-warn {
+	color: hsl(var(--h-warn) var(--s-warn) var(--l-warn));
+}
+
+.danger {
+	--cb-h: var(--h-danger);
+	--cb-s: var(--s-danger);
+	--cb-l: var(--l-danger);
+	--cb-fg: #fff;
+}
+
+.ok {
+	--cb-h: var(--h-ok);
+	--cb-s: var(--s-ok);
+	--cb-l: var(--l-ok);
+	--cb-fg: #fff;
+}
+
+.info {
+	--cb-h: var(--h-info);
+	--cb-s: var(--s-info);
+	--cb-l: var(--l-info);
+	--cb-fg: #fff;
+}
+
+.warn {
+	--cb-h: var(--h-warn);
+	--cb-s: var(--s-warn);
+	--cb-l: var(--l-warn);
+	--cb-fg: #000;
+}
+
+.outline {
+	--cb-bg: none;
+	--cb-fg: var(--cb-c);
+}
+
+/* Check */
+
+input[type='checkbox'] {
+	-webkit-appearance: none;
+	appearance: none;
+
+	padding: 0;
+	width: 1.25em;
+	height: 1.25em;
+	border: 1.5px solid var(--c-form-bd);
+	border-radius: 0.25em;
+	outline: none;
+	cursor: pointer;
+	display: inline-grid;
+	place-content: center;
+	vertical-align: middle;
+}
+
+/* 체크됐을 때 배경색 변경 */
+input[type='checkbox']:checked {
+	background-color: var(--c-info);
+	border-color: var(--c-info);
+}
+
+/* 가상 요소로 체크 표시 구현 */
+input[type='checkbox']:checked::before {
+	content: '';
+	width: 0.8em;
+	height: 0.8em;
+	transition: 0.1stransform ease-in-out;
+	box-shadow: inset 1rem 1rem #fff;
+	background-color: CanvasText;
+	clip-path: polygon(14% 44%, 0 65%, 50% 100%, 100% 16%, 80% 0%, 43% 62%);
+}
+
+select {
+	appearance: none;
+	-webkit-appearance: none;
+	cursor: pointer;
+
+	background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%23888'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'/%3E%3C/svg%3E");
+	background-repeat: no-repeat;
+	background-position: right 0.5em center;
+	background-size: 1em;
+	padding-right: 2em;
+}
+
+/* Spinner */
+
+.spinner {
+	width: 1.5em;
+	height: 1.5em;
+	border: 3px solid currentColor;
+	border-bottom-color: transparent;
+	border-radius: 50%;
+	display: inline-block;
+	vertical-align: middle;
+	animation: spin 0.5s linear infinite;
+	box-sizing: border-box;
+}
+
+@keyframes spin {
+	to {
+		transform: rotate(360deg);
+	}
+}

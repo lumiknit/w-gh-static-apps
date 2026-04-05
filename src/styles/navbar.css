@@ -1,0 +1,29 @@
+nav.navbar {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	padding: 0 0.25rem;
+
+	height: 2.5rem;
+	background: var(--c-bg);
+
+	& > div {
+		display: flex;
+		gap: 0.5rem;
+	}
+
+	& a {
+		padding: 0.5rem;
+		border-radius: 0.25rem;
+		color: var(--c-fg);
+		text-decoration: none;
+
+		&:hover {
+			background-color: #8884;
+		}
+
+		&.brand {
+			font-weight: 900;
+		}
+	}
+}

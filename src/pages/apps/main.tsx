@@ -1,4 +1,4 @@
-import '@/styles/index.css';
+import '@/styles/core.css';
 import './style.css';
 
 /** JSON Item */

@@ -1,3 +1,3 @@
 import '@/styles/core.css';
-import './style.css';
 import '@/styles/noti.css';
+import '@/styles/navbar.css';
