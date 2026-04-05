@@ -101,7 +101,7 @@ select {
 	margin: 0.5rem 0;
 	background: none;
 	border: 1px solid var(--c-form-bd);
-	border-radius: 0.25rem;
+	border-radius: 0.375rem;
 
 	&:focus {
 		outline: 2px solid hsla(var(--h-info) var(--s-info) var(--l-info) / 50%);
@@ -122,7 +122,7 @@ main {
 pre {
 	padding: 0.5rem;
 	background-color: #8882;
-	border-radius: 0.25rem;
+	border-radius: 0.375em;
 }
 
 hr {
@@ -226,12 +226,12 @@ input[type='file']::file-selector-button,
 button,
 input[type='submit'],
 .btn {
-	border-radius: 0.25rem;
+	border-radius: 0.375em;
 	padding: 0.5em 0.75em;
 }
 
 input[type='file']::file-selector-button {
-	border-radius: 0.25rem;
+	border-radius: 0.375em;
 	padding: 0.25em 0.75em;
 }
 
@@ -358,7 +358,7 @@ select {
 }
 
 input[type='color'] {
-	padding: 0;
+	padding: 0.125rem 0.25rem;
 	height: 2.25em;
 }
 

@@ -14,7 +14,7 @@ nav.navbar {
 
 	& a {
 		padding: 0.5rem;
-		border-radius: 0.25rem;
+		border-radius: 0.375em;
 		color: var(--c-fg);
 		text-decoration: none;
 
