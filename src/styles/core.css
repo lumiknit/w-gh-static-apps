@@ -7,6 +7,7 @@
 
 	--l-bg: 90%;
 	--l-fg: 10%;
+	--l-dim: 40%;
 
 	/* OK (Green) */
 	--h-ok: 138;
@@ -32,7 +33,7 @@
 	/* Utils */
 	--cb-h: 89;
 	--cb-s: 3%;
-	--cb-l: var(--l-fg);
+	--cb-l: var(--l-dim);
 	--cbc: hsl(var(--cb-h) var(--cb-s) var(--cb-l));
 	--cbc-hover: --cb-c: hsl(var(--cb-h) var(--cb-s) calc(var(--cb-l) + 10%));
 	--cbc-active: --cb-c: hsl(var(--cb-h) var(--cb-s) calc(var(--cb-l) - 10%));
@@ -46,6 +47,7 @@
 
 		--l-bg: 10%;
 		--l-fg: 90%;
+		--l-dim: 70%;
 	}
 }
 
@@ -69,7 +71,8 @@ html,
 body,
 input,
 select,
-textarea {
+textarea,
+button {
 	font-family: var(--ff);
 	font-size: 16px;
 }
@@ -116,14 +119,34 @@ main {
 	padding: 0 0.5rem;
 }
 
+pre {
+	padding: 0.5rem;
+	background-color: #8882;
+	border-radius: 0.25rem;
+}
+
+hr {
+	border-color: var(--c-form-bd);
+	margin: 1rem 0;
+}
+
 /* Core helpers */
 
-.hidden {
+.hidden,
+[hidden] {
 	display: none;
 }
 
 .inset-0 {
 	inset: 0;
+}
+
+.w-full {
+	width: 100%;
+}
+
+.h-full {
+	height: 100%;
 }
 
 /* Size */
@@ -154,6 +177,7 @@ main {
 
 button,
 input[type='submit'],
+input[type='file']::file-selector-button,
 .btn,
 .badge {
 	--cb-c: hsl(var(--cb-h) var(--cb-s) var(--cb-l));
@@ -204,6 +228,11 @@ input[type='submit'],
 .btn {
 	border-radius: 0.25rem;
 	padding: 0.5em 0.75em;
+}
+
+input[type='file']::file-selector-button {
+	border-radius: 0.25rem;
+	padding: 0.25em 0.75em;
 }
 
 .badge {
@@ -330,6 +359,7 @@ select {
 
 input[type='color'] {
 	padding: 0;
+	height: 2.25em;
 }
 
 /* Spinner */

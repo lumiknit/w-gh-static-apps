@@ -24,11 +24,11 @@
 
 		"baseUrl": ".",
 		"paths": {
-			"@/*": ["src/*"],
+			"@/*": ["src/*"]
 		},
 
 		"jsx": "react-jsx",
-		"jsxImportSource": "@/lib/fore",
+		"jsxImportSource": "@/lib/fore"
 	},
-	"include": ["src"],
+	"include": ["src"]
 }
