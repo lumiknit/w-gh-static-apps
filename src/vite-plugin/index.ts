@@ -5,8 +5,8 @@ export const embedCSS = (contents: string): PluginOption => {
 		name: 'embed-css',
 		transformIndexHtml(html) {
 			const replaced = html.replace(
-				'</head>',
-				`<style rel="stylesheet" crossorigin>${contents}</style></head>`
+				'<head>',
+				`<head><style rel="stylesheet" crossorigin>${contents}</style>`
 			);
 			return replaced;
 		},

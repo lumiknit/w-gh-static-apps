@@ -10,19 +10,19 @@
 	--l-dim: 40%;
 
 	/* OK (Green) */
-	--h-ok: 138;
-	--s-ok: 85%;
-	--l-ok: 32%;
+	--h-ok: 135;
+	--s-ok: 75%;
+	--l-ok: 30%;
 
 	/* Danger (Red) */
 	--h-danger: 357;
-	--s-danger: 98%;
+	--s-danger: 85%;
 	--l-danger: 45%;
 
 	/* Info (Blue) */
-	--h-info: 202;
-	--s-info: 98%;
-	--l-info: 45%;
+	--h-info: 208;
+	--s-info: 61%;
+	--l-info: 50%;
 	--c-info: hsl(var(--h-info) var(--s-info) var(--l-info));
 
 	/* Warn (Yellow) */
