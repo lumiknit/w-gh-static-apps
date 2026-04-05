@@ -1,0 +1,27 @@
+{
+	"name": "w-gh-static-apps",
+	"author": {
+		"name": "lumiknit",
+		"email": "aasr4r4@gmail.com",
+		"url": "https://github.com/lumiknit"
+	},
+	"private": true,
+	"version": "0.0.0",
+	"type": "module",
+	"scripts": {
+		"format": "prettier --write .",
+		"dev": "vite",
+		"build": "tsc && vite build",
+		"preview": "vite preview"
+	},
+	"devDependencies": {
+		"@types/node": "^25.5.2",
+		"typescript": "~5.9.3",
+		"vite": "^8.0.1",
+		"vite-plugin-html": "^3.2.2"
+	},
+	"dependencies": {
+		"fast-glob": "^3.3.3",
+		"prettier": "^3.8.1"
+	}
+}

@@ -1,0 +1,39 @@
+:root {
+	--c-fg: #000;
+	--c-bg: #fff;
+	--c-form-bd: #aaa;
+
+	--l-bg: 90%;
+	--l-fg: 10%;
+
+	/* OK (Green) */
+	--h-ok: 138;
+	--s-ok: 85%;
+	--l-ok: 32%;
+
+	/* Danger (Red) */
+	--h-danger: 357;
+	--s-danger: 98%;
+	--l-danger: 45%;
+
+	/* Info (Blue) */
+	--h-info: 202;
+	--s-info: 98%;
+	--l-info: 45%;
+
+	/* Warn (Yellow) */
+	--h-warn: 36;
+	--s-warn: 98%;
+	--l-warn: 50%;
+}
+
+@media (prefers-color-scheme: dark) {
+	:root {
+		--c-fg: #fff;
+		--c-bg: #000;
+		--c-form-bd: #555;
+
+		--l-bg: 10%;
+		--l-fg: 90%;
+	}
+}

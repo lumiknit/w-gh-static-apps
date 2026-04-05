@@ -1,0 +1,42 @@
+/* Basic semantic css library */
+
+@import './color.css';
+@import './button.css';
+@import './layout.css';
+@import './form.css';
+
+:root {
+	--ff:
+		'Pretendard JP', 'Pretendard', -apple-system, Inter, system-ui, Avenir,
+		Helvetica, Arial, sans-serif;
+	line-height: 1.1;
+	font-weight: 400;
+	color-scheme: light dark;
+}
+
+:root,
+html,
+body,
+input,
+select {
+	font-family: var(--ff);
+	font-size: 16px;
+}
+
+html,
+body {
+	margin: 0;
+	color: var(--c-fg);
+	background-color: var(--c-bg);
+	min-height: 100svh;
+}
+
+main {
+	margin: 0 auto;
+	max-width: 768px;
+}
+
+a {
+	text-decoration: underline;
+	color: hsl(var(--h-info) var(--s-info) var(--l-info));
+}

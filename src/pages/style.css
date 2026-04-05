@@ -1,0 +1,23 @@
+body > div {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 1rem;
+}
+
+@keyframes rotate {
+	0% {
+		transform: rotate(0);
+	}
+	to {
+		transform: rotate(360deg);
+	}
+}
+
+svg#logo {
+	width: 240px;
+	height: 240px;
+	max-width: 50dvw;
+	margin: 40px auto;
+	animation: rotate 300s ease-in-out infinite;
+}
