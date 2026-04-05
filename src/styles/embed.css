@@ -1,19 +1,23 @@
 /* This is for embed into HTML file, to prevent flickering */
 
 :root {
-	--c-fg: #000000;
-	--c-bg: #ffffff;
+	--c-fg: #000;
+	--c-bg: #fff;
 }
 
 @media (prefers-color-scheme: dark) {
 	:root {
-		--c-fg: #ffffff;
-		--c-bg: #000000;
+		--c-fg: #fff;
+		--c-bg: #000;
 	}
 }
 
 html,
-body {
+body,
+input,
+button,
+textarea,
+select {
 	color: var(--c-fg);
 	background-color: var(--c-bg);
 }

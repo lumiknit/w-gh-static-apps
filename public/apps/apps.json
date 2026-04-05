@@ -1,0 +1,17 @@
+[
+	{
+		"name": "Google",
+		"url": "https://google.com",
+		"description": "Google"
+	},
+	{
+		"name": "Naver",
+		"url": "https://naver.com",
+		"description": "Naver"
+	},
+	{
+		"name": "Naver",
+		"url": "./main",
+		"description": "Naver"
+	}
+]

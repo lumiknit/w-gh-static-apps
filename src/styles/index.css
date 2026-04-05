@@ -4,6 +4,7 @@
 @import './button.css';
 @import './layout.css';
 @import './form.css';
+@import './helper.css';
 
 :root {
 	--ff:
@@ -29,11 +30,6 @@ body {
 	color: var(--c-fg);
 	background-color: var(--c-bg);
 	min-height: 100svh;
-}
-
-main {
-	margin: 0 auto;
-	max-width: 768px;
 }
 
 a {

@@ -31,6 +31,17 @@ export default defineConfig({
 					];
 				})
 			),
+			output: {
+				codeSplitting: {
+					groups: [
+						{
+							name: 'fore',
+							test: /lib\/fore/,
+							priority: 20,
+						},
+					],
+				},
+			},
 		},
 	},
 	server: {
@@ -41,6 +52,13 @@ export default defineConfig({
 	resolve: {
 		alias: {
 			'@': resolve(__dirname, 'src'),
+		},
+	},
+	oxc: {
+		jsx: {
+			runtime: 'automatic',
+			importSource: '@/lib/fore',
+			development: false,
 		},
 	},
 	plugins: [

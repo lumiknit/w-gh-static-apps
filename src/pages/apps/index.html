@@ -13,14 +13,16 @@
 				<a href="https://github.com/lumiknit">@lumiknit</a>!
 			</p>
 
-			<input type="text" placeholder="Filter..." />
+			<input id="input-filter" type="text" placeholder="Filter..." />
 
-			<p class="error">{jsonError}</p>
+			<p id="msg-err" class="text-error hidden">{jsonError}</p>
+
+			<div id="shortcuts"></div>
 
 			<div>
-				<a href="#top" on:click="{handleGoToTop}"> Go to Top </a>
+				<a href="#top" onClick="{handleGoToTop}"> Go to Top </a>
 			</div>
 		</main>
-		<script type="module" src="./main.ts"></script>
+		<script type="module" src="./main.tsx"></script>
 	</body>
 </html>

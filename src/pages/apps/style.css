@@ -1,0 +1,63 @@
+#shortcuts {
+	margin-top: 1rem;
+	display: grid;
+	grid-template-columns: repeat(3, 1fr);
+	gap: 10px;
+
+	& a {
+		text-decoration: none;
+		color: var(--c-fg);
+	}
+}
+
+@media (min-width: 640px) {
+	#shortcuts {
+		grid-template-columns: repeat(6, 1fr);
+	}
+}
+
+.sc-wrap {
+	position: relative;
+
+	& .pop {
+		display: none;
+		position: absolute;
+		top: 4rem;
+		z-index: 5;
+		background-color: #888a;
+		padding: 1rem;
+		border-radius: 1rem;
+	}
+
+	&:hover .pop,
+	&:focus .pop {
+		display: block;
+	}
+}
+
+.sc-box {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-items: center;
+}
+
+.sc-img {
+	background-color: #8884;
+	border-radius: 0.5rem;
+	width: 3rem;
+	height: 3rem;
+	padding: 0.5rem;
+
+	align-content: center;
+	text-align: center;
+}
+
+.dummy-icon {
+	font-size: 2rem;
+}
+
+.sc-img > img {
+	width: 2rem;
+	height: 2rem;
+}
