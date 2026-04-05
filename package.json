@@ -16,12 +16,16 @@
 	},
 	"devDependencies": {
 		"@types/node": "^25.5.2",
+		"@types/qrcode-svg": "^1.1.5",
 		"typescript": "~5.9.3",
 		"vite": "^8.0.1",
 		"vite-plugin-html": "^3.2.2"
 	},
 	"dependencies": {
 		"fast-glob": "^3.3.3",
-		"prettier": "^3.8.1"
+		"prettier": "^3.8.1",
+		"qr-scanner": "^1.4.2",
+		"qrcode": "^1.5.4",
+		"qrcode-svg": "^1.1.0"
 	}
 }

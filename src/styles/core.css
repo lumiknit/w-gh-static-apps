@@ -95,6 +95,7 @@ select {
 	display: block;
 	width: 100%;
 	padding: 0.33em 0.75em;
+	margin: 0.5rem 0;
 	background: none;
 	border: 1px solid var(--c-form-bd);
 	border-radius: 0.25rem;
@@ -158,12 +159,13 @@ input[type='submit'],
 	--cb-c: hsl(var(--cb-h) var(--cb-s) var(--cb-l));
 	--cb-fg: var(--c-bg);
 	--cb-bg: var(--cb-c);
+	--cb-bd: var(--cb-c);
 
-	border: 1px solid var(--cb-c);
+	border: 1px solid var(--cb-bd);
 	background-color: var(--cb-bg);
 	color: var(--cb-fg);
 
-	display: flex;
+	display: inline-flex;
 	flex-direction: row;
 	justify-items: center;
 	align-items: center;
@@ -268,6 +270,12 @@ input[type='submit'],
 	--cb-fg: var(--cb-c);
 }
 
+.ghost {
+	--cb-bg: none;
+	--cb-bd: none;
+	--cb-fg: var(--cb-c);
+}
+
 /* Check */
 
 input[type='checkbox'] {
@@ -313,6 +321,15 @@ select {
 	background-position: right 0.5em center;
 	background-size: 1em;
 	padding-right: 2em;
+
+	& > option {
+		background-color: var(--c-bg);
+		color: var(--c-fg);
+	}
+}
+
+input[type='color'] {
+	padding: 0;
 }
 
 /* Spinner */
