@@ -1,29 +1,31 @@
 nav.navbar {
-	display: flex;
-	align-items: center;
-	justify-content: space-between;
-	padding: 0 0.25rem;
-
-	height: 2.5rem;
 	background: var(--c-bg);
 
-	& > div {
+	& > .navbar-content {
 		display: flex;
-		gap: 0.5rem;
-	}
+		align-items: center;
+		justify-content: space-between;
+		padding: 0 0.25rem;
+		height: 2.5rem;
 
-	& a {
-		padding: 0.5rem;
-		border-radius: 0.375em;
-		color: var(--c-fg);
-		text-decoration: none;
-
-		&:hover {
-			background-color: #8884;
+		& > div {
+			display: flex;
+			gap: 0.5rem;
 		}
 
-		&.brand {
-			font-weight: 900;
+		& a {
+			padding: 0.5rem;
+			border-radius: 0.375em;
+			color: var(--c-fg);
+			text-decoration: none;
+
+			&:hover {
+				background-color: #8884;
+			}
+
+			&.brand {
+				font-weight: 900;
+			}
 		}
 	}
 }
