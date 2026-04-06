@@ -6,14 +6,12 @@
 		"lib": ["ES2023", "DOM", "DOM.Iterable"],
 		"types": ["vite/client"],
 		"skipLibCheck": true,
-
 		/* Bundler mode */
 		"moduleResolution": "bundler",
 		"allowImportingTsExtensions": true,
 		"verbatimModuleSyntax": true,
 		"moduleDetection": "force",
 		"noEmit": true,
-
 		/* Linting */
 		"strict": true,
 		"noUnusedLocals": true,
@@ -21,14 +19,12 @@
 		"erasableSyntaxOnly": true,
 		"noFallthroughCasesInSwitch": true,
 		"noUncheckedSideEffectImports": true,
-
 		"baseUrl": ".",
 		"paths": {
 			"@/*": ["src/*"]
 		},
-
 		"jsx": "react-jsx",
 		"jsxImportSource": "@/lib/fore"
 	},
-	"include": ["src"]
+	"include": ["src", "vite-plugins/index.ts"]
 }

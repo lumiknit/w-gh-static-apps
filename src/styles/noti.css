@@ -7,7 +7,7 @@
 	border-radius: 0.375em;
 	position: relative;
 
-	--cb-c: hsl(var(--cb-h) var(--cb-s) var(--cb-l));
+	--cb-c: hsl(var(--cb-hs) var(--cb-l));
 	--cb-fg: var(--c-bg);
 	--cb-bg: var(--cb-c);
 

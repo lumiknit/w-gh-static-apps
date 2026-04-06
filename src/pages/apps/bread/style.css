@@ -1,0 +1,113 @@
+/* Recipe selector bar */
+
+.recipe-bar {
+	display: flex;
+	gap: 0.5rem;
+	align-items: center;
+}
+
+.recipe-bar select {
+	flex: 1;
+	margin: 0;
+}
+
+/* Recipe editor */
+
+#section-editor > label {
+	display: block;
+	margin-top: 1rem;
+}
+
+#section-editor h3 {
+	margin: 1rem 0 0.5rem;
+}
+
+.ingredient-row {
+	display: flex;
+	gap: 0.5rem;
+	align-items: center;
+	margin-bottom: 0.375rem;
+}
+
+.ingredient-row input {
+	margin: 0;
+}
+
+.ingredient-row .ing-name {
+	flex: 2;
+}
+
+.ingredient-row .ing-amount {
+	flex: 1;
+}
+
+/* Calculator */
+
+#calc-empty {
+	color: var(--c-dim-fg);
+}
+
+.calc-bar {
+	display: flex;
+	gap: 0.5rem;
+	align-items: center;
+	margin-bottom: 1rem;
+}
+
+.calc-bar select {
+	flex: 2;
+	margin: 0;
+}
+
+.calc-bar input {
+	flex: 1;
+	margin: 0;
+}
+
+#calc-table {
+	width: 100%;
+	border-collapse: collapse;
+}
+
+#calc-table th {
+	text-align: left;
+	padding: 0.375rem 0.5rem;
+	font-size: 0.75rem;
+	color: var(--c-dim-fg);
+	border-bottom: 1px solid var(--c-form-bd);
+}
+
+#calc-table td {
+	padding: 0.5rem;
+}
+
+#calc-table .num-cell {
+	text-align: right;
+	font-variant-numeric: tabular-nums;
+	white-space: nowrap;
+}
+
+#calc-table .result-cell {
+	font-weight: bold;
+}
+
+#calc-table .sub-unit {
+	color: var(--c-dim-fg);
+}
+
+#calc-table .base-row td {
+	background: var(--c-dim-bg);
+}
+
+/* Presets */
+
+#section-presets > p {
+	color: var(--c-dim-fg);
+	margin-bottom: 1rem;
+}
+
+#preset-list {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0.5rem;
+}

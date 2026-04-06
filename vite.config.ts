@@ -5,7 +5,7 @@ import { defineConfig } from 'vite';
 import { createHtmlPlugin } from 'vite-plugin-html';
 import glob from 'fast-glob';
 
-import { embedCommonHTMLHead, embedCSS } from './src/vite-plugin';
+import { embedCommonHTMLHead, embedCSS } from './vite-plugins';
 
 const projectRoot = resolve(__dirname);
 const htmlBasePath = resolve(projectRoot, 'src/pages');
@@ -19,6 +19,7 @@ export default defineConfig({
 	root: htmlBasePath,
 	base: '/',
 	publicDir: resolve(projectRoot, 'public'),
+
 	build: {
 		outDir: resolve(projectRoot, 'dist'),
 		emptyOutDir: true,
@@ -44,16 +45,19 @@ export default defineConfig({
 			},
 		},
 	},
+
 	server: {
 		fs: {
 			allow: [projectRoot],
 		},
 	},
+
 	resolve: {
 		alias: {
 			'@': resolve(__dirname, 'src'),
 		},
 	},
+
 	oxc: {
 		jsx: {
 			runtime: 'automatic',
@@ -61,6 +65,7 @@ export default defineConfig({
 			development: false,
 		},
 	},
+
 	plugins: [
 		embedCommonHTMLHead(),
 		embedCSS(embeddedCSS),

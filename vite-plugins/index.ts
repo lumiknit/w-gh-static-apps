@@ -22,8 +22,8 @@ const commonHead = `
 	href="/lumi-icon/favicon-96x96.png"
 	sizes="96x96"
 />
-<link rel="icon" type="image/svg+xml" href="/lumi-icon/favicon.svg" />
-<link rel="shortcut icon" href="/lumi-icon/favicon.ico" />
+<link rel="alternate icon" href="/lumi-icon/favicon.ico" />
+<link rel="icon" type="image/svg+xml" href="/lumi-icon/favicon.svg" sizes="any" />
 <link
 	rel="apple-touch-icon"
 	sizes="180x180"

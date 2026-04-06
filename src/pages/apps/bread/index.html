@@ -1,0 +1,81 @@
+<!doctype html>
+<html>
+	<head>
+		<title>Bread Recipe</title>
+	</head>
+	<body>
+		<nav class="navbar">
+			<main class="navbar-content">
+				<div>
+					<a class="brand" href="#">Bread</a>
+				</div>
+				<div>
+					<a href="/apps">Apps</a>
+				</div>
+			</main>
+		</nav>
+		<main class="container">
+			<header>
+				<h1>Bread Recipe</h1>
+				<p>Baker's percentage calculator for bread recipes.</p>
+			</header>
+
+			<!-- Recipe selector -->
+			<div class="recipe-bar">
+				<select id="recipe-select"></select>
+				<button id="btn-clear" class="danger">Clear</button>
+			</div>
+
+			<!-- Recipe editor -->
+			<section id="section-editor" hidden>
+				<label>
+					Recipe Name
+					<input
+						type="text"
+						id="recipe-name"
+						placeholder="Recipe name"
+					/>
+				</label>
+
+				<h3>Ingredients</h3>
+				<div id="ingredient-list"></div>
+				<button id="btn-add-ingredient" class="ghost w-full">
+					+ Add Ingredient
+				</button>
+			</section>
+
+			<hr />
+
+			<!-- Calculator -->
+			<section id="section-calc">
+				<h2>Calculator</h2>
+				<p id="calc-empty" class="text-sm">
+					Select or create a recipe to start calculating.
+				</p>
+				<div id="calc-body" hidden>
+					<div class="calc-bar">
+						<select id="base-ingredient"></select>
+						<input
+							type="number"
+							id="base-amount"
+							placeholder="Amount (g)"
+							min="0"
+							step="any"
+						/>
+					</div>
+					<div id="calc-container"></div>
+				</div>
+			</section>
+
+			<hr />
+
+			<!-- Presets -->
+			<section id="section-presets">
+				<h2>Presets</h2>
+				<p class="text-sm">Load a preset recipe as a starting point.</p>
+				<div id="preset-container"></div>
+			</section>
+		</main>
+		<script type="module" src="./main.ts"></script>
+	</body>
+</html>
