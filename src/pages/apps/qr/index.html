@@ -1,61 +1,86 @@
 <!doctype html>
 <html>
 	<head>
-		<title>QR Util</title>
+		<title data-i18n="title">QR Util</title>
 	</head>
 	<body>
 		<nav class="navbar">
 			<main class="navbar-content">
 				<div>
-					<a class="brand" href="#">QR</a>
+					<a class="brand" href="#" data-i18n="brand">QR</a>
 				</div>
 				<div>
-					<a href="/apps">Apps</a>
+					<a href="/apps" data-i18n="nav_apps">Apps</a>
 				</div>
 			</main>
 		</nav>
 		<main class="container">
 			<header>
-				<h1>QR Util</h1>
-				<p>QR code image generator & scanner.</p>
+				<h1 data-i18n="title">QR Util</h1>
+				<p data-i18n="desc">QR code image generator & scanner.</p>
 			</header>
 
 			<div role="group" id="tabs">
-				<button id="btn-gen">Gen</button>
-				<button id="btn-from-image" class="ghost">From Image</button>
-				<button id="btn-from-camera" class="ghost">From Camera</button>
+				<button id="btn-gen" data-i18n="tab_gen">Gen</button>
+				<button
+					id="btn-from-image"
+					class="ghost"
+					data-i18n="tab_from_image"
+				>
+					From Image
+				</button>
+				<button
+					id="btn-from-camera"
+					class="ghost"
+					data-i18n="tab_from_camera"
+				>
+					From Camera
+				</button>
 			</div>
 
 			<section id="section-gen">
 				<div class="output" id="gen-output" style="margin: 1rem">
 					<svg height="0" width="0"></svg>
 				</div>
-				<button id="btn-share" class="w-full" hidden>Share</button>
+				<button
+					id="btn-share"
+					class="w-full"
+					hidden
+					data-i18n="btn_share"
+				>
+					Share
+				</button>
 
 				<hr />
 
 				<label for="gen-text">
-					Text
+					<span data-i18n="gen_text_label">Text</span>
 					<textarea id="gen-text" name="text"></textarea>
 				</label>
-				<button id="btn-generate" class="info w-full">Generate</button>
+				<button
+					id="btn-generate"
+					class="info w-full"
+					data-i18n="btn_generate"
+				>
+					Generate
+				</button>
 
 				<div
 					class="colors"
 					style="display: flex; gap: 1rem; margin-top: 1rem"
 				>
 					<label style="flex: 1">
-						Foreground
+						<span data-i18n="color_fg">Foreground</span>
 						<input type="color" id="color-dark" value="#000000" />
 					</label>
 					<label style="flex: 1">
-						Background
+						<span data-i18n="color_bg">Background</span>
 						<input type="color" id="color-light" value="#ffffff" />
 					</label>
 				</div>
 
 				<label>
-					Error correction level
+					<span data-i18n="ecl_label">Error correction level</span>
 					<select id="gen-ecl">
 						<option value="L">L</option>
 						<option value="M">M</option>
@@ -66,11 +91,14 @@
 			</section>
 
 			<section id="section-from-image" hidden>
-				<label for="qr-file">QR code image</label>
+				<label for="qr-file" data-i18n="scan_image_label"
+					>QR code image</label
+				>
 				<input type="file" id="qr-file" accept="image/*" />
 				<button
 					id="btn-scan-image"
 					style="width: 100%; margin-bottom: 1rem; margin-top: 1rem"
+					data-i18n="btn_scan"
 				>
 					Scan
 				</button>

@@ -127,7 +127,7 @@ getElemById('btn-clear').addEventListener('click', () => {
 	selectRecipe(-1);
 });
 
-recipeNameInput.addEventListener('input', () => {
+recipeNameInput.addEventListener('change', () => {
 	if (currentIdx < 0) return;
 	recipes[currentIdx].name = recipeNameInput.value;
 	renderRecipeSelect();

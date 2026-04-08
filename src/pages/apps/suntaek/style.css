@@ -1,0 +1,130 @@
+/* Custom styles for Suntaek */
+hgroup {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+
+fieldset {
+	display: flex;
+	gap: 0.5rem;
+	border: none;
+
+	& > input {
+		margin: 0;
+	}
+}
+
+.github a {
+	font-size: 2rem;
+	color: var(--c-fg);
+	text-decoration: none;
+}
+
+li.chosen {
+	position: relative;
+	font-size: 1.5rem;
+	padding: 0.5rem 1rem;
+	background-color: #8882;
+	border-radius: 1rem;
+	margin-bottom: 0.5rem;
+	list-style: none;
+}
+
+li.chosen div.index {
+	position: absolute;
+	top: 0.5rem;
+	right: 1rem;
+	z-index: -1;
+	font-size: 1rem;
+	color: #8888;
+}
+
+li.chosen small {
+	font-size: 0.75em;
+	color: #888d;
+}
+
+.btn-choose-wrap {
+	position: fixed;
+	z-index: 10;
+	left: 50%;
+	bottom: 0;
+	transform: translateX(-50%);
+}
+
+.btn-choose {
+	display: flex;
+	align-items: center;
+	gap: 0.5rem;
+	margin: 1rem auto;
+	border-radius: 999rem;
+	box-shadow: 0 0.125rem 0.5rem #0004;
+	font-weight: bold;
+	padding: 0.75em 1.5em;
+	font-size: 1.25rem;
+}
+
+.flex-row {
+	display: flex;
+	align-items: center;
+	gap: 0.5rem;
+}
+
+.flex-row > input {
+	flex: 1;
+}
+
+#toast-container {
+	position: fixed;
+	top: 1rem;
+	left: 50%;
+	transform: translateX(-50%);
+	z-index: 9999;
+	width: 90%;
+	max-width: 400px;
+}
+
+/* Utils to replace inline styles */
+.main-wrap {
+	padding-bottom: 6rem;
+}
+
+.list-reset {
+	padding-left: 0;
+}
+
+.opt-label {
+	display: flex;
+	align-items: center;
+	gap: 0.5rem;
+	margin-bottom: 0.5rem;
+}
+
+.opt-subtitle {
+	margin-bottom: 0.25rem;
+}
+
+.flex-between-center {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+
+.mt-half {
+	margin-top: 0.5rem;
+}
+
+.mb-one {
+	margin-bottom: 1rem;
+}
+
+.p-half {
+	padding: 0.5em;
+}
+
+.error-msg-box {
+	color: var(--c-danger);
+	margin-bottom: 1rem;
+	white-space: pre-wrap;
+}

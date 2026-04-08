@@ -1,0 +1,224 @@
+<!doctype html>
+<html>
+	<head no-icon>
+		<link
+			rel="icon"
+			type="image/png"
+			href="/apps/suntaek/favicon-96x96.png"
+			sizes="96x96"
+		/>
+		<link rel="alternate icon" href="/apps/suntaek/favicon.ico" />
+		<link
+			rel="icon"
+			type="image/svg+xml"
+			href="/apps/suntaek/favicon.svg"
+			sizes="any"
+		/>
+		<link
+			rel="apple-touch-icon"
+			sizes="180x180"
+			href="/apps/suntaek/apple-touch-icon.png"
+		/>
+		<meta name="apple-mobile-web-app-title" content="lumiknit" />
+		<link rel="manifest" href="/apps/suntaek/site.webmanifest" />
+		<title data-i18n="title.main">Suntaek</title>
+	</head>
+	<body>
+		<nav class="navbar">
+			<main class="navbar-content">
+				<div>
+					<a class="brand" href="#" data-i18n="title.main">Suntaek</a>
+				</div>
+				<div>
+					<a href="/apps" data-i18n="nav_apps">Apps</a>
+				</div>
+			</main>
+		</nav>
+		<main class="container main-wrap">
+			<header>
+				<hgroup>
+					<div>
+						<h1 data-i18n="title.main">Suntaek</h1>
+						<p data-i18n="title.sub">Random Choice Utility</p>
+					</div>
+					<div class="github">
+						<a
+							href="https://github.com/lumiknit/suntaek"
+							target="_blank"
+							aria-label="GitHub"
+						>
+							<svg
+								width="24"
+								height="24"
+								viewBox="0 0 16 16"
+								fill="currentColor"
+							>
+								<path
+									d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"
+								></path>
+							</svg>
+						</a>
+					</div>
+				</hgroup>
+			</header>
+
+			<div id="toast-container"></div>
+
+			<!-- Result Section -->
+			<div id="section-result" hidden>
+				<h4 data-i18n="result.title">Result</h4>
+				<ul id="result-list" class="list-reset"></ul>
+			</div>
+
+			<!-- Options Setup -->
+			<details>
+				<summary class="outline" data-i18n="options.title">
+					Options
+				</summary>
+				<label class="opt-label">
+					<input type="checkbox" id="opt-allow-duplicates" checked />
+					<span data-i18n="options.label.allow_duplicates"
+						>Allow Duplicates</span
+					>
+				</label>
+				<h6 data-i18n="options.label.count" class="opt-subtitle">
+					Count
+				</h6>
+				<input type="number" min="1" id="opt-count" value="1" />
+			</details>
+
+			<hr />
+
+			<!-- Inputs Setup -->
+			<h4 class="flex-between-center">
+				<span id="output-title">Choices</span>
+				<button
+					class="btn-delete p-half"
+					id="btn-clear"
+					aria-label="Clear"
+				></button>
+			</h4>
+
+			<div id="choices-container">
+				<!-- Choice inputs go here -->
+			</div>
+
+			<fieldset role="group" class="mt-half">
+				<button class="outline w-full" id="btn-add-choice">+</button>
+			</fieldset>
+
+			<!-- LLM Generate -->
+			<details>
+				<summary>✨ AI</summary>
+				<div>
+					<button
+						id="btn-llm-generate"
+						class="w-full info mb-one"
+						data-i18n="llm_view.label.generate"
+					>
+						Generate
+					</button>
+					<div id="llm-error-msg" hidden class="error-msg-box"></div>
+
+					<label>
+						<span data-i18n="llm_view.label.your_request"
+							>Your Request</span
+						>
+						<textarea
+							id="llm-user-prompt"
+							data-i18n-placeholder="llm_view.label.your_prompt_here"
+							placeholder="Your Prompt Here"
+						></textarea>
+					</label>
+
+					<label>
+						<span data-i18n="llm_view.label.system_prompt"
+							>System Prompt</span
+						>
+						<textarea
+							id="llm-system-prompt"
+							data-i18n-placeholder="llm_view.label.system_prompt"
+							placeholder="System Prompt"
+						></textarea>
+					</label>
+
+					<label>
+						<span data-i18n="llm_view.label.llm_type"
+							>LLM Type</span
+						>
+						<select id="llm-select-type"></select>
+					</label>
+
+					<label>
+						<span data-i18n="llm_view.label.model">Model</span>
+						<select id="llm-select-model"></select>
+					</label>
+
+					<label>
+						<span data-i18n="llm_view.label.api_key">API Key</span>
+						(<a
+							id="llm-api-key-url"
+							href="#"
+							target="_blank"
+							data-i18n="llm_view.label.get_from_here"
+							>Get from here!</a
+						>)
+						<input type="text" id="llm-api-key" />
+					</label>
+
+					<label>
+						<span data-i18n="llm_view.label.base_url"
+							>Base URL</span
+						>
+						<input type="text" id="llm-base-url" />
+					</label>
+				</div>
+			</details>
+
+			<h4 data-i18n="tips.title">Tips</h4>
+			<ul>
+				<li>
+					<span data-i18n="tips.2">It supports dice notations!</span>
+					<ul>
+						<li id="tip-2-1"></li>
+						<li>
+							<span data-i18n="tips.2_eg1"></span>:
+							<code>d6</code>
+						</li>
+						<li>
+							<span data-i18n="tips.2_eg2"></span>:
+							<code>4d4 + 2</code>
+						</li>
+					</ul>
+				</li>
+			</ul>
+
+			<a href="#" id="btn-go-top" data-i18n="clickable.label.go_to_top"
+				>Go to Top</a
+			>
+		</main>
+
+		<!-- Bottom Fixed Choose Wrap -->
+		<div class="btn-choose-wrap">
+			<button class="info btn-choose" id="btn-choose">
+				<svg
+					width="24"
+					height="24"
+					viewBox="0 0 16 16"
+					fill="currentColor"
+				>
+					<!-- Dice icon approximation -->
+					<path
+						d="M13 1a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h10zM3 0a3 3 0 0 0-3 3v10a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3V3a3 3 0 0 0-3-3H3z"
+					></path>
+					<path
+						d="M5.5 4a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm8 0a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm-8 8a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm8 0a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm-4-4a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0z"
+					></path>
+				</svg>
+				<span data-i18n="clickable.btn.main_choose">Choose!</span>
+			</button>
+		</div>
+
+		<script type="module" src="./main.ts"></script>
+	</body>
+</html>

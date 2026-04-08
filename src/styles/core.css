@@ -57,7 +57,7 @@
 
 :root {
 	--ff: 'Pretendard JP', system-ui, Inter, Helvetica, sans-serif;
-	line-height: 1.1;
+	line-height: 1.25;
 	color-scheme: light dark;
 }
 
@@ -114,7 +114,8 @@ textarea {
 /* Layouts */
 main {
 	margin: 0 auto;
-	width: 100%; /* 기본은 풀 보디 */
+	width: 100%;
+	/* 기본은 풀 보디 */
 }
 
 @media (max-width: 639px) {
@@ -176,21 +177,27 @@ hr {
 .text-md {
 	font-size: 1rem;
 }
+
 .text-sm {
 	font-size: 0.875rem;
 }
+
 .text-xs {
 	font-size: 0.75rem;
 }
+
 .text-xxs {
 	font-size: 0.625rem;
 }
+
 .text-lg {
 	font-size: 1.125rem;
 }
+
 .text-xl {
 	font-size: 1.25rem;
 }
+
 .text-xxl {
 	font-size: 1.5rem;
 }
@@ -398,4 +405,24 @@ input[type='color'] {
 	to {
 		transform: rotate(360deg);
 	}
+}
+
+/* Details & Summary */
+details {
+	background: var(--c-form-bg);
+	border: 1px solid var(--c-form-bd);
+	border-radius: 0.375rem;
+	padding: 0.5rem 0.75rem;
+	margin: 0.5rem 0;
+}
+
+details[open] summary {
+	margin-bottom: 0.5rem;
+	border-bottom: 1px solid var(--c-form-bd);
+	padding-bottom: 0.5rem;
+}
+
+summary {
+	cursor: pointer;
+	font-weight: bold;
 }

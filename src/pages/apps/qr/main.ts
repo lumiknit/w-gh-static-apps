@@ -5,6 +5,7 @@ import './style.css';
 import QRCode from 'qrcode-svg';
 import QrScanner from 'qr-scanner';
 import { getElemById } from '@/lib/fore';
+import * as i18n from '@/lib/i18n';
 
 // Tab switching logic
 const btnGen = getElemById<HTMLButtonElement>('btn-gen');
@@ -129,7 +130,7 @@ const scanImageOutput = getElemById('scan-image-output');
 btnScanImage.addEventListener('click', async () => {
 	const file = qrFile.files?.[0];
 	if (!file) {
-		scanImageOutput.textContent = 'Please select an image first.';
+		scanImageOutput.textContent = i18n.s('scan_no_file');
 		return;
 	}
 	scanImageProgress.hidden = false;
@@ -142,7 +143,7 @@ btnScanImage.addEventListener('click', async () => {
 		// @ts-ignore
 		scanImageOutput.textContent = result.data || result;
 	} catch (e) {
-		scanImageOutput.textContent = '<Failed to scan image>';
+		scanImageOutput.textContent = i18n.s('scan_failed');
 	}
 	scanImageProgress.hidden = true;
 });
@@ -167,3 +168,11 @@ function startCamera() {
 	);
 	qrScanner.start();
 }
+
+// --- Init ---
+async function init() {
+	const rawTR = import.meta.glob('./lang/*.json', { import: 'default' });
+	await i18n.install(i18n.importGlobToTranslationLoader(rawTR, './lang/'));
+}
+
+init();

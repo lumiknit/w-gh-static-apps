@@ -1,0 +1,19 @@
+{
+	"title": "QR Util",
+	"brand": "QR",
+	"nav_apps": "Apps",
+	"desc": "QR code image generator & scanner.",
+	"tab_gen": "Gen",
+	"tab_from_image": "From Image",
+	"tab_from_camera": "From Camera",
+	"gen_text_label": "Text",
+	"btn_generate": "Generate",
+	"btn_share": "Share",
+	"color_fg": "Foreground",
+	"color_bg": "Background",
+	"ecl_label": "Error correction level",
+	"scan_image_label": "QR code image",
+	"btn_scan": "Scan",
+	"scan_no_file": "Please select an image first.",
+	"scan_failed": "<Failed to scan image>"
+}

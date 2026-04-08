@@ -52,9 +52,14 @@ export default defineConfig({
 	},
 
 	server: {
+		port: 5998,
 		fs: {
 			allow: [projectRoot],
 		},
+	},
+
+	preview: {
+		port: 4998,
 	},
 
 	resolve: {

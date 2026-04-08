@@ -1,0 +1,19 @@
+{
+	"title": "QR 도구",
+	"brand": "QR",
+	"nav_apps": "앱",
+	"desc": "QR 코드 생성 및 스캐너.",
+	"tab_gen": "생성",
+	"tab_from_image": "이미지에서 스캔",
+	"tab_from_camera": "카메라에서 스캔",
+	"gen_text_label": "텍스트",
+	"btn_generate": "생성",
+	"btn_share": "공유",
+	"color_fg": "전경색",
+	"color_bg": "배경색",
+	"ecl_label": "오류 복원 수준",
+	"scan_image_label": "QR 코드 이미지",
+	"btn_scan": "스캔",
+	"scan_no_file": "먼저 이미지를 선택하세요.",
+	"scan_failed": "<이미지 스캔 실패>"
+}

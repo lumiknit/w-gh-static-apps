@@ -13,9 +13,7 @@ export const embedCSS = (contents: string): PluginOption => {
 	};
 };
 
-const commonHead = `
-<meta charset="UTF-8" />
-
+const iconHd = `
 <link
 	rel="icon"
 	type="image/png"
@@ -31,7 +29,10 @@ const commonHead = `
 />
 <meta name="apple-mobile-web-app-title" content="lumiknit" />
 <link rel="manifest" href="/lumi-icon/site.webmanifest" />
+`;
 
+const commonHead = `
+<meta charset="UTF-8" />
 <meta
 	name="theme-color"
 	content="#000000"
@@ -42,7 +43,6 @@ const commonHead = `
 	content="#ffffff"
 	media="(prefers-color-scheme: light)"
 />
-
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 `;
 
@@ -50,7 +50,15 @@ export const embedCommonHTMLHead = (): PluginOption => {
 	return {
 		name: 'embed-common-html',
 		transformIndexHtml(html) {
-			const replaced = html.replace('<head>', `<head>${commonHead}`);
+			let replaced = html;
+			replaced = replaced.replace(
+				'<head>',
+				`<head>${iconHd}${commonHead}`
+			);
+			replaced = replaced.replace(
+				'<head no-icon>',
+				`<head>${commonHead}`
+			);
 			return replaced;
 		},
 	};
