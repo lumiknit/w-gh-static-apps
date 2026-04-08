@@ -1,5 +1,6 @@
 import type { Ingredient, Recipe } from './preset';
 import { formatAmountParts } from './ingred';
+import * as i18n from '@/lib/i18n';
 
 /** Single ingredient row in the editor */
 export const ingredientRow = (
@@ -12,7 +13,7 @@ export const ingredientRow = (
 		<input
 			type="text"
 			value={ing.name}
-			placeholder="Name"
+			placeholder={i18n.s('ing_name_ph')}
 			class="ing-name"
 			oninput={(e: Event) =>
 				onNameChange((e.target as HTMLInputElement).value)
@@ -21,7 +22,7 @@ export const ingredientRow = (
 		<input
 			type="number"
 			value={ing.amount > 0 ? String(ing.amount) : ''}
-			placeholder="Amount"
+			placeholder={i18n.s('ing_amount_ph')}
 			min="0"
 			step="any"
 			class="ing-amount"
@@ -76,15 +77,16 @@ export const calcTable = (
 	<table id="calc-table">
 		<thead>
 			<tr>
-				<th>Ingredient</th>
-				<th>Base</th>
-				<th>Amount</th>
+				<th>{i18n.s('th_ing')}</th>
+				<th>{i18n.s('th_base')}</th>
+				<th>{i18n.s('th_amount')}</th>
 			</tr>
 		</thead>
 		<tbody>
 			{ingredients.map((ing, i) =>
 				calcRow(
-					ing.name || `Ingredient ${i + 1}`,
+					ing.name ||
+						i18n.s('ingredient_n').replace('{n}', String(i + 1)),
 					ing.amount,
 					scale,
 					i === baseIdx

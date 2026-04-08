@@ -4,6 +4,7 @@ import '@/styles/btn-delete.css';
 import './style.css';
 
 import { getElemById } from '@/lib/fore';
+import * as i18n from '@/lib/i18n';
 import type { Recipe } from './preset';
 import { PRESETS } from './preset';
 import { ingredientRow, calcTable, presetButtons } from './component';
@@ -31,14 +32,15 @@ function renderRecipeSelect() {
 	recipeSelect.innerHTML = '';
 	if (recipes.length === 0) {
 		const opt = document.createElement('option');
-		opt.textContent = '(No recipes)';
+		opt.textContent = i18n.s('no_recipes');
 		recipeSelect.appendChild(opt);
 		return;
 	}
 	recipes.forEach((r, i) => {
 		const opt = document.createElement('option');
 		opt.value = String(i);
-		opt.textContent = r.name || `Recipe ${i + 1}`;
+		opt.textContent =
+			r.name || i18n.s('recipe_n').replace('{n}', String(i + 1));
 		opt.selected = i === currentIdx;
 		recipeSelect.appendChild(opt);
 	});
@@ -79,7 +81,8 @@ function renderCalcBaseSelect() {
 	recipes[currentIdx].ingredients.forEach((ing, i) => {
 		const opt = document.createElement('option');
 		opt.value = String(i);
-		opt.textContent = ing.name || `Ingredient ${i + 1}`;
+		opt.textContent =
+			ing.name || i18n.s('ingredient_n').replace('{n}', String(i + 1));
 		opt.selected = String(i) === prevVal;
 		baseIngredientSelect.appendChild(opt);
 	});
@@ -142,14 +145,21 @@ baseAmountInput.addEventListener('input', renderCalcTable);
 
 // --- Init ---
 
-renderRecipeSelect();
-selectRecipe(-1);
+async function init() {
+	const rawTR = import.meta.glob('./lang/*.json', { import: 'default' });
+	await i18n.install(i18n.importGlobToTranslationLoader(rawTR, './lang/'));
 
-getElemById('preset-container').appendChild(
-	presetButtons(PRESETS, (preset) => {
-		recipes.push(structuredClone(preset));
-		currentIdx = recipes.length - 1;
-		renderRecipeSelect();
-		selectRecipe(currentIdx);
-	})
-);
+	renderRecipeSelect();
+	selectRecipe(-1);
+
+	getElemById('preset-container').appendChild(
+		presetButtons(PRESETS, (preset) => {
+			recipes.push(structuredClone(preset));
+			currentIdx = recipes.length - 1;
+			renderRecipeSelect();
+			selectRecipe(currentIdx);
+		})
+	);
+}
+
+init();

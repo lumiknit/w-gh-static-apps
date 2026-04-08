@@ -1,45 +1,54 @@
 <!doctype html>
 <html>
 	<head>
-		<title>Bread Recipe</title>
+		<title data-i18n="title">Bread Recipe</title>
 	</head>
 	<body>
 		<nav class="navbar">
 			<main class="navbar-content">
 				<div>
-					<a class="brand" href="#">Bread</a>
+					<a class="brand" href="#" data-i18n="brand">Bread</a>
 				</div>
 				<div>
-					<a href="/apps">Apps</a>
+					<a href="/apps" data-i18n="nav_apps">Apps</a>
 				</div>
 			</main>
 		</nav>
 		<main class="container">
 			<header>
-				<h1>Bread Recipe</h1>
-				<p>Baker's percentage calculator for bread recipes.</p>
+				<h1 data-i18n="title">Bread Recipe</h1>
+				<p data-i18n="desc">
+					Baker's percentage calculator for bread recipes.
+				</p>
 			</header>
 
 			<!-- Recipe selector -->
 			<div class="recipe-bar">
 				<select id="recipe-select"></select>
-				<button id="btn-clear" class="danger">Clear</button>
+				<button id="btn-clear" class="danger" data-i18n="btn_clear">
+					Clear
+				</button>
 			</div>
 
 			<!-- Recipe editor -->
 			<section id="section-editor" hidden>
 				<label>
-					Recipe Name
+					<span data-i18n="recipe_name_label">Recipe Name</span>
 					<input
 						type="text"
 						id="recipe-name"
 						placeholder="Recipe name"
+						data-i18n-placeholder="recipe_name_ph"
 					/>
 				</label>
 
-				<h3>Ingredients</h3>
+				<h3 data-i18n="ingredients_title">Ingredients</h3>
 				<div id="ingredient-list"></div>
-				<button id="btn-add-ingredient" class="ghost w-full">
+				<button
+					id="btn-add-ingredient"
+					class="ghost w-full"
+					data-i18n="btn_add_ing"
+				>
 					+ Add Ingredient
 				</button>
 			</section>
@@ -48,8 +57,8 @@
 
 			<!-- Calculator -->
 			<section id="section-calc">
-				<h2>Calculator</h2>
-				<p id="calc-empty" class="text-sm">
+				<h2 data-i18n="calc_title">Calculator</h2>
+				<p id="calc-empty" class="text-sm" data-i18n="calc_empty">
 					Select or create a recipe to start calculating.
 				</p>
 				<div id="calc-body" hidden>
@@ -59,6 +68,7 @@
 							type="number"
 							id="base-amount"
 							placeholder="Amount (g)"
+							data-i18n-placeholder="amount_g_ph"
 							min="0"
 							step="any"
 						/>
@@ -71,8 +81,10 @@
 
 			<!-- Presets -->
 			<section id="section-presets">
-				<h2>Presets</h2>
-				<p class="text-sm">Load a preset recipe as a starting point.</p>
+				<h2 data-i18n="presets_title">Presets</h2>
+				<p class="text-sm" data-i18n="presets_desc">
+					Load a preset recipe as a starting point.
+				</p>
 				<div id="preset-container"></div>
 			</section>
 		</main>

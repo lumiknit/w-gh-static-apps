@@ -40,6 +40,11 @@ export default defineConfig({
 							test: /lib\/fore/,
 							priority: 20,
 						},
+						{
+							name: 'i18n',
+							test: /lib\/i18n/,
+							priority: 20,
+						},
 					],
 				},
 			},
