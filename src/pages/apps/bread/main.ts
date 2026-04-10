@@ -1,3 +1,4 @@
+import '@/lib/service-worker/install';
 import '@/styles/core.css';
 import '@/styles/navbar.css';
 import '@/styles/btn-delete.css';

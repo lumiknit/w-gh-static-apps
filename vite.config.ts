@@ -1,6 +1,10 @@
 import { readFileSync } from 'fs';
 import { resolve } from 'path';
 
+const pkg = JSON.parse(
+	readFileSync(resolve(__dirname, 'package.json'), 'utf-8')
+) as { version: string };
+
 import { defineConfig } from 'vite';
 import { createHtmlPlugin } from 'vite-plugin-html';
 import glob from 'fast-glob';
@@ -24,15 +28,24 @@ export default defineConfig({
 		outDir: resolve(projectRoot, 'dist'),
 		emptyOutDir: true,
 		rolldownOptions: {
-			input: Object.fromEntries(
-				glob.sync('**/*.html', { cwd: htmlBasePath }).map((file) => {
-					return [
-						file.replace('.html', ''),
-						resolve(htmlBasePath, file),
-					];
-				})
-			),
+			input: {
+				...Object.fromEntries(
+					glob
+						.sync('**/*.html', { cwd: htmlBasePath })
+						.map((file) => {
+							return [
+								file.replace('.html', ''),
+								resolve(htmlBasePath, file),
+							];
+						})
+				),
+				sw: resolve(projectRoot, 'src/lib/service-worker/worker.ts'),
+			},
 			output: {
+				entryFileNames: (chunk) => {
+					if (chunk.name === 'sw') return 'sw.js';
+					return 'assets/[name]-[hash].js';
+				},
 				codeSplitting: {
 					groups: [
 						{
@@ -60,6 +73,10 @@ export default defineConfig({
 
 	preview: {
 		port: 4998,
+	},
+
+	define: {
+		__SW_CACHE_VERSION__: JSON.stringify(pkg.version),
 	},
 
 	resolve: {
