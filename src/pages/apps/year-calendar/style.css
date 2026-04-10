@@ -1,0 +1,54 @@
+/* Settings styles */
+.row {
+	display: flex;
+	gap: 0.5rem;
+	align-items: center;
+	margin-bottom: 0.5rem;
+	flex-wrap: wrap;
+}
+
+.row label {
+	font-size: 0.875rem;
+	min-width: 120px;
+}
+
+.row input[type='number'],
+.row select,
+.row input[type='text'] {
+	padding: 0.25rem 0.5rem;
+	margin: 0;
+}
+
+.row input[type='color'] {
+	width: 2rem;
+	height: 2rem;
+	padding: 0;
+	border: 1px solid var(--c-form-bd, #ccc);
+	border-radius: 4px;
+	background: none;
+	cursor: pointer;
+}
+
+/* Canvas container */
+.canvas-container {
+	width: 100%;
+	display: flex;
+	justify-content: center;
+	background: var(--c-dim-bg, #f5f5f5);
+	padding: 1rem;
+	border-radius: 8px;
+	overflow: hidden;
+	margin-top: 1rem;
+}
+
+#calendarCanvas {
+	display: block;
+	max-width: 100%;
+	max-height: 80vh;
+	box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+	background: white;
+}
+
+.actions {
+	margin-top: 1rem;
+}
