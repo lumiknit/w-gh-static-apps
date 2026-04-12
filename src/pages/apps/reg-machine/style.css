@@ -1,0 +1,106 @@
+.mono {
+	font-family: monospace;
+}
+
+.flex-between-center {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+
+.rules-list {
+	display: flex;
+	flex-direction: column;
+	gap: 0.5rem;
+}
+
+.rule-row {
+	display: flex;
+	gap: 0.5rem;
+	align-items: center;
+	background: var(--bg-level-1, rgba(128, 128, 128, 0.05));
+	padding: 0.5rem;
+	border-radius: 0.25rem;
+}
+
+.rule-inputs {
+	display: flex;
+	flex-direction: column;
+	gap: 0.25rem;
+	flex: 1;
+}
+
+.rule-row input[type="text"] {
+	font-family: monospace;
+	padding: 0.4rem;
+	margin: 0;
+	width: 100%;
+}
+
+.rule-flags {
+	display: flex;
+	flex-direction: column;
+	gap: 0.25rem;
+	width: 80px;
+}
+
+.rule-flags label {
+	margin: 0;
+	display: flex;
+	align-items: center;
+	gap: 0.25rem;
+	font-size: 0.75rem;
+	cursor: pointer;
+}
+
+.grid-controls {
+	display: grid;
+	grid-template-columns: repeat(4, 1fr);
+	gap: 0.5rem;
+}
+
+.log-container {
+	max-height: 400px;
+	overflow-y: auto;
+	border: 1px solid var(--border-color, rgba(128, 128, 128, 0.2));
+	border-radius: 0.25rem;
+	padding: 0.5rem;
+	display: flex;
+	flex-direction: column;
+	gap: 0.5rem;
+	background: var(--bg-contrast, #111);
+}
+
+.log-item {
+	font-family: monospace;
+	background: var(--bg-hover, #222);
+	color: var(--text-color, #fff);
+	padding: 0.5rem;
+	border-radius: 0.25rem;
+	border-left: 4px solid var(--border-color, #555);
+	animation: fadeIn 0.2s ease-out;
+}
+
+.log-item.halt {
+	border-left-color: #e74c3c;
+}
+
+.log-item.match {
+	border-left-color: #2ecc71;
+}
+
+.log-rule {
+	font-size: 0.75rem;
+	color: var(--text-muted, #aaa);
+	margin-bottom: 0.2rem;
+}
+
+.log-str {
+	font-size: 1.1rem;
+	word-break: break-all;
+}
+
+@keyframes fadeIn {
+	from { opacity: 0; transform: translateY(-5px); }
+	to { opacity: 1; transform: translateY(0); }
+}
