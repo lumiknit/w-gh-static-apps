@@ -1,0 +1,23 @@
+.btn-group {
+	display: flex;
+	gap: 0.5rem;
+	margin-top: 1rem;
+}
+
+#status-panel {
+	margin-top: 2rem;
+	padding: 2rem;
+	text-align: center;
+	background: rgba(128, 128, 128, 0.1);
+	border-radius: 0.5rem;
+	transition: transform 0.1s;
+}
+
+hr.sep {
+	margin: 2rem 0;
+}
+
+#btn-go-top {
+	display: block;
+	margin-top: 2rem;
+}

@@ -1,0 +1,52 @@
+<!doctype html>
+<html>
+	<head no-icon>
+		<meta name="apple-mobile-web-app-title" content="lumiknit" />
+		<title>Procedural Synth</title>
+	</head>
+	<body>
+		<nav class="navbar">
+			<main class="navbar-content">
+				<div>
+					<a class="brand" href="#">Rand-Audio</a>
+				</div>
+				<div>
+					<a href="/apps">Apps</a>
+				</div>
+			</main>
+		</nav>
+		<main class="container main-wrap">
+			<header>
+				<hgroup>
+					<div>
+						<h1>Rand-Audio</h1>
+						<p>Procedural Windchime Synth</p>
+					</div>
+				</hgroup>
+			</header>
+
+			<div>
+				<label>
+					<span>Seed String</span>
+					<input type="text" id="input-seed" value="lumiknit" />
+				</label>
+				<div class="mt-one btn-group">
+					<button id="btn-start" class="w-full info">Start Audio</button>
+					<button id="btn-stop" class="w-full ghost" disabled>Stop</button>
+				</div>
+			</div>
+            
+			<div id="status-panel">
+				<span id="status-text">Ready</span>
+			</div>
+
+			<hr class="sep" />
+			<p class="text-sm">
+				Generates a procedural ambient soundscape using a pentatonic scale and the <code>SplitMix64</code> PRNG algorithm based on your seed.
+			</p>
+
+			<a href="#" id="btn-go-top">Go to Top</a>
+		</main>
+		<script type="module" src="./main.ts"></script>
+	</body>
+</html>
