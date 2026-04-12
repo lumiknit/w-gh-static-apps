@@ -9,6 +9,8 @@ fieldset {
 	display: flex;
 	gap: 0.5rem;
 	border: none;
+	padding: 0;
+	margin: 1rem 0;
 
 	& > input {
 		margin: 0;

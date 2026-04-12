@@ -7,7 +7,7 @@ export const getDelBtnIcon = (): HTMLElement => {
 export const choiceRow = (
 	choice: string,
 	idx: number,
-	onInput: (val: string) => void,
+	onChange: (val: string) => void,
 	onEnter: () => void,
 	onDelete: () => void
 ): HTMLElement => (
@@ -18,7 +18,7 @@ export const choiceRow = (
 			value={choice}
 			data-idx={idx}
 			onchange={(e: Event) =>
-				onInput((e.target as HTMLInputElement).value)
+				onChange((e.target as HTMLInputElement).value)
 			}
 			onkeydown={(e: KeyboardEvent) => {
 				if (e.key === 'Enter') onEnter();

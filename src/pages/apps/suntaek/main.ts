@@ -95,7 +95,7 @@ function renderChoices() {
 							String(choices.filter((x) => x).length)
 						);
 				},
-				() => addInputField(idx + 1),
+				() => setTimeout(() => addInputField(idx + 1), 16),
 				() => handleDeleteButtonClick(idx)
 			)
 		);
@@ -115,7 +115,7 @@ function addInputField(idx?: number) {
 		);
 		const targetIdx = idx !== undefined ? idx : inputs.length - 1;
 		if (inputs[targetIdx]) inputs[targetIdx].focus();
-	}, 10);
+	}, 16);
 }
 
 function handleDeleteButtonClick(idx: number) {
