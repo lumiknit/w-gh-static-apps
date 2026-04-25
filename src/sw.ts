@@ -1,15 +1,88 @@
 /// <reference lib="webworker" />
 const sw = self as unknown as ServiceWorkerGlobalScope;
 
-const CACHE_NAME = 'app-cache-v1';
+declare const __APP_VERSION__: string;
+const CACHE_PREFIX = `lumiknit-app-`;
+const CACHE_NAME = `${CACHE_PREFIX}v1`;
 
 sw.addEventListener('install', () => {
 	sw.skipWaiting();
 });
 
 sw.addEventListener('activate', (event) => {
-	event.waitUntil(sw.clients.claim());
+	event.waitUntil(
+		(async () => {
+			// Delete old caches that don't match the current version
+			const cacheNames = await caches.keys();
+			await Promise.all(
+				cacheNames
+					.filter(
+						(name) =>
+							name !== CACHE_NAME && name.startsWith(CACHE_PREFIX)
+					)
+					.map((name) => {
+						console.log('[SW] Deleting old cache:', name);
+						return caches.delete(name);
+					})
+			);
+			await sw.clients.claim();
+		})()
+	);
 });
+
+const networkFirstFetch = async (
+	event: FetchEvent,
+	req: Request
+): Promise<Response> => {
+	try {
+		const networkResponse = await fetch(req);
+
+		// Cache successful responses
+		if (networkResponse && networkResponse.status === 200) {
+			const cache = await caches.open(CACHE_NAME);
+			cache.put(req, networkResponse.clone());
+		}
+
+		return networkResponse;
+	} catch (error) {
+		// Network first, fallback to cache
+		const cache = await caches.open(CACHE_NAME);
+		const cachedResponse = await cache.match(req);
+		if (cachedResponse) {
+			return cachedResponse;
+		}
+		throw error;
+	}
+};
+
+const cacheFirstFetch = async (
+	event: FetchEvent,
+	req: Request
+): Promise<Response> => {
+	// Check cache exists first.
+	const cache = await caches.open(CACHE_NAME);
+	const cachedResp = await cache.match(req);
+
+	if (!cachedResp) {
+		// Cache not found, fallback to same strategy to network first
+		return await networkFirstFetch(event, req);
+	}
+
+	// Otherwise, fetching background, return the cached one;
+	event.waitUntil(
+		(async () => {
+			const networkResponse = await fetch(req);
+			if (networkResponse && networkResponse.status === 200) {
+				const cache = await caches.open(CACHE_NAME);
+				cache.put(req, networkResponse.clone());
+			}
+		})()
+	);
+
+	return cachedResp;
+};
+
+const cacheFirstRE = /(\/assets\/)|(\/fonts\/)/;
 
 sw.addEventListener('fetch', (event) => {
 	const req = event.request;
@@ -17,31 +90,16 @@ sw.addEventListener('fetch', (event) => {
 		return;
 	}
 
-	// HTTP 혹은 HTTPS 요청만 처리
-	if (!req.url.startsWith('http')) {
+	const url = new URL(req.url);
+	if (url.origin !== self.location.origin) {
+		// Bypass external APIs
 		return;
 	}
 
-	event.respondWith(
-		(async () => {
-			try {
-				const networkResponse = await fetch(req);
+	// '/assets/*' has hash in file name, thus send cache first.
+	const fetcher = cacheFirstRE.test(url.pathname)
+		? cacheFirstFetch
+		: networkFirstFetch;
 
-				// 200 응답인 경우 캐시 저장
-				if (networkResponse && networkResponse.status === 200) {
-					const cache = await caches.open(CACHE_NAME);
-					cache.put(req, networkResponse.clone());
-				}
-
-				return networkResponse;
-			} catch (error) {
-				// 네트워크 연결 실패 시 캐시에서 확인 (Network First, fallback to Cache)
-				const cachedResponse = await caches.match(req);
-				if (cachedResponse) {
-					return cachedResponse;
-				}
-				throw error;
-			}
-		})()
-	);
+	event.respondWith(fetcher(event, req));
 });
