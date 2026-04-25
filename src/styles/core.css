@@ -57,6 +57,9 @@
 
 :root {
 	--ff: 'Pretendard JP', system-ui, Inter, Helvetica, sans-serif;
+	--ff-mono:
+		ui-monospace, 'Jetbrains Mono', 'Cascadia Code', 'Cascadia Mono', Menlo,
+		Consolas, 'Source Code Pro', monospace;
 	line-height: 1.25;
 	color-scheme: light dark;
 }

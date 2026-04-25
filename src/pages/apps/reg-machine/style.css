@@ -1,5 +1,5 @@
 .mono {
-	font-family: monospace;
+	font-family: var(--ff-mono);
 }
 
 .flex-between-center {
@@ -31,7 +31,7 @@
 }
 
 .rule-row input[type='text'] {
-	font-family: monospace;
+	font-family: var(--ff-mono);
 	padding: 0.4rem;
 	margin: 0;
 	width: 100%;
@@ -72,7 +72,7 @@
 }
 
 .log-item {
-	font-family: monospace;
+	font-family: var(--ff-mono);
 	background: var(--bg-hover, #222);
 	color: var(--text-color, #fff);
 	padding: 0.5rem;

@@ -58,12 +58,10 @@ const parseWordList = (s: string): string[] =>
 		.map(parseWord)
 		.filter((x) => x);
 
-const wordList = parseWordList(wordListRaw);
-
 let _z = 0;
 
 const delay = async () => {
-	if (++_z > 200) {
+	if (++_z > 100) {
 		_z = 0;
 		await new Promise((res) => setTimeout(res));
 	}
@@ -106,18 +104,31 @@ const wordToIndex = (w: NWord): number => {
 	return n;
 };
 
+type PresetWord = {
+	raw: string;
+	nums: NWord;
+};
+
+const wordList: PresetWord[] = parseWordList(wordListRaw).map((x) => {
+	const n = wordToNums(x);
+	return {
+		raw: x,
+		nums: n,
+	};
+});
+
 /** Compares compares the input and answer and create result (0, 1, 2, where 1 is exact equals) */
-const compares = (answer: NWord, inputs: NWord[]): NWord[] => {
+const compares = (query: NWord, inputs: NWord[]): NWord[] => {
 	// Letter count
 	const counts = new Array(26).fill(0);
-	answer.forEach((x) => counts[x]++);
+	query.forEach((x) => counts[x]++);
 
 	return inputs.map((i) => {
 		const cnts = counts.map((x) => x);
 
 		// Fill greens
 		const t = i.map((c, j) => {
-			if (answer[j] === c) {
+			if (query[j] === c) {
 				cnts[c]--;
 				return green;
 			}
@@ -154,7 +165,7 @@ const filterWords = async (
 	for (const w of wordList) {
 		await delay();
 
-		const ns = wordToNums(w);
+		const ns = w.nums;
 		// Check the same color
 		let diff = false;
 		compares(ns, inputs).forEach((v, j) => {
@@ -169,11 +180,10 @@ const filterWords = async (
 };
 
 const buildBucket = (words: NWord[], query: NWord): BucketMap => {
-	const cs = compares(query, words);
 	const m: BucketMap = new Map();
 	for (let i = 0; i < words.length; i++) {
 		const w = words[i];
-		const c = cs[i];
+		const [c] = compares(w, [query]);
 		const idx = wordToIndex(c);
 		const b = m.get(idx);
 		if (b) {

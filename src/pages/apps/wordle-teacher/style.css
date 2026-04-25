@@ -1,6 +1,6 @@
 .cell {
 	text-transform: uppercase;
-	font-family: monospace;
+	font-family: var(--ff-mono);
 	font-size: 2rem;
 	font-weight: 900;
 	width: 3rem;
@@ -38,7 +38,7 @@
 }
 
 table {
-	font-family: monospace;
+	font-family: var(--ff-mono);
 
 	th {
 		border-bottom: 1px solid #888;
