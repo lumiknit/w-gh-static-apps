@@ -1,0 +1,59 @@
+<!doctype html>
+<html>
+	<head>
+		<title data-i18n="title">Wordle Teacher</title>
+	</head>
+	<body>
+		<nav class="navbar">
+			<main class="navbar-content">
+				<div>
+					<a class="brand" href="#" data-i18n="brand"
+						>Worlde Teacher</a
+					>
+				</div>
+				<div>
+					<a href="/apps" data-i18n="nav_apps">Apps</a>
+				</div>
+			</main>
+		</nav>
+		<main class="container">
+			<h1>Worlde Teacher</h1>
+
+			<h2>Enter your result</h2>
+			<textarea
+				id="ta-list"
+				placeholder="your answer"
+				rows="8"
+			></textarea>
+
+			<h2>(Optional) Answer</h2>
+			<p>
+				If you don't know the correct answer, keep unknown position as
+				'-' or '_', and put yellow characters after the first 5
+				characters. For example,
+				<span class="mini-cell">
+					<span class="cell mini gray">a</span>
+					<span class="cell mini green">p</span>
+					<span class="cell mini yellow">p</span>
+					<span class="cell mini gray">l</span>
+					<span class="cell mini green">e</span>
+				</span>
+				put '<code>_P__E P</code>'.
+			</p>
+			<input id="in-answer" type="text" />
+
+			<hr />
+
+			<button id="btn-analyze" class="w-full">Analyze</button>
+
+			<div id="noti" class="hidden noti danger"></div>
+
+			<div id="visualizer"></div>
+
+			<div id="report"></div>
+
+			<div id="spinner" class="hidden"><span class="spinner"></span></div>
+		</main>
+		<script type="module" src="./main.tsx"></script>
+	</body>
+</html>

@@ -14,8 +14,12 @@ let animationId = 0;
 
 // DOM
 const inputString = document.getElementById('input-string') as HTMLInputElement;
-const selectExample = document.getElementById('select-example') as HTMLSelectElement;
-const rulesContainer = document.getElementById('rules-container') as HTMLDivElement;
+const selectExample = document.getElementById(
+	'select-example'
+) as HTMLSelectElement;
+const rulesContainer = document.getElementById(
+	'rules-container'
+) as HTMLDivElement;
 const btnAddRule = document.getElementById('btn-add-rule') as HTMLButtonElement;
 
 const inputDelay = document.getElementById('input-delay') as HTMLInputElement;
@@ -44,7 +48,10 @@ selectExample.addEventListener('change', () => {
 	if (idx >= 0 && EXAMPLES[idx]) {
 		const ex = EXAMPLES[idx];
 		inputString.value = ex.initialString;
-		rules = ex.rules.map(r => ({ ...r, id: Math.random().toString(36).substring(2) }));
+		rules = ex.rules.map((r) => ({
+			...r,
+			id: Math.random().toString(36).substring(2),
+		}));
 		renderRules();
 		resetMachine();
 	}
@@ -58,7 +65,9 @@ function createRuleRow(rule: Rule, index: number) {
 	const chkActive = document.createElement('input');
 	chkActive.type = 'checkbox';
 	chkActive.checked = rule.isActive;
-	chkActive.onchange = () => { rule.isActive = chkActive.checked; };
+	chkActive.onchange = () => {
+		rule.isActive = chkActive.checked;
+	};
 
 	const inputsDiv = document.createElement('div');
 	inputsDiv.className = 'rule-inputs';
@@ -67,13 +76,17 @@ function createRuleRow(rule: Rule, index: number) {
 	inputPattern.type = 'text';
 	inputPattern.placeholder = 'Regex pattern (e.g. ^a)';
 	inputPattern.value = rule.pattern;
-	inputPattern.onchange = () => { rule.pattern = inputPattern.value; };
+	inputPattern.onchange = () => {
+		rule.pattern = inputPattern.value;
+	};
 
 	const inputReplacement = document.createElement('input');
 	inputReplacement.type = 'text';
 	inputReplacement.placeholder = 'Replacement (e.g. $1)';
 	inputReplacement.value = rule.replacement;
-	inputReplacement.onchange = () => { rule.replacement = inputReplacement.value; };
+	inputReplacement.onchange = () => {
+		rule.replacement = inputReplacement.value;
+	};
 
 	inputsDiv.appendChild(inputPattern);
 	inputsDiv.appendChild(inputReplacement);
@@ -85,7 +98,9 @@ function createRuleRow(rule: Rule, index: number) {
 	const chkHalt = document.createElement('input');
 	chkHalt.type = 'checkbox';
 	chkHalt.checked = rule.isTerminating;
-	chkHalt.onchange = () => { rule.isTerminating = chkHalt.checked; };
+	chkHalt.onchange = () => {
+		rule.isTerminating = chkHalt.checked;
+	};
 	lblHalt.appendChild(chkHalt);
 	lblHalt.appendChild(document.createTextNode('Halt'));
 	flagsDiv.appendChild(lblHalt);
@@ -118,9 +133,10 @@ function appendLog(result: StepResult) {
 	const div = document.createElement('div');
 	div.className = 'log-item';
 
-	const ruleText = result.matchedRuleIndex !== null
-		? `Rule #${result.matchedRuleIndex + 1} applied`
-		: `No match`;
+	const ruleText =
+		result.matchedRuleIndex !== null
+			? `Rule #${result.matchedRuleIndex + 1} applied`
+			: `No match`;
 
 	if (result.matchedRuleIndex !== null) {
 		div.classList.add('match');
@@ -184,7 +200,8 @@ function runLoop(timestamp: number) {
 		let terminated = false;
 		// Steps to process per frame. If delay is very small, do multiple.
 		// Maximum 50 iterations per frame to prevent freezing.
-		const maxIterations = delay < 16 ? Math.min(50, Math.floor(16 / Math.max(1, delay))) : 1;
+		const maxIterations =
+			delay < 16 ? Math.min(50, Math.floor(16 / Math.max(1, delay))) : 1;
 
 		for (let i = 0; i < maxIterations; i++) {
 			terminated = stepMachine();
@@ -230,7 +247,13 @@ function updateUI() {
 
 // Events
 btnAddRule.addEventListener('click', () => {
-	rules.push({ id: Math.random().toString(), pattern: '', replacement: '', isTerminating: false, isActive: true });
+	rules.push({
+		id: Math.random().toString(),
+		pattern: '',
+		replacement: '',
+		isTerminating: false,
+		isActive: true,
+	});
 	renderRules();
 });
 
@@ -254,5 +277,5 @@ inputDelay.addEventListener('input', () => {
 });
 
 // Load first example
-selectExample.value = "0";
+selectExample.value = '0';
 selectExample.dispatchEvent(new Event('change'));

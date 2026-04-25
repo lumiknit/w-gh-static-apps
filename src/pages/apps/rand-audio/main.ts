@@ -26,10 +26,9 @@ const SECONDS_PER_BEAT = 60.0 / BPM;
 
 // C Major Pentatonic: C4, D4, E4, G4, A4, C5, D5, E5, G5, A5
 const PENTATONIC_SCALE = [
-	261.63, 293.66, 329.63, 392.00, 440.00,
-	523.25, 587.33, 659.25, 783.99, 880.00
+	261.63, 293.66, 329.63, 392.0, 440.0, 523.25, 587.33, 659.25, 783.99, 880.0,
 ];
-const BASS_SCALE = PENTATONIC_SCALE.map(f => f / 4);
+const BASS_SCALE = PENTATONIC_SCALE.map((f) => f / 4);
 
 const inputSeed = document.getElementById('input-seed') as HTMLInputElement;
 const btnStart = document.getElementById('btn-start') as HTMLButtonElement;
@@ -98,13 +97,19 @@ function playBass(time: number) {
 	osc.type = 'square';
 	filter.type = 'lowpass';
 	filter.frequency.setValueAtTime(300, time);
-	filter.frequency.exponentialRampToValueAtTime(100, time + SECONDS_PER_BEAT * 4);
+	filter.frequency.exponentialRampToValueAtTime(
+		100,
+		time + SECONDS_PER_BEAT * 4
+	);
 
 	osc.frequency.value = freq;
 
 	gainNode.gain.setValueAtTime(0, time);
 	gainNode.gain.linearRampToValueAtTime(0.15, time + 0.05);
-	gainNode.gain.exponentialRampToValueAtTime(0.01, time + SECONDS_PER_BEAT * 3.8);
+	gainNode.gain.exponentialRampToValueAtTime(
+		0.01,
+		time + SECONDS_PER_BEAT * 3.8
+	);
 
 	osc.connect(filter);
 	filter.connect(gainNode);
@@ -161,23 +166,26 @@ function playBeat(beatNumber: number, time: number) {
 	}
 
 	// Lead (Align to 1/16)
-	let leadOffsetAcc = Number(rng.nextRange(0n, 8n)) / 8 * SECONDS_PER_BEAT;
+	let leadOffsetAcc = (Number(rng.nextRange(0n, 8n)) / 8) * SECONDS_PER_BEAT;
 	while (leadOffsetAcc < SECONDS_PER_BEAT) {
 		playLead(time + leadOffsetAcc);
-		let d = Number(rng.nextRange(1n, 9n)) / 8 * SECONDS_PER_BEAT;
+		let d = (Number(rng.nextRange(1n, 9n)) / 8) * SECONDS_PER_BEAT;
 		leadOffsetAcc += d;
 	}
 
-	setTimeout(() => {
-		if (isPlaying && audioCtx) {
-			const arrStr = ["Kick", "Snare", "Kick", "Snare"];
-			statusText.textContent = `[${beatNumber % 4 + 1}/4] ${arrStr[beatNumber % 4]} & Bass & Lead`;
-			statusPanel.style.transform = `scale(1.03)`;
-			setTimeout(() => {
-				statusPanel.style.transform = 'scale(1)';
-			}, 100);
-		}
-	}, Math.max(0, (time - audioCtx!.currentTime)) * 1000);
+	setTimeout(
+		() => {
+			if (isPlaying && audioCtx) {
+				const arrStr = ['Kick', 'Snare', 'Kick', 'Snare'];
+				statusText.textContent = `[${(beatNumber % 4) + 1}/4] ${arrStr[beatNumber % 4]} & Bass & Lead`;
+				statusPanel.style.transform = `scale(1.03)`;
+				setTimeout(() => {
+					statusPanel.style.transform = 'scale(1)';
+				}, 100);
+			}
+		},
+		Math.max(0, time - audioCtx!.currentTime) * 1000
+	);
 }
 
 function scheduleNotes() {
@@ -194,13 +202,15 @@ function scheduleNotes() {
 
 function start() {
 	if (!audioCtx) {
-		audioCtx = new (window.AudioContext || (window as any).webkitAudioContext)();
+		audioCtx = new (
+			window.AudioContext || (window as any).webkitAudioContext
+		)();
 	}
 	if (audioCtx.state === 'suspended') {
 		audioCtx.resume();
 	}
 
-	const seedStr = inputSeed.value || "lumiknit";
+	const seedStr = inputSeed.value || 'lumiknit';
 	rng = new SplitMix64(getSeedFromString(seedStr));
 
 	isPlaying = true;

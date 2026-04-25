@@ -1,91 +1,107 @@
 <!doctype html>
 <html>
+	<head no-icon>
+		<meta name="apple-mobile-web-app-title" content="lumiknit" />
+		<title>RegMachine</title>
+	</head>
 
-<head no-icon>
-	<meta name="apple-mobile-web-app-title" content="lumiknit" />
-	<title>RegMachine</title>
-</head>
-
-<body>
-	<nav class="navbar">
-		<main class="navbar-content">
-			<div>
-				<a class="brand" href="#">RegMachine</a>
-			</div>
-			<div>
-				<a href="/apps">Apps</a>
-			</div>
-		</main>
-	</nav>
-
-	<main class="container main-wrap">
-		<header>
-			<hgroup>
+	<body>
+		<nav class="navbar">
+			<main class="navbar-content">
 				<div>
-					<h1>RegMachine</h1>
-					<p>Regex Rewriting Automata</p>
+					<a class="brand" href="#">RegMachine</a>
 				</div>
-			</hgroup>
-		</header>
+				<div>
+					<a href="/apps">Apps</a>
+				</div>
+			</main>
+		</nav>
 
-		<!-- Examples -->
-		<div class="mb-one">
-			<label>
-				<span>Load Predefined Program</span>
-				<select id="select-example">
-					<option value="-1">-- Custom --</option>
-				</select>
-			</label>
-		</div>
+		<main class="container main-wrap">
+			<header>
+				<hgroup>
+					<div>
+						<h1>RegMachine</h1>
+						<p>Regex Rewriting Automata</p>
+					</div>
+				</hgroup>
+			</header>
 
-		<!-- Input String -->
-		<div class="mb-one">
-			<label>
-				<span>Initial Tape / String</span>
-				<input type="text" id="input-string" class="mono" value="1001" />
-			</label>
-		</div>
-
-		<!-- Rules -->
-		<section class="mb-one">
-			<div class="flex-between-center mb-half">
-				<h3>Rules</h3>
-				<button id="btn-add-rule" class="ghost btn-sm">➕ Add Rule</button>
-			</div>
-			<p class="text-sm">Evaluated top to bottom. Use JS Regex formats like <code>(?&lt;name&gt;...)</code> and
-				<code>$&lt;name&gt;</code>.
-			</p>
-			<div id="rules-container" class="rules-list"></div>
-		</section>
-
-		<hr />
-
-		<!-- Controls & Execution -->
-		<section class="mt-one">
-			<div class="flex-between-center mb-half">
-				<label style="flex: 1; margin-right: 1rem;">
-					<span>Step Delay (<span id="label-delay">100</span>ms)</span>
-					<input type="range" id="input-delay" min="0" max="1000" step="10" value="100" />
+			<!-- Examples -->
+			<div class="mb-one">
+				<label>
+					<span>Load Predefined Program</span>
+					<select id="select-example">
+						<option value="-1">-- Custom --</option>
+					</select>
 				</label>
 			</div>
 
-			<div class="grid-controls">
-				<button id="btn-reset" class="ghost">Reset</button>
-				<button id="btn-step" class="info">Step</button>
-				<button id="btn-run" class="info">Run</button>
-				<button id="btn-stop" class="danger" disabled>Stop</button>
+			<!-- Input String -->
+			<div class="mb-one">
+				<label>
+					<span>Initial Tape / String</span>
+					<input
+						type="text"
+						id="input-string"
+						class="mono"
+						value="1001"
+					/>
+				</label>
 			</div>
-		</section>
 
-		<section class="mt-one">
-			<h3>Execution Log</h3>
-			<div class="log-container" id="log-container">
-				<div class="log-item empty">Awaiting execution...</div>
-			</div>
-		</section>
+			<!-- Rules -->
+			<section class="mb-one">
+				<div class="flex-between-center mb-half">
+					<h3>Rules</h3>
+					<button id="btn-add-rule" class="ghost btn-sm">
+						➕ Add Rule
+					</button>
+				</div>
+				<p class="text-sm">
+					Evaluated top to bottom. Use JS Regex formats like
+					<code>(?&lt;name&gt;...)</code> and
+					<code>$&lt;name&gt;</code>.
+				</p>
+				<div id="rules-container" class="rules-list"></div>
+			</section>
 
-	</main>
-	<script type="module" src="./main.ts"></script>
-</body>
+			<hr />
 
+			<!-- Controls & Execution -->
+			<section class="mt-one">
+				<div class="flex-between-center mb-half">
+					<label style="flex: 1; margin-right: 1rem">
+						<span
+							>Step Delay (<span id="label-delay">100</span
+							>ms)</span
+						>
+						<input
+							type="range"
+							id="input-delay"
+							min="0"
+							max="1000"
+							step="10"
+							value="100"
+						/>
+					</label>
+				</div>
+
+				<div class="grid-controls">
+					<button id="btn-reset" class="ghost">Reset</button>
+					<button id="btn-step" class="info">Step</button>
+					<button id="btn-run" class="info">Run</button>
+					<button id="btn-stop" class="danger" disabled>Stop</button>
+				</div>
+			</section>
+
+			<section class="mt-one">
+				<h3>Execution Log</h3>
+				<div class="log-container" id="log-container">
+					<div class="log-item empty">Awaiting execution...</div>
+				</div>
+			</section>
+		</main>
+		<script type="module" src="./main.ts"></script>
+	</body>
 </html>
