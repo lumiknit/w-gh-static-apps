@@ -15,16 +15,16 @@
 		"preview": "vite preview"
 	},
 	"devDependencies": {
-		"@types/node": "^25.5.2",
+		"@types/node": "^25.6.0",
 		"@types/qrcode-svg": "^1.1.5",
 		"typescript": "~5.9.3",
-		"vite": "^8.0.1",
+		"vite": "^8.0.10",
 		"vite-plugin-html": "^3.2.2",
-		"vitest": "^4.1.4"
+		"vitest": "^4.1.5"
 	},
 	"dependencies": {
 		"fast-glob": "^3.3.3",
-		"prettier": "^3.8.1",
+		"prettier": "^3.8.3",
 		"qr-scanner": "^1.4.2",
 		"qrcode": "^1.5.4",
 		"qrcode-svg": "^1.1.0"
