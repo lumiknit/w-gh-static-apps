@@ -1,82 +1,106 @@
 /// <reference lib="webworker" />
+const sw = self as unknown as ServiceWorkerGlobalScope;
 
-declare const self: ServiceWorkerGlobalScope;
 declare const __SW_CACHE_VERSION__: string;
 
-const CACHE_PREFIX = 'cache-';
-const CACHE_NAME = `${CACHE_PREFIX}offline-${__SW_CACHE_VERSION__}`;
+const CACHE_PREFIX = `lumiknit-app-`;
+const CACHE_NAME = `${CACHE_PREFIX}${__SW_CACHE_VERSION__}`;
 
-self.addEventListener('install', () => {
-	console.log('[SW] Install with version', __SW_CACHE_VERSION__);
-	self.skipWaiting();
+sw.addEventListener('install', () => {
+	sw.skipWaiting();
 });
 
-self.addEventListener('activate', (event) => {
-	event.waitUntil(self.clients.claim());
-
-	// Remove old caches
-	(async () => {
-		const keys = await caches.keys();
-		await Promise.all(
-			keys.map(async (key) => {
-				if (key.startsWith(CACHE_PREFIX) && key !== CACHE_NAME) {
-					console.log('[SW] Deleting old cache', key);
-					return caches.delete(key);
-				}
-			})
-		);
-	})();
-});
-
-self.addEventListener('fetch', (event) => {
-	const { request } = event;
-
-	// Only hanle GET requests
-	if (request.method !== 'GET') return;
-
-	// Ignore chrome extensions and other non-http(s) requests
-	const url = new URL(request.url);
-	if (url.protocol !== 'http:' && url.protocol !== 'https:') return;
-
-	event.respondWith(
+sw.addEventListener('activate', (event) => {
+	event.waitUntil(
 		(async () => {
-			let response: Response;
-			try {
-				response = await fetch(request);
-			} catch {
-				// Network error (offline)
-				const cached = await caches.match(request);
-				if (cached) return cached;
-
-				return new Response('Offline and no cache', {
-					status: 503,
-					statusText: 'Service Unavailable',
-				});
-			}
-
-			// Online -> Keep in cache
-			const co = await caches.open(CACHE_NAME);
-			let needCache = false;
-			if (response.ok) {
-				const isHtml = response.headers
-					.get('content-type')
-					?.includes('text/html');
-				if (isHtml) {
-					// HTML always needs to be updated
-					needCache = true;
-				} else {
-					// Otherwise, only cache if not already cached, to avoid clone.
-					const existing = await co.match(request);
-					if (!existing) needCache = true;
-				}
-			}
-			if (needCache) {
-				const c = response.clone();
-				co.put(request, c).catch((err) => {
-					console.warn('[SW] Failed to cache', request.url, err);
-				});
-			}
-			return response;
+			// Delete old caches that don't match the current version
+			const cacheNames = await caches.keys();
+			await Promise.all(
+				cacheNames
+					.filter(
+						(name) =>
+							name !== CACHE_NAME && name.startsWith(CACHE_PREFIX)
+					)
+					.map((name) => {
+						console.log('[SW] Deleting old cache:', name);
+						return caches.delete(name);
+					})
+			);
+			await sw.clients.claim();
 		})()
 	);
+});
+
+const networkFirstFetch = async (
+	_event: FetchEvent,
+	req: Request
+): Promise<Response> => {
+	try {
+		const networkResponse = await fetch(req);
+
+		// Cache successful responses
+		if (networkResponse && networkResponse.status === 200) {
+			const cache = await caches.open(CACHE_NAME);
+			cache.put(req, networkResponse.clone());
+		}
+
+		return networkResponse;
+	} catch (error) {
+		// Network first, fallback to cache
+		const cache = await caches.open(CACHE_NAME);
+		const cachedResponse = await cache.match(req);
+		if (cachedResponse) {
+			return cachedResponse;
+		}
+		throw error;
+	}
+};
+
+const cacheFirstFetch = async (
+	event: FetchEvent,
+	req: Request
+): Promise<Response> => {
+	// Check cache exists first.
+	const cache = await caches.open(CACHE_NAME);
+	const cachedResp = await cache.match(req);
+
+	if (!cachedResp) {
+		// Cache not found, fallback to same strategy to network first
+		return await networkFirstFetch(event, req);
+	}
+
+	// Otherwise, fetching background, return the cached one;
+	event.waitUntil(
+		(async () => {
+			const networkResponse = await fetch(req);
+			if (networkResponse && networkResponse.status === 200) {
+				const cache = await caches.open(CACHE_NAME);
+				cache.put(req, networkResponse.clone());
+			}
+		})()
+	);
+
+	return cachedResp;
+};
+
+const cacheFirstRE = /(\/assets\/)|(\/fonts\/)/;
+
+sw.addEventListener('fetch', (event) => {
+	const req = event.request;
+	if (req.method !== 'GET') {
+		return;
+	}
+
+	const url = new URL(req.url);
+	if (url.origin !== self.location.origin) {
+		// Bypass external APIs
+		return;
+	}
+
+	// '/assets/*' has hash in file name, thus send cache first.
+	const fetcher = cacheFirstRE.test(url.pathname)
+		? cacheFirstFetch
+		: networkFirstFetch;
+
+	event.respondWith(fetcher(event, req));
 });
