@@ -31,7 +31,7 @@ sw.addEventListener('activate', (event) => {
 });
 
 const networkFirstFetch = async (
-	event: FetchEvent,
+	_event: FetchEvent,
 	req: Request
 ): Promise<Response> => {
 	try {
