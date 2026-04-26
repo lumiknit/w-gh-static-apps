@@ -1,3 +1,7 @@
+.mono {
+	font-family: var(--ff-mono);
+}
+
 .cell {
 	text-transform: uppercase;
 	font-family: var(--ff-mono);

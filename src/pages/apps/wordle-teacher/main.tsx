@@ -69,38 +69,28 @@ const delay = async () => {
 
 // Canonical form: lower cases
 
-type NWord = [number, number, number, number, number];
+type NWord = Uint8Array;
+
+type Color = 0 | 1 | 2;
+type ColorTuple = number;
+
+const colorTupleIndex = (t: ColorTuple, i: number) =>
+	((t >> (i * 2)) & 0b11) as Color;
 
 const aCode = 'a'.charCodeAt(0);
 const zCode = 'z'.charCodeAt(0);
-const underscore = '_'.charCodeAt(0);
-const hyphen = '-'.charCodeAt(0);
-const green = 2;
-const yellow = 1;
-const gray = 0;
+
+const green: Color = 2;
+const yellow: Color = 1;
+const gray: Color = 0;
 const colorToClass = ['gray', 'yellow', 'green'];
 
 const wordToNums = (s: string): NWord => {
-	const n: NWord = [0, 0, 0, 0, 0];
-	for (let i = 0; i < 5; i++) {
+	const n: NWord = new Uint8Array(s.length);
+	for (let i = 0; i < s.length; i++) {
 		const c = s.charCodeAt(i);
-		if (c === underscore || c === hyphen) n[i] = zCode + 1;
-		else if (c < aCode || c > zCode)
-			throw new Error(`Invalid char '${c}', not between 'a' to 'z'`);
-		else n[i] = c - aCode;
+		n[i] = aCode <= c && c <= zCode ? c - aCode : zCode + 1;
 	}
-	return n;
-};
-
-const numsToWord = (w: NWord): string =>
-	w.map((x) => String.fromCharCode(aCode + x)).join('');
-
-const wordToIndex = (w: NWord): number => {
-	let n = 0;
-	let d = 1;
-	w.forEach((x) => {
-		n += d * x;
-	});
 	return n;
 };
 
@@ -117,101 +107,76 @@ const wordList: PresetWord[] = parseWordList(wordListRaw).map((x) => {
 	};
 });
 
-/** Compares compares the input and answer and create result (0, 1, 2, where 1 is exact equals) */
-const compares = (query: NWord, inputs: NWord[]): NWord[] => {
-	// Letter count
-	const counts = new Array(26).fill(0);
-	query.forEach((x) => counts[x]++);
+const colorCounts = new Uint8Array(30);
+const findColor = (answer: NWord, input: NWord): ColorTuple => {
+	let t: ColorTuple = 0;
+	colorCounts.fill(0);
 
-	return inputs.map((i) => {
-		const cnts = counts.map((x) => x);
+	for (let i = input.length; i < answer.length; i++) {
+		colorCounts[answer[i]]++;
+	}
 
-		// Fill greens
-		const t = i.map((c, j) => {
-			if (query[j] === c) {
-				cnts[c]--;
-				return green;
-			}
-			return gray;
-		}) as NWord;
-
-		i.forEach((c, j) => {
-			if (t[j] === gray && cnts[c] > 0) {
-				cnts[c]--;
-				t[j] = yellow;
-			}
-		});
-		return t;
-	});
+	for (let j = input.length; --j >= 0; ) {
+		const c = input[j];
+		if (answer[j] === c) {
+			t |= green << (j * 2);
+		} else {
+			colorCounts[answer[j]]++;
+		}
+	}
+	for (let j = input.length; --j >= 0; ) {
+		const c = input[j];
+		if (((t >> (j * 2)) & 0b11) === gray && colorCounts[c] > 0) {
+			colorCounts[c]--;
+			t |= yellow << (j * 2);
+		}
+	}
+	return t;
 };
 
-type Bucket = NWord[];
-type BucketMap = Map<number, Bucket>;
+/**
+ * Find colors for the given answer for each inputs
+ */
+const findColors = (answer: NWord, inputs: NWord[]): ColorTuple[] => {
+	return inputs.map((i) => findColor(answer, i));
+};
 
 /**
- * Filter words, which cannot be applied to the inputs + answer pair
+ * From the srcWordList, filter the same color from answer+inputs
  */
 const filterWords = async (
+	srcWordList: PresetWord[],
 	answer: NWord,
 	inputs: NWord[]
-): Promise<NWord[]> => {
-	const result: NWord[] = [];
+): Promise<PresetWord[]> => {
+	if (inputs.length === 0) return srcWordList;
+	const result: PresetWord[] = [];
 
 	// First, compares answer and inputs
-	const cs = compares(answer, inputs);
-	const csIdx = cs.map(wordToIndex);
+	const cs = findColors(answer, inputs);
 
 	// For each word, filter and put to bucket.
-	for (const w of wordList) {
+	for (const w of srcWordList) {
 		await delay();
 
 		const ns = w.nums;
 		// Check the same color
-		let diff = false;
-		compares(ns, inputs).forEach((v, j) => {
-			diff ||= wordToIndex(v) !== csIdx[j];
-		});
-		if (!diff) {
-			result.push(ns);
-			continue;
+		let j: number = 0;
+		for (; j < inputs.length; j++) {
+			const c = findColor(ns, inputs[j]);
+			if (c !== cs[j]) break;
+		}
+		if (j >= inputs.length) {
+			result.push(w);
 		}
 	}
 	return result;
 };
 
-const buildBucket = (words: NWord[], query: NWord): BucketMap => {
-	const m: BucketMap = new Map();
-	for (let i = 0; i < words.length; i++) {
-		const w = words[i];
-		const [c] = compares(w, [query]);
-		const idx = wordToIndex(c);
-		const b = m.get(idx);
-		if (b) {
-			b.push(w);
-		} else {
-			m.set(idx, [w]);
-		}
-	}
-	return m;
-};
-
-/**
- * Calculate entropy from bucket
- * n must equal to the sum of bucket map length
- */
-const calcEntropy = (b: BucketMap, n: number): number => {
-	let h: number = 0;
-	for (const [, v] of b) {
-		const p = v.length / n;
-		h -= p * Math.log2(p);
-	}
-	return h;
-};
-
 const Visualizer = (inputs: string[], answer: string) => {
 	const inWords = inputs.map(wordToNums);
 	const ansWord = wordToNums(answer);
-	const cs = compares(ansWord, inWords);
+	const cs = findColors(ansWord, inWords);
 
 	const a: HTMLElement[] = [];
 
@@ -222,7 +187,7 @@ const Visualizer = (inputs: string[], answer: string) => {
 		const row = <div />;
 		for (let j = 0; j < raw.length; j++) {
 			row.appendChild(
-				<span class={`cell ${colorToClass[c[j]]}`}>
+				<span class={`cell ${colorToClass[colorTupleIndex(c, j)]}`}>
 					{String.fromCharCode(aCode + raw[j])}
 				</span>
 			);
@@ -241,33 +206,50 @@ type W = {
 };
 
 type Result = {
-	candidates: number;
+	candidates: PresetWord[];
 	ws: W[];
 };
 
 const calc = async (ansNums: NWord, inNums: NWord[]): Promise<Result> => {
-	const filteredWords = await filterWords(ansNums, inNums);
+	const filteredWords = await filterWords(wordList, ansNums, inNums);
+	const filteredNums = filteredWords.map((x) => x.nums);
+	const n = filteredWords.length;
 
 	const ws: W[] = [];
+	const buckets = new Uint32Array(700);
 
-	for (const ns of filteredWords) {
+	for (const w of wordList) {
 		await delay();
-		// Calculate buckets for left words
-		const b = buildBucket(filteredWords, ns);
-		const h = calcEntropy(b, filteredWords.length);
+
+		// Build buckets
+		buckets.fill(0);
+		for (const candidate of filteredNums) {
+			const c = findColor(candidate, w.nums);
+			buckets[c]++;
+		}
+
+		// Calculate entropy
+		let bucketSize = 0;
+		let h: number = 0;
+		for (const v of buckets) {
+			if (v === 0) continue;
+			bucketSize++;
+			const p = v / n;
+			h -= p * Math.log2(p);
+		}
 
 		ws.push({
-			word: numsToWord(ns),
-			nums: ns,
+			word: w.raw,
+			nums: w.nums,
 			entropy: h,
-			buckets: b.size,
+			buckets: bucketSize,
 		});
 	}
 
 	ws.sort((a, b) => b.entropy - a.entropy);
 
 	return {
-		candidates: filteredWords.length,
+		candidates: filteredWords,
 		ws,
 	};
 };
@@ -303,17 +285,18 @@ const handleAnalyzeClick = async () => {
 				mark = marks.blunder;
 			} else {
 				const w = result.ws[idx];
-				const best = result.ws[0].entropy ?? 3;
+				const best = result.ws[0].entropy ?? 6;
 				console.log('W', w, 'Best', best);
-				if (w.entropy < 2.0) {
+				if (w.entropy < 1.0) {
 					mark = marks.blunder;
 					const filteredWords = await filterWords(
+						wordList,
 						ansNums,
 						inNums.slice(0, p + 1)
 					);
 					if (
 						filteredWords.length <=
-						Math.max(1, result.candidates / w.buckets / 2)
+						Math.max(1, result.candidates.length / w.buckets / 2)
 					) {
 						mark = marks.brilliant;
 					}
@@ -336,11 +319,31 @@ const handleAnalyzeClick = async () => {
 
 		const result = await calc(ansNums, inNums);
 
-		divReport.appendChild(
+		const lst = (
 			<ul>
-				<li>Left word candidates: {result.candidates}</li>
+				<li>Left word candidates: {result.candidates.length}</li>
 			</ul>
 		);
+		const N = 15;
+		if (result.candidates.length > N) {
+			lst.append(
+				<li class="mono">
+					{result.candidates
+						.slice(0, N)
+						.map((x) => x.raw)
+						.join(', ')}{' '}
+					, ...
+				</li>
+			);
+		} else {
+			lst.append(
+				<li class="mono">
+					{result.candidates.map((x) => x.raw).join(', ')}
+				</li>
+			);
+		}
+
+		divReport.appendChild(lst);
 
 		divReport.appendChild(<h4> Further</h4>);
 		divReport.appendChild(
