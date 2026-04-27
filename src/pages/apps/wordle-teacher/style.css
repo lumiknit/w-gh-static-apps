@@ -59,6 +59,30 @@ table {
 	}
 }
 
+.query-row {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: 0.5rem 1rem;
+	margin: 0.5rem 0;
+}
+
+.query-index {
+	font-weight: 700;
+	font-size: 1.1rem;
+	min-width: 1.5rem;
+	text-align: right;
+}
+
+.query-info {
+	display: flex;
+	flex-direction: column;
+	font-size: 0.8rem;
+	color: #aaa;
+	margin-top: 0.25rem;
+	gap: 0.1rem;
+}
+
 .mark {
 	display: inline-block;
 	width: 1.5em;
