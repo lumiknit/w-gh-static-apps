@@ -436,20 +436,22 @@ const handleAnalyzeClick = async () => {
 
 		for (let p = 0; p < inNums.length; p++) {
 			const pWord = inputs[p];
-			const ws = wsList[p];
+			const ws = wsList[p] ?? [];
 			const candidates = candidatesList[p];
 
 			const prevCount = candidates.length;
 			const nextCount = candidatesList[p + 1].length;
 
-			const idx = ws.findIndex((x) => pWord === x.word);
+			const inWordList =
+				ws.length > 0 && ws.some((x) => x.word === pWord);
+			const idx = inWordList ? ws.findIndex((x) => pWord === x.word) : -1;
 			const bestEntropy = ws[0]?.entropy ?? 0;
-			const myEntropy = idx >= 0 ? ws[idx].entropy : 0;
-			const loss = bestEntropy - myEntropy;
+			const myEntropy = idx >= 0 ? ws[idx].entropy : null;
+			const loss = myEntropy !== null ? bestEntropy - myEntropy : null;
 
 			let mark = marks.blunder;
-			if (idx >= 0) {
-				const brilliantThreshold = Math.max(2, prevCount / 243);
+			if (idx >= 0 && loss !== null) {
+				const brilliantThreshold = Math.max(2, prevCount / 100);
 				if (nextCount <= brilliantThreshold) {
 					mark = marks.brilliant;
 				} else if (loss <= bestEntropy * 0.05) {
@@ -465,13 +467,33 @@ const handleAnalyzeClick = async () => {
 				prevCount > 0
 					? (((prevCount - nextCount) / prevCount) * 100).toFixed(1)
 					: '0.0';
-			const rankStr =
-				idx < 0
-					? 'N/A'
-					: `${idx + 1} / ${ws.length} (top ${((idx / ws.length) * 100).toFixed(1)}%)`;
-			const lossStr = idx < 0 ? '?' : `${loss.toFixed(3)} bits`;
+
+			const infoLines: JSX.Element[] = [
+				<span>
+					Candidates: {prevCount} → {nextCount} (−{reductionPct}%)
+				</span>,
+			];
+
+			if (!inWordList) {
+				infoLines.push(
+					<span class="warn">
+						Not in word list — no rank/loss data
+					</span>
+				);
+			} else {
+				const rankStr = `${idx + 1} / ${ws.length} (top ${((idx / ws.length) * 100).toFixed(1)}%)`;
+				const lossStr = `${loss!.toFixed(3)} bits`;
+				infoLines.push(
+					<span>
+						Rank: {rankStr} · Loss: {lossStr}
+					</span>
+				);
+			}
 
 			const bestMoves = ws.slice(0, 2).map((w) => w.word);
+			if (bestMoves.length > 0) {
+				infoLines.push(<span>Best: {bestMoves.join(', ')}</span>);
+			}
 
 			divReport.appendChild(
 				<div class="query-row">
@@ -479,16 +501,7 @@ const handleAnalyzeClick = async () => {
 					<div>{vis[p]}</div>
 					<div>
 						{mark.component()} <span> {mark.label}</span>
-						<div class="query-info">
-							<span>
-								Candidates: {prevCount} → {nextCount} (−
-								{reductionPct}%)
-							</span>
-							<span>
-								Rank: {rankStr} · Loss: {lossStr}
-							</span>
-							<span>Best: {bestMoves.join(', ')}</span>
-						</div>
+						<div class="query-info">{infoLines}</div>
 					</div>
 				</div>
 			);

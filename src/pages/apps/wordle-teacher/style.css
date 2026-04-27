@@ -74,6 +74,10 @@ table {
 	text-align: right;
 }
 
+.query-info .warn {
+	color: #e19135;
+}
+
 .query-info {
 	display: flex;
 	flex-direction: column;
