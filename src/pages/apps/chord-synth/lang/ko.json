@@ -1,0 +1,13 @@
+{
+	"title": "코드 신디사이저",
+	"brand": "코드 신디사이저",
+	"nav_apps": "앱 목록",
+	"microtonal": "미분음 모드",
+	"instrument": "악기",
+	"otamaton": "오타마톤",
+	"bass": "베이스",
+	"electric-bass": "일렉트릭 베이스",
+	"octave": "옥타브",
+	"root_note": "근음",
+	"chord_select": "화음 선택"
+}

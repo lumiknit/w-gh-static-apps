@@ -1,0 +1,30 @@
+#keys-circle {
+	width: 100%;
+	max-width: 500px;
+	margin: 0 auto;
+	aspect-ratio: 1 / 1;
+	cursor: crosshair;
+	touch-action: none;
+	-webkit-user-select: none;
+	user-select: none;
+	-moz-user-select: none;
+	-webkit-user-drag: none;
+	-webkit-touch-callout: none;
+}
+
+#keys-circle svg {
+	width: 100%;
+	height: 100%;
+}
+
+#keys-circle path {
+	transition: opacity 0.1s;
+}
+
+#keys-circle path:hover {
+	opacity: 0.8;
+}
+
+#keys-circle path:active {
+	opacity: 0.6;
+}
