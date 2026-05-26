@@ -1,0 +1,183 @@
+<!doctype html>
+<html>
+	<head>
+		<title>LLM Chat</title>
+	</head>
+	<body>
+		<nav class="navbar">
+			<main class="navbar-content">
+				<div>
+					<a class="brand" href="#">LLM Chat</a>
+				</div>
+				<div>
+					<a href="/apps">Apps</a>
+				</div>
+			</main>
+		</nav>
+		<main>
+			<header class="chat-header">
+				<h1>LLM Chat</h1>
+				<p>
+					A fast, ultra-lightweight client with Brave Search
+					capability.
+				</p>
+			</header>
+
+			<!-- Settings Section -->
+			<details class="settings-details" id="settings-panel" open>
+				<summary class="settings-summary">
+					<span>⚙️ Settings &amp; Presets</span>
+				</summary>
+				<div class="settings-content">
+					<!-- Preset selector/save -->
+					<div class="settings-row">
+						<label class="preset-label">
+							<span>Load Preset</span>
+							<select id="preset-select">
+								<option value="">-- Custom / Active --</option>
+							</select>
+						</label>
+						<div class="preset-buttons">
+							<button
+								id="btn-save-preset"
+								type="button"
+								class="info text-sm"
+							>
+								Save Preset
+							</button>
+							<button
+								id="btn-delete-preset"
+								type="button"
+								class="danger text-sm"
+								disabled
+							>
+								Delete Preset
+							</button>
+						</div>
+					</div>
+
+					<div class="settings-grid">
+						<label>
+							<span>Provider Preset</span>
+							<select id="provider-preset">
+								<option value="">-- Custom Endpoint --</option>
+								<option value="https://api.openai.com">
+									OpenAI (ChatGPT)
+								</option>
+								<option
+									value="https://generativelanguage.googleapis.com/v1beta/openai"
+								>
+									Google AI Studio (Gemini)
+								</option>
+								<option value="https://openrouter.ai/api">
+									OpenRouter
+								</option>
+								<option value="https://api.groq.com/openai">
+									Groq Cloud
+								</option>
+							</select>
+						</label>
+						<label>
+							<span>API Endpoint</span>
+							<input
+								id="setting-endpoint"
+								type="text"
+								placeholder="https://api.openai.com"
+								value="https://api.openai.com"
+							/>
+						</label>
+						<label>
+							<span>API Key</span>
+							<input
+								id="setting-key"
+								type="password"
+								placeholder="sk-..."
+							/>
+						</label>
+						<label>
+							<span>Brave Search API Key</span>
+							<input
+								id="setting-brave-key"
+								type="password"
+								placeholder="bs-..."
+							/>
+						</label>
+					</div>
+
+					<div class="settings-row" style="margin-top: 0.5rem">
+						<label style="flex: 1">
+							<span>Model Selection</span>
+							<div
+								style="
+									display: flex;
+									gap: 0.5rem;
+									align-items: center;
+								"
+							>
+								<select
+									id="model-select"
+									style="flex: 1; margin: 0"
+								>
+									<option value="">
+										-- Fetch or Enter Model --
+									</option>
+								</select>
+								<button
+									id="btn-fetch-models"
+									type="button"
+									class="info text-sm"
+									style="margin: 0; white-space: nowrap"
+								>
+									Fetch Models
+								</button>
+							</div>
+						</label>
+						<label style="flex: 1">
+							<span>Model Name</span>
+							<input
+								id="setting-model"
+								type="text"
+								placeholder="gpt-4o-mini"
+								value="gpt-4o-mini"
+								style="margin: 0"
+							/>
+						</label>
+					</div>
+				</div>
+			</details>
+
+			<!-- Chat Section (No wrapper scroll box, normal document flow) -->
+			<div id="chat-messages" class="chat-messages">
+				<div class="msg system">
+					<div class="msg-content">
+						Welcome to LLM Chat! Configure your settings above to
+						start chatting.
+					</div>
+				</div>
+			</div>
+
+			<div id="search-status" class="search-status hidden"></div>
+
+			<div class="chat-form">
+				<textarea
+					id="chat-input"
+					placeholder="Type your message here... (Ctrl+Enter to send)"
+					rows="3"
+				></textarea>
+				<div class="chat-actions">
+					<label class="search-toggle">
+						<input id="toggle-search" type="checkbox" />
+						<span>Enable Web Search</span>
+					</label>
+					<div class="chat-buttons">
+						<button id="btn-clear" class="ghost text-sm">
+							Clear Chat
+						</button>
+						<button id="btn-send" class="info">Send</button>
+					</div>
+				</div>
+			</div>
+		</main>
+		<script type="module" src="./main.ts"></script>
+	</body>
+</html>

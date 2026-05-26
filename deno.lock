@@ -8,6 +8,7 @@
     "npm:qr-scanner@^1.4.2": "1.4.2",
     "npm:qrcode-svg@^1.1.0": "1.1.0",
     "npm:qrcode@^1.5.4": "1.5.4",
+    "npm:snarkdown@2": "2.0.0",
     "npm:typescript@~5.9.3": "5.9.3",
     "npm:vite-plugin-html@^3.2.2": "3.2.2_vite@8.0.11__@types+node@25.6.0_@types+node@25.6.0",
     "npm:vite@^8.0.10": "8.0.11_@types+node@25.6.0",
@@ -836,6 +837,9 @@
     "siginfo@2.0.0": {
       "integrity": "sha512-ybx0WO1/8bSBLEWXZvEd7gMW3Sn3JFlW3TvX1nREbDLRNQNaeNN8WK0meBwPdAaOI7TtRRRJn/Es1zhrrCHu7g=="
     },
+    "snarkdown@2.0.0": {
+      "integrity": "sha512-MgL/7k/AZdXCTJiNgrO7chgDqaB9FGM/1Tvlcenenb7div6obaDATzs16JhFyHHBGodHT3B7RzRc5qk8pFhg3A=="
+    },
     "source-map-js@1.2.1": {
       "integrity": "sha512-UXWMKhLOwVKb728IUtQPXxfYU+usdybtUrK/8uGE8CQMvrhOpwvzDBwj0QhSL7MQc7vIsISBG8VQ8+IDQxpfQA=="
     },
@@ -1036,6 +1040,7 @@
         "npm:qr-scanner@^1.4.2",
         "npm:qrcode-svg@^1.1.0",
         "npm:qrcode@^1.5.4",
+        "npm:snarkdown@2",
         "npm:typescript@~5.9.3",
         "npm:vite-plugin-html@^3.2.2",
         "npm:vite@^8.0.10",

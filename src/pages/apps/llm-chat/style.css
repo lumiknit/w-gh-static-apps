@@ -1,0 +1,221 @@
+/* Custom Styles for LLM Chat App (Lightweight, No Animations, No Transitions) */
+
+.chat-header {
+	margin-bottom: 1rem;
+	text-align: center;
+}
+
+/* Settings Collapse */
+.settings-details {
+	background: var(--c-form-bg);
+	border: 1px solid var(--c-form-bd);
+	border-radius: 0.5rem;
+	margin-bottom: 1.5rem;
+	overflow: hidden;
+}
+
+.settings-summary {
+	padding: 0.75rem 1rem;
+	font-weight: bold;
+	cursor: pointer;
+	user-select: none;
+	border-bottom: 1px solid transparent;
+}
+
+.settings-details[open] .settings-summary {
+	border-bottom: 1px solid var(--c-form-bd);
+}
+
+.settings-content {
+	padding: 1rem;
+	display: flex;
+	flex-direction: column;
+	gap: 1rem;
+}
+
+.settings-grid {
+	display: grid;
+	grid-template-columns: 1fr;
+	gap: 0.75rem;
+}
+
+@media (min-width: 640px) {
+	.settings-grid {
+		grid-template-columns: 1fr 1fr;
+	}
+}
+
+.settings-row {
+	display: flex;
+	flex-direction: column;
+	gap: 0.75rem;
+	align-items: stretch;
+}
+
+@media (min-width: 640px) {
+	.settings-row {
+		flex-direction: row;
+		align-items: flex-end;
+		justify-content: space-between;
+	}
+}
+
+.preset-label {
+	flex: 1;
+}
+
+.preset-buttons {
+	display: flex;
+	gap: 0.5rem;
+}
+
+.settings-content label {
+	display: flex;
+	flex-direction: column;
+	gap: 0.25rem;
+	font-weight: 550;
+	font-size: 0.875rem;
+}
+
+.settings-content label span {
+	color: var(--c-fg);
+}
+
+/* Chat Layout: Normal flow, scroll matches page body scroll */
+.chat-messages {
+	padding: 1rem 0;
+	display: flex;
+	flex-direction: column;
+	gap: 1.25rem;
+}
+
+/* Chat Bubbles */
+.msg {
+	display: flex;
+	flex-direction: column;
+	width: 100%;
+}
+
+.msg.user {
+	align-items: flex-end;
+}
+
+.msg.assistant {
+	align-items: flex-start;
+}
+
+.msg.system {
+	align-items: center;
+	font-size: 0.85rem;
+	color: var(--c-dim-fg);
+	text-align: center;
+}
+
+.msg-header {
+	font-size: 0.75rem;
+	font-weight: 600;
+	margin-bottom: 0.25rem;
+	color: var(--c-dim-fg);
+}
+
+.msg-content {
+	line-height: 1.5;
+	word-break: break-word;
+}
+
+/* User gets a clean bubble */
+.msg.user .msg-content {
+	background: hsl(var(--hs-info) var(--l-info));
+	color: white;
+	padding: 0.75rem 1rem;
+	border-radius: 0.75rem;
+	border-bottom-right-radius: 0.125rem;
+	max-width: 85%;
+}
+
+/* Assistant is completely plain text, no box/bg/border */
+.msg.assistant .msg-content {
+	background: transparent;
+	color: var(--c-fg);
+	padding: 0;
+	border: none;
+	width: 100%;
+}
+
+.msg.system .msg-content {
+	background: transparent;
+	padding: 0.25rem;
+	border: none;
+}
+
+/* Markdown Specifics inside Messages */
+.msg-content p {
+	margin: 0 0 0.75rem 0;
+}
+.msg-content p:last-child {
+	margin-bottom: 0;
+}
+.msg-content pre {
+	margin: 0.5rem 0;
+	overflow-x: auto;
+	font-size: 0.875rem;
+}
+.msg-content code {
+	font-family: var(--ff-mono);
+	background: rgba(128, 128, 128, 0.15);
+	padding: 0.125rem 0.25rem;
+	border-radius: 0.25rem;
+	font-size: 0.9em;
+}
+.msg-content pre code {
+	background: transparent;
+	padding: 0;
+	font-size: inherit;
+}
+.msg-content a {
+	color: inherit;
+	text-decoration: underline;
+}
+
+/* Search Status Area */
+.search-status {
+	background: rgba(var(--hs-info) / 0.1);
+	border-top: 1px solid var(--c-form-bd);
+	border-bottom: 1px solid var(--c-form-bd);
+	padding: 0.5rem 1rem;
+	font-size: 0.85rem;
+	color: hsl(var(--hs-info) var(--l-info));
+	font-weight: 550;
+	display: flex;
+	align-items: center;
+	gap: 0.5rem;
+	margin: 1rem 0;
+}
+
+/* Chat Input Bar */
+.chat-form {
+	border-top: 1px solid var(--c-form-bd);
+	padding: 1rem 0;
+	background: transparent;
+	margin-top: 1.5rem;
+}
+
+.chat-form textarea {
+	margin: 0 0 0.5rem 0;
+	font-size: 0.95rem;
+}
+
+.chat-actions {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+
+.chat-buttons {
+	display: flex;
+	gap: 0.5rem;
+}
+
+.chat-buttons button {
+	margin: 0;
+}
