@@ -1,0 +1,48 @@
+<!doctype html>
+<html>
+	<head no-icon>
+		<meta name="apple-mobile-web-app-title" content="lumiknit" />
+		<title>Timer</title>
+</head>
+
+	<body>
+		<nav class="navbar">
+			<main class="navbar-content">
+				<div>
+					<a class="brand" href="#">Timer</a>
+				</div>
+				<div>
+					<a href="/apps">Apps</a>
+				</div>
+			</main>
+		</nav>
+
+		<main class="container timer-wrap">
+			<div class="timer-row">
+				<form id="form-timer" class="timer-form">
+					<input type="number" id="input-hours" min="0" max="99" value="0" placeholder="HH" />
+					<span class="sep">:</span>
+					<input type="number" id="input-minutes" min="0" max="59" value="5" placeholder="MM" />
+					<span class="sep">:</span>
+					<input type="number" id="input-seconds" min="0" max="59" value="0" placeholder="SS" />
+				</form>
+				<div class="timer-btns">
+					<button id="btn-start" class="info btn-sm">▶</button>
+					<button id="btn-pause" class="ghost btn-sm" disabled>⏸</button>
+					<button id="btn-reset" class="ghost btn-sm">↺</button>
+					<button id="btn-pip" class="ghost btn-sm" title="Picture in Picture">PiP</button>
+					<label class="sound-toggle">
+						<input type="checkbox" id="chk-sound" checked />
+						<span>🔔</span>
+					</label>
+				</div>
+			</div>
+
+			<section class="video-section">
+				<canvas id="timer-canvas" width="640" height="200"></canvas>
+				<video id="timer-video" autoplay muted playsinline controls></video>
+			</section>
+		</main>
+		<script type="module" src="./main.ts"></script>
+	</body>
+</html>
