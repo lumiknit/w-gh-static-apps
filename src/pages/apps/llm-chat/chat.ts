@@ -53,14 +53,16 @@ export async function streamChatCompletion(
 		method: 'POST',
 		headers: {
 			'Content-Type': 'application/json',
-			'Authorization': `Bearer ${config.apiKey}`,
+			Authorization: `Bearer ${config.apiKey}`,
 		},
 		body: JSON.stringify(body),
 	});
 
 	if (!response.ok) {
 		const errText = await response.text();
-		throw new Error(`Chat Completion error: ${response.status} ${response.statusText} - ${errText}`);
+		throw new Error(
+			`Chat Completion error: ${response.status} ${response.statusText} - ${errText}`
+		);
 	}
 
 	const reader = response.body?.getReader();
@@ -118,14 +120,20 @@ export async function streamChatCompletion(
 									accumulatedToolCalls[index].id = tc.id;
 								}
 								if (tc.function?.name) {
-									accumulatedToolCalls[index].function.name = tc.function.name;
+									accumulatedToolCalls[index].function.name =
+										tc.function.name;
 								}
 								if (tc.function?.arguments) {
-									accumulatedToolCalls[index].function.arguments += tc.function.arguments;
+									accumulatedToolCalls[
+										index
+									].function.arguments +=
+										tc.function.arguments;
 								}
 							}
 							if (onToolCallChunk) {
-								onToolCallChunk(accumulatedToolCalls.filter(Boolean));
+								onToolCallChunk(
+									accumulatedToolCalls.filter(Boolean)
+								);
 							}
 						}
 					} catch (e) {
@@ -140,21 +148,29 @@ export async function streamChatCompletion(
 
 	return {
 		text: accumulatedText,
-		toolCalls: accumulatedToolCalls.filter(Boolean).length > 0 ? accumulatedToolCalls.filter(Boolean) : undefined,
+		toolCalls:
+			accumulatedToolCalls.filter(Boolean).length > 0
+				? accumulatedToolCalls.filter(Boolean)
+				: undefined,
 	};
 }
 
-export async function fetchAvailableModels(endpoint: string, apiKey: string): Promise<string[]> {
+export async function fetchAvailableModels(
+	endpoint: string,
+	apiKey: string
+): Promise<string[]> {
 	const url = `${endpoint.replace(/\/+$/, '')}/v1/models`;
 	const response = await fetch(url, {
 		method: 'GET',
 		headers: {
-			'Authorization': `Bearer ${apiKey}`,
+			Authorization: `Bearer ${apiKey}`,
 		},
 	});
 
 	if (!response.ok) {
-		throw new Error(`Failed to fetch models: ${response.status} ${response.statusText}`);
+		throw new Error(
+			`Failed to fetch models: ${response.status} ${response.statusText}`
+		);
 	}
 
 	const data = await response.json();
@@ -163,4 +179,3 @@ export async function fetchAvailableModels(endpoint: string, apiKey: string): Pr
 	}
 	return [];
 }
-

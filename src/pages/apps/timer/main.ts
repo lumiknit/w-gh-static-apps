@@ -26,8 +26,12 @@ const H = canvas.height;
 const ctx = canvas.getContext('2d')!;
 
 // Double-buffered offscreen canvases — swap references at rollover, no copy needed
-const buf0 = document.createElement('canvas'); buf0.width = W; buf0.height = H;
-const buf1 = document.createElement('canvas'); buf1.width = W; buf1.height = H;
+const buf0 = document.createElement('canvas');
+buf0.width = W;
+buf0.height = H;
+const buf1 = document.createElement('canvas');
+buf1.width = W;
+buf1.height = H;
 const buf0Ctx = buf0.getContext('2d')!;
 const buf1Ctx = buf1.getContext('2d')!;
 let prevCanvas: HTMLCanvasElement = buf0;
@@ -151,7 +155,11 @@ let rainDrops: Drop[] = [];
 const RAIN_MIN_DIST = 44;
 const RAIN_R = RAIN_MIN_DIST * 1.6; // max radius each drop expands to
 
-function poissonDisk(w: number, h: number, minDist: number): Array<{ x: number; y: number }> {
+function poissonDisk(
+	w: number,
+	h: number,
+	minDist: number
+): Array<{ x: number; y: number }> {
 	const cellSize = minDist / Math.SQRT2;
 	const gridW = Math.ceil(w / cellSize);
 	const gridH = Math.ceil(h / cellSize);
@@ -188,14 +196,19 @@ function poissonDisk(w: number, h: number, minDist: number): Array<{ x: number; 
 					const ni = grid[(gy + dy) * gridW + (gx + dx)];
 					if (ni == null || ni < 0) continue;
 					const nb = pts[ni]!;
-					const ddx = nx - nb.x, ddy = ny - nb.y;
+					const ddx = nx - nb.x,
+						ddy = ny - nb.y;
 					if (ddx * ddx + ddy * ddy < minDist * minDist) {
 						valid = false;
 						break outer;
 					}
 				}
 			}
-			if (valid) { add(nx, ny); found = true; break; }
+			if (valid) {
+				add(nx, ny);
+				found = true;
+				break;
+			}
 		}
 		if (!found) active.splice(ai, 1);
 	}
@@ -296,7 +309,7 @@ function applyTransition(p: number) {
 			// Use bounding circle so travel distance is equal for all angles
 			const R = Math.sqrt(W * W + H * H) / 2;
 			const centerProj = (W / 2) * dx + (H / 2) * dy;
-			const pos = (centerProj - R) + 2 * R * p;
+			const pos = centerProj - R + 2 * R * p;
 			const perp = { x: -dy, y: dx };
 			const big = R * 4;
 			const cx = dx * pos;
@@ -305,8 +318,14 @@ function applyTransition(p: number) {
 			ctx.beginPath();
 			ctx.moveTo(cx + perp.x * big, cy + perp.y * big);
 			ctx.lineTo(cx - perp.x * big, cy - perp.y * big);
-			ctx.lineTo(cx - perp.x * big - dx * big, cy - perp.y * big - dy * big);
-			ctx.lineTo(cx + perp.x * big - dx * big, cy + perp.y * big - dy * big);
+			ctx.lineTo(
+				cx - perp.x * big - dx * big,
+				cy - perp.y * big - dy * big
+			);
+			ctx.lineTo(
+				cx + perp.x * big - dx * big,
+				cy + perp.y * big - dy * big
+			);
 			ctx.closePath();
 			ctx.clip();
 			ctx.drawImage(nextCanvas, 0, 0);
@@ -360,8 +379,11 @@ function applyTransition(p: number) {
 			ctx.moveTo(sweepCx, sweepCy);
 			for (let i = 1; i <= steps; i++) {
 				const theta = transitionAngle + (sweepAngle * i) / steps;
-				const r = maxR * ((sweepAngle * i) / steps) / totalAngle;
-				ctx.lineTo(sweepCx + Math.cos(theta) * r, sweepCy + Math.sin(theta) * r);
+				const r = (maxR * ((sweepAngle * i) / steps)) / totalAngle;
+				ctx.lineTo(
+					sweepCx + Math.cos(theta) * r,
+					sweepCy + Math.sin(theta) * r
+				);
 			}
 			ctx.closePath();
 			ctx.clip();
@@ -378,7 +400,17 @@ function applyTransition(p: number) {
 				const row = Math.floor(idx / COLS);
 				const x = col * TILE;
 				const y = row * TILE;
-				dissolveCtx.drawImage(nextCanvas, x, y, TILE, TILE, x, y, TILE, TILE);
+				dissolveCtx.drawImage(
+					nextCanvas,
+					x,
+					y,
+					TILE,
+					TILE,
+					x,
+					y,
+					TILE,
+					TILE
+				);
 			}
 			dissolveCount = targetCount;
 			ctx.drawImage(dissolveCanvas, 0, 0);

@@ -310,8 +310,15 @@ async function init() {
 
 	btnClear.appendChild(getDelBtnIcon());
 
+	const queryChoices = new URLSearchParams(window.location.search)
+		.getAll('choice')
+		.map((choice) => choice.trim())
+		.filter((choice) => choice.length > 0);
+	if (queryChoices.length > 0) choices = queryChoices;
+
 	renderChoices();
 	initLLM();
+	if (queryChoices.length > 0) btnChoose.click();
 }
 
 init();

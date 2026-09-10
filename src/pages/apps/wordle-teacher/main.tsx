@@ -130,7 +130,7 @@ const findColor = (answer: NWord, input: NWord): ColorTuple => {
 		colorCounts[answer[i]]++;
 	}
 
-	for (let j = input.length; --j >= 0; ) {
+	for (let j = input.length; --j >= 0;) {
 		const c = input[j];
 		if (answer[j] === c) {
 			t |= green << (j * 2);
