@@ -24,6 +24,12 @@
 	"output": {
 		"title": "Choices ({{count}})"
 	},
+	"share": {
+		"label": "Share link",
+		"copy": "Copy",
+		"copied": "Link copied!",
+		"copy_failed": "Could not copy. Select the link and copy it manually."
+	},
 	"tips": {
 		"title": "Tips",
 		"1": "Click last item to add more choices!",

@@ -116,7 +116,6 @@ let finished = false;
 // rAF-based timing
 let rafId = 0;
 let startTimestamp = 0; // performance.now() when current second began
-let secondsElapsed = 0; // total seconds counted since start
 let staticFrameDrawn = false; // skip redraw in static interval (t < 0.5)
 
 // Transition state
@@ -438,28 +437,10 @@ function applyTransition(p: number) {
 }
 
 // ---------------------------------------------------------------------------
-// FPS tracking
-// ---------------------------------------------------------------------------
-let fpsFrameCount = 0;
-let fpsWindowStart = 0;
-
-function trackFps(ts: number) {
-	if (fpsWindowStart === 0) fpsWindowStart = ts;
-	fpsFrameCount++;
-	const elapsed = ts - fpsWindowStart;
-	if (elapsed >= 1000) {
-		console.log(`FPS: ${(fpsFrameCount / (elapsed / 1000)).toFixed(1)}`);
-		fpsFrameCount = 0;
-		fpsWindowStart = ts;
-	}
-}
-
-// ---------------------------------------------------------------------------
 // Frame rendering
 // ---------------------------------------------------------------------------
 function renderFrame(ts: number) {
 	if (!running) return;
-	trackFps(ts);
 
 	const elapsed = ts - startTimestamp;
 	// t: 0 → 1 within current second
@@ -467,7 +448,6 @@ function renderFrame(ts: number) {
 
 	if (t >= 1) {
 		// Advance one second
-		secondsElapsed += 1;
 		remaining = Math.max(0, remaining - 1);
 		startTimestamp += 1000;
 
@@ -544,11 +524,8 @@ function start() {
 	ensureAudio();
 	initFrames();
 	running = true;
-	secondsElapsed = 0;
 	startTimestamp = performance.now();
 	staticFrameDrawn = false;
-	fpsFrameCount = 0;
-	fpsWindowStart = 0;
 	updateUI();
 	rafId = requestAnimationFrame(renderFrame);
 }

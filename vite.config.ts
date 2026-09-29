@@ -2,20 +2,20 @@ import { readFileSync } from 'fs';
 import { resolve } from 'path';
 
 const pkg = JSON.parse(
-	readFileSync(resolve(__dirname, 'package.json'), 'utf-8')
+	readFileSync(resolve(import.meta.dirname, 'package.json'), 'utf-8')
 ) as { version: string };
 
 import { defineConfig } from 'vite';
 import { createHtmlPlugin } from 'vite-plugin-html';
 import glob from 'fast-glob';
 
-import { embedCommonHTMLHead, embedCSS } from './vite-plugins';
+import { embedCommonHTMLHead, embedCSS } from './vite-plugins/index.ts';
 
-const projectRoot = resolve(__dirname);
+const projectRoot = import.meta.dirname;
 const htmlBasePath = resolve(projectRoot, 'src/pages');
 
 const embeddedCSS = readFileSync(
-	resolve(__dirname, 'src/styles/embed.css')
+	resolve(projectRoot, 'src/styles/embed.css')
 ).toString();
 
 export default defineConfig({
@@ -81,7 +81,7 @@ export default defineConfig({
 
 	resolve: {
 		alias: {
-			'@': resolve(__dirname, 'src'),
+			'@': resolve(projectRoot, 'src'),
 		},
 	},
 

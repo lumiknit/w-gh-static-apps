@@ -172,8 +172,7 @@ function startCamera() {
 
 // --- Init ---
 async function init() {
-	const rawTR = import.meta.glob('./lang/*.json', { import: 'default' });
-	await i18n.install(i18n.importGlobToTranslationLoader(rawTR, './lang/'));
+	await i18n.install(import.meta.glob('./lang/*.json', { import: 'default' }));
 }
 
 init();

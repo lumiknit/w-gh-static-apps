@@ -3,26 +3,19 @@ let currentMessages: Record<string, any> = {};
 export type TranslationLoader = () => Promise<unknown>;
 export type TranslationLoaderMap = Record<string, TranslationLoader>;
 
-/**
- * Use for import.meta.glob's return.
- */
-export const importGlobToTranslationLoader = (
-	rawImports: Record<string, () => Promise<unknown>>,
-	path: string
-): TranslationLoaderMap => {
-	const o: TranslationLoaderMap = {};
-	for (const [k, v] of Object.entries(rawImports)) {
-		const newKey = k.replace(path, '').replace('.json', '');
-		o[newKey] = v;
-	}
-	return o;
-};
+/** Convert import.meta.glob's JSON file paths into language-keyed loaders. */
+function loadersFromGlob(
+	imports: Record<string, () => Promise<unknown>>
+): TranslationLoaderMap {
+	return Object.fromEntries(
+		Object.entries(imports).map(([path, loader]) => [
+			path.split('/').pop()!.replace(/\.json$/, ''),
+			loader,
+		])
+	);
+}
 
-/**
- * Fetch language file from the specified directory.
- * Tries browser's languages (e.g. ko, en) in order, falling back to 'en'.
- * @param dir Directory path to fetch language JSON files
- */
+/** Load the first available translation for the browser's preferred languages. */
 export async function init(
 	translationSet: TranslationLoaderMap
 ): Promise<void> {
@@ -75,8 +68,10 @@ export function s(key: string): string {
  * Find all DOM elements with `data-i18n` attribute and replace their innerText
  * with the localized string.
  */
-export async function install(langs: TranslationLoaderMap): Promise<void> {
-	await init(langs);
+export async function install(
+	imports: Record<string, () => Promise<unknown>>
+): Promise<void> {
+	await init(loadersFromGlob(imports));
 
 	const elements = document.querySelectorAll<HTMLElement>('[data-i18n]');
 	for (const el of elements) {

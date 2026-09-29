@@ -32,9 +32,6 @@
 	/* Utils */
 	--cb-hs: 89 3%;
 	--cb-l: 32%;
-	--cbc: hsl(var(--cb-hs) var(--cb-l));
-	--cbc-hover: --cb-c: hsl(var(--cb-hs) calc(var(--cb-l) + 10%));
-	--cbc-active: --cb-c: hsl(var(--cb-hs) calc(var(--cb-l) - 10%));
 }
 
 @media (prefers-color-scheme: dark) {
@@ -280,7 +277,7 @@ input[type='file']::file-selector-button {
 }
 
 .text-dim {
-	color: var(--c-dim);
+	color: var(--c-dim-fg);
 }
 
 .text-ok {
@@ -350,6 +347,11 @@ input[type='checkbox'] {
 	display: inline-grid;
 	place-content: center;
 	vertical-align: middle;
+}
+
+input[type='checkbox']:focus-visible {
+	outline: 2px solid var(--c-info);
+	outline-offset: 2px;
 }
 
 /* 체크됐을 때 배경색 변경 */

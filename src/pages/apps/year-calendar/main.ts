@@ -13,7 +13,7 @@ const bgColor = getElemById<HTMLInputElement>('bgColor');
 const fgColor = getElemById<HTMLInputElement>('fgColor');
 const randomColorBtn = getElemById<HTMLButtonElement>('randomColorBtn');
 const fontFamily = getElemById<HTMLInputElement>('fontFamily');
-const yearInput = getElemById<HTMLInputElement>('yearInput');
+const yearInput = getElemById<HTMLSelectElement>('yearInput');
 const yearSize = getElemById<HTMLInputElement>('yearSize');
 const dateSize = getElemById<HTMLInputElement>('dateSize');
 const saveBtn = getElemById<HTMLButtonElement>('saveBtn');
@@ -27,12 +27,10 @@ const randomColor = () => {
 		.padStart(6, '0')}`;
 };
 
-if (randomColorBtn) {
-	randomColorBtn.onclick = () => {
-		randomColor();
-		drawCalendar();
-	};
-}
+randomColorBtn.onclick = () => {
+	randomColor();
+	drawCalendar();
+};
 
 type Preset = { label: string; w: number; h: number };
 const presets: Preset[] = [
@@ -44,7 +42,6 @@ const presets: Preset[] = [
 ];
 
 function populatePresets() {
-	if (!presetSelect) return;
 	presetSelect.innerHTML = '';
 	presets.forEach((p) => {
 		const opt = document.createElement('option');
@@ -52,6 +49,21 @@ function populatePresets() {
 		opt.textContent = p.label;
 		presetSelect.appendChild(opt);
 	});
+}
+
+function populateYears() {
+	const currentYear = new Date().getFullYear();
+	const years = new Set(
+		Array.from({ length: 16 }, (_, index) => 2025 + index)
+	);
+	years.add(currentYear);
+	yearInput.replaceChildren();
+	for (const year of [...years].sort((a, b) => a - b)) {
+		const option = document.createElement('option');
+		option.value = option.textContent = String(year);
+		option.selected = year === currentYear;
+		yearInput.appendChild(option);
+	}
 }
 
 function monthsBySunday(year: number): Record<number, number[]> {
@@ -68,7 +80,6 @@ function monthsBySunday(year: number): Record<number, number[]> {
 }
 
 function setCanvasSizeByInputs() {
-	if (!widthInput || !heightInput) return;
 	const w = parseInt(widthInput.value, 10) || 1920;
 	const h = parseInt(heightInput.value, 10) || 1080;
 	canvas.width = w;
@@ -81,16 +92,16 @@ function drawCalendar() {
 
 	const setFont = (sizePx: number, bold: boolean = false) => {
 		ctx.font = `${bold ? 'bold ' : ''}${sizePx}px '${
-			fontFamily?.value || 'sans-serif'
+			fontFamily.value || 'sans-serif'
 		}'`;
 	};
 
-	ctx.fillStyle = bgColor?.value || '#000';
+	ctx.fillStyle = bgColor.value || '#000';
 	ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-	const fg = fgColor?.value || '#fff';
+	const fg = fgColor.value || '#fff';
 	const cols = 13;
-	const dRatio = parseFloat(dateSize?.value || '') || 0.03;
+	const dRatio = parseFloat(dateSize.value || '') || 0.03;
 	const dsPx = Math.max(8, Math.round(canvas.height * dRatio));
 
 	const cellFontToCellHeight = 3.2;
@@ -113,8 +124,8 @@ function drawCalendar() {
 	ctx.fillStyle = fg;
 
 	const year =
-		parseInt(yearInput?.value || '', 10) || new Date().getFullYear();
-	const yRatio = parseFloat(yearSize?.value || '') || 0.08;
+		parseInt(yearInput.value || '', 10) || new Date().getFullYear();
+	const yRatio = parseFloat(yearSize.value || '') || 0.08;
 	const ySizePx = Math.max(8, Math.round(canvas.height * yRatio));
 	setFont(ySizePx, true);
 	ctx.textAlign = 'center';
@@ -182,52 +193,43 @@ function drawCalendar() {
 	ctx.globalAlpha = 1;
 }
 
-if (widthInput) {
-	widthInput.addEventListener('change', () => {
+widthInput.addEventListener('input', () => {
+	setCanvasSizeByInputs();
+	drawCalendar();
+});
+heightInput.addEventListener('input', () => {
+	setCanvasSizeByInputs();
+	drawCalendar();
+});
+presetSelect.addEventListener('change', () => {
+	try {
+		const p = JSON.parse(presetSelect.value) as Preset;
+		widthInput.value = String(p.w);
+		heightInput.value = String(p.h);
 		setCanvasSizeByInputs();
 		drawCalendar();
-	});
-}
-if (heightInput) {
-	heightInput.addEventListener('change', () => {
-		setCanvasSizeByInputs();
-		drawCalendar();
-	});
-}
-if (presetSelect) {
-	presetSelect.addEventListener('change', () => {
-		try {
-			const p = JSON.parse(presetSelect.value) as Preset;
-			if (widthInput) widthInput.value = String(p.w);
-			if (heightInput) heightInput.value = String(p.h);
-			setCanvasSizeByInputs();
-			drawCalendar();
-		} catch (e) {}
-	});
-}
-
-[bgColor, fgColor, yearInput, yearSize, dateSize, fontFamily].forEach((el) => {
-	if (el) {
-		el.addEventListener('input', drawCalendar);
-		el.addEventListener('change', drawCalendar);
-	}
+	} catch (e) {}
 });
 
-if (saveBtn) {
-	saveBtn.addEventListener('click', () => {
-		const data = canvas.toDataURL('image/png');
-		const a = document.createElement('a');
-		a.href = data;
-		a.download = `calendar-${yearInput?.value || 'calendar'}.png`;
-		document.body.appendChild(a);
-		a.click();
-		a.remove();
-	});
-}
+yearInput.addEventListener('change', drawCalendar);
+[bgColor, fgColor, yearSize, dateSize, fontFamily].forEach((el) => {
+	el.addEventListener('input', drawCalendar);
+});
+
+saveBtn.addEventListener('click', () => {
+	const data = canvas.toDataURL('image/png');
+	const a = document.createElement('a');
+	a.href = data;
+	a.download = `calendar-${yearInput.value || 'calendar'}.png`;
+	document.body.appendChild(a);
+	a.click();
+	a.remove();
+});
 
 // initialization
 async function init() {
 	populatePresets();
+	populateYears();
 	randomColor();
 	setCanvasSizeByInputs();
 	drawCalendar();

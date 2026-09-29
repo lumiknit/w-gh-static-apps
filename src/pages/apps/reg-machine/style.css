@@ -37,6 +37,11 @@
 	width: 100%;
 }
 
+.rule-error {
+	color: #e74c3c;
+	font-size: 0.75rem;
+}
+
 .rule-flags {
 	display: flex;
 	flex-direction: column;

@@ -5,7 +5,7 @@ import '@/styles/btn-delete.css';
 import '@/styles/noti.css';
 import './style.css';
 
-import { getElemById } from '@/lib/fore';
+import { getElemById, parseHash } from '@/lib/fore';
 import * as i18n from '@/lib/i18n';
 import {
 	TYPES,
@@ -43,6 +43,24 @@ const btnClear = getElemById('btn-clear');
 const choicesContainer = getElemById('choices-container');
 const btnAddChoice = getElemById('btn-add-choice');
 const outputTitle = getElemById('output-title');
+const shareLink = getElemById<HTMLInputElement>('share-link');
+const btnCopyLink = getElemById<HTMLButtonElement>('btn-copy-link');
+const shareCopyStatus = getElemById<HTMLElement>('share-copy-status');
+
+function updateShareLink() {
+	const url = new URL(window.location.href);
+	const params = new URLSearchParams();
+	choices
+		.map((choice) => choice.trim())
+		.filter(Boolean)
+		.forEach((choice) => params.append('choice', choice));
+	url.search = '';
+	const query = params.toString();
+	url.hash = query ? `?${query}` : '';
+	shareLink.value = url.toString();
+	shareCopyStatus.textContent = '';
+	shareCopyStatus.hidden = true;
+}
 
 // LLM DOM refs
 const btnLlmGenerate = getElemById<HTMLButtonElement>('btn-llm-generate');
@@ -88,6 +106,7 @@ function renderChoices() {
 				idx,
 				(val) => {
 					choices[idx] = val;
+					updateShareLink();
 					outputTitle.textContent = i18n
 						.s('output.title')
 						.replace(
@@ -100,6 +119,7 @@ function renderChoices() {
 			)
 		);
 	});
+	updateShareLink();
 }
 
 function addInputField(idx?: number) {
@@ -198,6 +218,16 @@ btnClear.addEventListener('click', () => {
 });
 
 btnAddChoice.addEventListener('click', () => addInputField());
+
+btnCopyLink.addEventListener('click', async () => {
+	try {
+		await navigator.clipboard.writeText(shareLink.value);
+		shareCopyStatus.textContent = i18n.s('share.copied');
+	} catch {
+		shareCopyStatus.textContent = i18n.s('share.copy_failed');
+	}
+	shareCopyStatus.hidden = false;
+});
 
 getElemById('btn-go-top').addEventListener('click', (e) => {
 	e.preventDefault();
@@ -299,8 +329,7 @@ function updateLLMOptions(resetConfig: boolean) {
 
 // --- Init ---
 async function init() {
-	const rawTR = import.meta.glob('./lang/*.json', { import: 'default' });
-	await i18n.install(i18n.importGlobToTranslationLoader(rawTR, './lang/'));
+	await i18n.install(import.meta.glob('./lang/*.json', { import: 'default' }));
 
 	const tip2_1 = i18n
 		.s('tips.2_1')
@@ -310,8 +339,10 @@ async function init() {
 
 	btnClear.appendChild(getDelBtnIcon());
 
-	const queryChoices = new URLSearchParams(window.location.search)
-		.getAll('choice')
+	const hashChoices = parseHash().queryParams.getAll('choice');
+	const queryChoices = (hashChoices.length > 0
+		? hashChoices
+		: new URLSearchParams(window.location.search).getAll('choice'))
 		.map((choice) => choice.trim())
 		.filter((choice) => choice.length > 0);
 	if (queryChoices.length > 0) choices = queryChoices;

@@ -36,11 +36,15 @@ export const ingredientRow = (
 	</div>
 );
 
-const amountCell = (
-	name: string,
-	grams: number,
-	extraClass = ''
-): HTMLElement => {
+const AmountCell = ({
+	name,
+	grams,
+	extraClass = '',
+}: {
+	name: string;
+	grams: number;
+	extraClass?: string;
+}): JSX.Element => {
 	const { main, sub } = formatAmountParts(name, grams);
 	return (
 		<td class={`num-cell ${extraClass}`}>
@@ -59,9 +63,17 @@ const calcRow = (
 ): HTMLElement => (
 	<tr class={isBase ? 'base-row' : ''}>
 		<td>{name}</td>
-		{base > 0 ? amountCell(name, base) : <td class="num-cell">-</td>}
+		{base > 0 ? (
+			<AmountCell name={name} grams={base} />
+		) : (
+			<td class="num-cell">-</td>
+		)}
 		{scale !== null ? (
-			amountCell(name, base * scale, 'result-cell')
+			<AmountCell
+				name={name}
+				grams={base * scale}
+				extraClass="result-cell"
+			/>
 		) : (
 			<td class="num-cell result-cell">-</td>
 		)}

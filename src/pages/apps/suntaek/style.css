@@ -77,6 +77,26 @@ li.chosen small {
 	flex: 1;
 }
 
+.share-link {
+	margin-top: 0.75rem;
+}
+
+.share-link-row {
+	display: flex;
+	gap: 0.5rem;
+}
+
+.share-link-row input {
+	min-width: 0;
+	flex: 1;
+	margin: 0;
+}
+
+#share-copy-status:not([hidden]) {
+	display: block;
+	margin-top: 0.25rem;
+}
+
 #toast-container {
 	position: fixed;
 	top: 1rem;

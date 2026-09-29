@@ -14,26 +14,48 @@ declare global {
 		};
 
 		interface Element extends HTMLElement {}
+		type ElementType = keyof IntrinsicElements | ((props: any) => Node);
 	}
 }
 
-const appendChildren = (parent: Node, children: any) => {
+const appendChildren = (
+	parent: Node,
+	children: JSX.Child | JSX.Child[]
+): void => {
+	if (children == null || typeof children === 'boolean') return;
+
 	if (Array.isArray(children)) {
 		for (const c of children) {
 			appendChildren(parent, c);
 		}
-	} else if (children !== undefined) {
-		if (!(children instanceof Node)) {
-			children = document.createTextNode(String(children));
-		}
+	} else if (children instanceof Node) {
 		parent.appendChild(children);
+	} else {
+		parent.appendChild(document.createTextNode(String(children)));
 	}
 };
 
-export const jsx = <K extends keyof HTMLElementTagNameMap>(
+type Component<P = any> = (props: P) => Node;
+type IntrinsicProps<K extends keyof HTMLElementTagNameMap> = Omit<
+	Partial<HTMLElementTagNameMap[K]>,
+	'children' | 'class' | 'className'
+> & {
+	class?: string;
+	children?: JSX.Child | JSX.Child[];
+	[key: `on${string}`]: any;
+};
+
+export function jsx<K extends keyof HTMLElementTagNameMap>(
 	tag: K,
-	props: any
-): HTMLElementTagNameMap[K] => {
+	props: IntrinsicProps<K>
+): HTMLElementTagNameMap[K];
+export function jsx<P>(tag: Component<P>, props: P): Node;
+export function jsx(
+	tag: keyof HTMLElementTagNameMap | Component,
+	props: any = {}
+): Node {
+	if (typeof tag === 'function') return tag(props);
+
 	const el = document.createElement(tag);
 	for (const [key, value] of Object.entries(props)) {
 		if (key === 'children') {
@@ -53,7 +75,7 @@ export const jsx = <K extends keyof HTMLElementTagNameMap>(
 	}
 	appendChildren(el, props.children);
 	return el;
-};
+}
 export const jsxs = jsx;
 
 export const Fragment = (props: { children?: any }): DocumentFragment => {

@@ -17,7 +17,7 @@ export const choiceRow = (
 			class="choice-input w-full"
 			value={choice}
 			data-idx={idx}
-			onchange={(e: Event) =>
+			oninput={(e: Event) =>
 				onChange((e.target as HTMLInputElement).value)
 			}
 			onkeydown={(e: KeyboardEvent) => {

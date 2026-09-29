@@ -5,6 +5,7 @@ import './style.css';
 
 import { RegMachine, type Rule, type StepResult } from './logic';
 import { EXAMPLES } from './examples';
+import { getElemById } from '@/lib/fore';
 
 let machine: RegMachine | null = null;
 let currentStr = '';
@@ -13,24 +14,17 @@ let lastStepTime = 0;
 let animationId = 0;
 
 // DOM
-const inputString = document.getElementById('input-string') as HTMLInputElement;
-const selectExample = document.getElementById(
-	'select-example'
-) as HTMLSelectElement;
-const rulesContainer = document.getElementById(
-	'rules-container'
-) as HTMLDivElement;
-const btnAddRule = document.getElementById('btn-add-rule') as HTMLButtonElement;
-
-const inputDelay = document.getElementById('input-delay') as HTMLInputElement;
-const labelDelay = document.getElementById('label-delay') as HTMLSpanElement;
-
-const btnReset = document.getElementById('btn-reset') as HTMLButtonElement;
-const btnStep = document.getElementById('btn-step') as HTMLButtonElement;
-const btnRun = document.getElementById('btn-run') as HTMLButtonElement;
-const btnStop = document.getElementById('btn-stop') as HTMLButtonElement;
-
-const logContainer = document.getElementById('log-container') as HTMLDivElement;
+const inputString = getElemById<HTMLInputElement>('input-string');
+const selectExample = getElemById<HTMLSelectElement>('select-example');
+const rulesContainer = getElemById<HTMLDivElement>('rules-container');
+const btnAddRule = getElemById<HTMLButtonElement>('btn-add-rule');
+const inputDelay = getElemById<HTMLInputElement>('input-delay');
+const labelDelay = getElemById<HTMLSpanElement>('label-delay');
+const btnReset = getElemById<HTMLButtonElement>('btn-reset');
+const btnStep = getElemById<HTMLButtonElement>('btn-step');
+const btnRun = getElemById<HTMLButtonElement>('btn-run');
+const btnStop = getElemById<HTMLButtonElement>('btn-stop');
+const logContainer = getElemById<HTMLDivElement>('log-container');
 
 // State
 let rules: Rule[] = [];
@@ -76,9 +70,26 @@ function createRuleRow(rule: Rule, index: number) {
 	inputPattern.type = 'text';
 	inputPattern.placeholder = 'Regex pattern (e.g. ^a)';
 	inputPattern.value = rule.pattern;
-	inputPattern.onchange = () => {
+	const patternError = document.createElement('small');
+	patternError.className = 'rule-error';
+	patternError.id = `rule-error-${rule.id}`;
+	patternError.setAttribute('aria-live', 'polite');
+	inputPattern.setAttribute('aria-describedby', patternError.id);
+	const updatePatternError = () => {
 		rule.pattern = inputPattern.value;
+		try {
+			new RegExp(rule.pattern);
+			patternError.textContent = '';
+			patternError.hidden = true;
+			inputPattern.removeAttribute('aria-invalid');
+		} catch (error) {
+			patternError.textContent = `Invalid regex: ${(error as Error).message}`;
+			patternError.hidden = false;
+			inputPattern.setAttribute('aria-invalid', 'true');
+		}
 	};
+	updatePatternError();
+	inputPattern.addEventListener('input', updatePatternError);
 
 	const inputReplacement = document.createElement('input');
 	inputReplacement.type = 'text';
@@ -89,6 +100,7 @@ function createRuleRow(rule: Rule, index: number) {
 	};
 
 	inputsDiv.appendChild(inputPattern);
+	inputsDiv.appendChild(patternError);
 	inputsDiv.appendChild(inputReplacement);
 
 	const flagsDiv = document.createElement('div');
@@ -173,6 +185,7 @@ function resetMachine() {
 
 function stepMachine() {
 	if (!machine) resetMachine();
+	machine!.setRules(rules);
 
 	const res = machine!.step(currentStr);
 	currentStr = res.newStr;
