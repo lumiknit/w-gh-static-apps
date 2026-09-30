@@ -329,7 +329,9 @@ function updateLLMOptions(resetConfig: boolean) {
 
 // --- Init ---
 async function init() {
-	await i18n.install(import.meta.glob('./lang/*.json', { import: 'default' }));
+	await i18n.install(
+		import.meta.glob('./lang/*.json', { import: 'default' })
+	);
 
 	const tip2_1 = i18n
 		.s('tips.2_1')
@@ -340,9 +342,11 @@ async function init() {
 	btnClear.appendChild(getDelBtnIcon());
 
 	const hashChoices = parseHash().queryParams.getAll('choice');
-	const queryChoices = (hashChoices.length > 0
-		? hashChoices
-		: new URLSearchParams(window.location.search).getAll('choice'))
+	const queryChoices = (
+		hashChoices.length > 0
+			? hashChoices
+			: new URLSearchParams(window.location.search).getAll('choice')
+	)
 		.map((choice) => choice.trim())
 		.filter((choice) => choice.length > 0);
 	if (queryChoices.length > 0) choices = queryChoices;

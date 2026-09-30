@@ -1,0 +1,65 @@
+.tune {
+	display: flex;
+	flex-direction: column;
+	gap: 0.75rem;
+	height: calc(100dvh - 4rem);
+	padding-bottom: 1rem;
+	box-sizing: border-box;
+}
+.tune-head {
+	display: flex;
+	justify-content: space-between;
+	align-items: end;
+}
+.tune-note {
+	/* Fixed columns so the readout doesn't jitter as glyph widths change. */
+	display: grid;
+	grid-template-columns: 2.4em 3.4em;
+	gap: 0.3em;
+	font-size: 2.5rem;
+	font-weight: bold;
+	font-variant-numeric: tabular-nums;
+	line-height: 1.1;
+	white-space: nowrap;
+}
+.tune-note > span {
+	text-align: right;
+}
+#cents {
+	font-size: 0.6em;
+	align-self: end;
+	padding-bottom: 0.2em;
+}
+.tune-freq {
+	width: 6.3rem;
+	text-align: right;
+	font-variant-numeric: tabular-nums;
+}
+.tune-sub {
+	font-size: 0.85rem;
+	opacity: 0.6;
+}
+.tune-range {
+	text-align: right;
+}
+.tune-vol {
+	height: 6px;
+	border-radius: 3px;
+	background: #8883;
+	overflow: hidden;
+}
+.tune-vol > div {
+	height: 100%;
+	width: 0;
+	background: #22c55e;
+}
+#graph {
+	flex: 1;
+	min-height: 0;
+	width: 100%;
+	border-radius: 6px;
+	background: #8881;
+}
+#player {
+	width: 100%;
+}

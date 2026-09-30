@@ -4,6 +4,7 @@
     "jsr:@deno/installer-shell-setup@*": "0.3.4",
     "npm:@types/node@^26.6.3": "26.6.3",
     "npm:@types/qrcode-svg@^1.1.5": "1.1.5",
+    "npm:dompurify@^3.4.16": "3.4.16",
     "npm:fast-glob@^3.3.3": "3.3.3",
     "npm:prettier@^3.9.9": "3.9.9",
     "npm:qr-scanner@^1.4.2": "1.4.2",
@@ -11,9 +12,9 @@
     "npm:qrcode@^1.5.4": "1.5.4",
     "npm:snarkdown@2": "2.0.0",
     "npm:typescript@~7.0.2": "7.0.2",
-    "npm:vite-plugin-html@^3.2.2": "3.2.2_vite@8.3.1__@types+node@26.6.3_@types+node@26.6.3",
+    "npm:vite-plugin-html@^3.2.2": "3.2.2_vite@8.3.1_@types+node@26.6.3",
     "npm:vite@^8.3.1": "8.3.1_@types+node@26.6.3",
-    "npm:vitest@^5.0.2": "5.0.2_@types+node@26.6.3_vite@8.3.1__@types+node@26.6.3"
+    "npm:vitest@^5.0.2": "5.0.2_@types+node@26.6.3_vite@8.3.1"
   },
   "jsr": {
     "@deno/installer-shell-setup@0.3.4": {
@@ -178,6 +179,9 @@
     "@types/qrcode-svg@1.1.5": {
       "integrity": "sha512-GjkD+HB8S1wrIsf3skHDtcYBjzNhTxocMbX+wG166xDkaVOnLiMUla7bLjbwxo6mMvqqWQNP0Dk8nkIeizSmnw=="
     },
+    "@types/trusted-types@2.0.7": {
+      "integrity": "sha512-ScaPdn1dQczgbl0QFTeTOmVHFULt394XJgOQNoyVhZ6r2vLnMLJfBPd53SB52T/3G36VI1/g2MZaX0cwDuXsfw=="
+    },
     "@typescript/typescript-aix-ppc64@7.0.2": {
       "integrity": "sha512-MTKKkWB7p/0E9xi1d1tHtZ5PiLkGEMIq88pK2CubZjOsLtYTLqhgIgi6zepFa+9GHZ6h05NMCkQxGKiPXMxXtQ==",
       "os": ["aix"],
@@ -278,7 +282,7 @@
       "os": ["win32"],
       "cpu": ["x64"]
     },
-    "@vitest/mocker@5.0.2_vite@8.3.1__@types+node@26.6.3_@types+node@26.6.3": {
+    "@vitest/mocker@5.0.2_vite@8.3.1_@types+node@26.6.3": {
       "integrity": "sha512-Z5FS00Q1SJHkB35xATsmWGdQ5WA1/0MV3CDjqyv7GavHv1OfOj145MNfHOlHk7QLes21dKFDHr8EO2zvL+9WGA==",
       "dependencies": [
         "@jridgewell/trace-mapping",
@@ -422,6 +426,12 @@
       "integrity": "sha512-GrwoxYN+uWlzO8uhUXRl0P+kHE4GtVPfYzVLcUxPL7KNdHKj66vvlhiweIHqYYXWlw+T8iLMp42Lm67ghw4WMQ==",
       "dependencies": [
         "domelementtype"
+      ]
+    },
+    "dompurify@3.4.16": {
+      "integrity": "sha512-sqo+pNp3qRhCIpbgRi1y8Tgk27Bo2Ry7w0dC1NBeNTdZChWjz9Xb/KOoZbRP/R6pQZ80Qw8YhXw13hWWBbMRnQ==",
+      "optionalDependencies": [
+        "@types/trusted-types"
       ]
     },
     "domutils@2.8.0": {
@@ -951,7 +961,7 @@
     "universalify@2.0.1": {
       "integrity": "sha512-gptHNQghINnc/vTGIk0SOFGFNXw7JVrlRUtConJRlvaw6DuX0wO5Jeko9sWrMBhh+PsYAZ7oXAiOnf/UKogyiw=="
     },
-    "vite-plugin-html@3.2.2_vite@8.3.1__@types+node@26.6.3_@types+node@26.6.3": {
+    "vite-plugin-html@3.2.2_vite@8.3.1_@types+node@26.6.3": {
       "integrity": "sha512-vb9C9kcdzcIo/Oc3CLZVS03dL5pDlOFuhGlZYDCJ840BhWl/0nGeZWf3Qy7NlOayscY4Cm/QRgULCQkEZige5Q==",
       "dependencies": [
         "@rollup/pluginutils",
@@ -987,7 +997,7 @@
       ],
       "bin": true
     },
-    "vitest@5.0.2_@types+node@26.6.3_vite@8.3.1__@types+node@26.6.3": {
+    "vitest@5.0.2_@types+node@26.6.3_vite@8.3.1": {
       "integrity": "sha512-7MQrx9pDv5aHiUcovIb/70Ys3tgtkUVgCtledvKdCmEO+/1Dicq5ZqoSxOW034m03oqC+oHOKui2dM6qtMLoJg==",
       "dependencies": [
         "@types/chai",
@@ -1058,6 +1068,7 @@
       "dependencies": [
         "npm:@types/node@^26.6.3",
         "npm:@types/qrcode-svg@^1.1.5",
+        "npm:dompurify@^3.4.16",
         "npm:fast-glob@^3.3.3",
         "npm:prettier@^3.9.9",
         "npm:qr-scanner@^1.4.2",

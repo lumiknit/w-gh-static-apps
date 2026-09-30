@@ -1,0 +1,54 @@
+<!doctype html>
+<html>
+	<head bare>
+		<title>Show Edit</title>
+		<style>
+			:root {
+				color-scheme: light dark;
+				font-family: system-ui, sans-serif;
+			}
+			body {
+				margin: 0;
+				display: flex;
+				flex-direction: column;
+				height: 100dvh;
+			}
+			nav {
+				position: sticky;
+				top: 0;
+				display: flex;
+				gap: 0.5rem;
+				align-items: center;
+				padding: 0.5rem;
+				border-bottom: 1px solid #8884;
+			}
+			nav input {
+				flex: 1;
+				min-width: 0;
+			}
+			textarea {
+				flex: 1;
+				border: none;
+				outline: none;
+				padding: 1rem;
+				resize: none;
+				font:
+					0.95rem/1.5 ui-monospace,
+					monospace;
+			}
+		</style>
+	</head>
+	<body>
+		<nav>
+			<button id="btn">Make Link</button>
+			<input id="link" readonly placeholder="Link appears here" />
+			<a id="open" target="_blank" hidden>Open</a>
+		</nav>
+		<textarea
+			id="src"
+			placeholder="# Markdown, $math$, ```mermaid"
+			autofocus
+		></textarea>
+		<script type="module" src="./main.ts"></script>
+	</body>
+</html>

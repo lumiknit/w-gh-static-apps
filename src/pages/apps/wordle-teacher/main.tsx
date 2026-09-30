@@ -5,7 +5,7 @@ import '@/styles/noti.css';
 import './style.css';
 import { getElemById } from '@/lib/fore';
 
-import wordListRaw from './words.txt?raw';
+const { default: wordListRaw } = await import('./words.txt?raw');
 
 const textareaList = getElemById<HTMLTextAreaElement>('ta-list');
 const inputAnswer = getElemById<HTMLInputElement>('in-answer');

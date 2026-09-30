@@ -147,7 +147,9 @@ baseAmountInput.addEventListener('input', renderCalcTable);
 // --- Init ---
 
 async function init() {
-	await i18n.install(import.meta.glob('./lang/*.json', { import: 'default' }));
+	await i18n.install(
+		import.meta.glob('./lang/*.json', { import: 'default' })
+	);
 
 	renderRecipeSelect();
 	selectRecipe(-1);

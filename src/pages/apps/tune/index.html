@@ -1,0 +1,40 @@
+<!doctype html>
+<html>
+	<head no-icon>
+		<meta name="apple-mobile-web-app-title" content="lumiknit" />
+		<title>Tune</title>
+		<link rel="stylesheet" href="./style.css" />
+	</head>
+	<body>
+		<nav class="navbar">
+			<main class="navbar-content">
+				<div>
+					<a class="brand" href="#">Tune</a>
+				</div>
+				<div>
+					<a href="/apps">Apps</a>
+				</div>
+			</main>
+		</nav>
+		<main class="container tune">
+			<div class="tune-head">
+				<div>
+					<div class="tune-note">
+						<span id="note">-</span>
+						<span id="cents"></span>
+					</div>
+					<div id="freq" class="tune-sub tune-freq">A4 = 440 Hz</div>
+				</div>
+				<div class="tune-range">
+					<div class="tune-sub">Range</div>
+					<div id="range">-</div>
+				</div>
+			</div>
+			<div class="tune-vol"><div id="vol"></div></div>
+			<canvas id="graph"></canvas>
+			<button id="btn-rec" class="w-full">Record</button>
+			<audio id="player" controls hidden></audio>
+		</main>
+		<script type="module" src="./main.ts"></script>
+	</body>
+</html>

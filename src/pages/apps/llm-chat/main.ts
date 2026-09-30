@@ -4,10 +4,15 @@ import '@/styles/navbar.css';
 import './style.css';
 
 import { getElemById } from '@/lib/fore';
+import { escapeHTML } from '@/lib/util';
+import DOMPurify from 'dompurify';
 import snarkdown from 'snarkdown';
 import { performBraveSearch } from './search';
 import { streamChatCompletion, fetchAvailableModels } from './chat';
 import type { Message, ToolDefinition, ChatConfig } from './chat';
+
+const renderMarkdown = (md: string): string =>
+	DOMPurify.sanitize(snarkdown(md));
 
 // Storage keys
 const ACTIVE_CONFIG_KEY = '--llm-chat-active-config';
@@ -202,7 +207,7 @@ function appendMessageDOM(
 
 	const contentDiv = document.createElement('div');
 	contentDiv.className = 'msg-content';
-	contentDiv.innerHTML = snarkdown(content);
+	contentDiv.innerHTML = renderMarkdown(content);
 	msgDiv.appendChild(contentDiv);
 
 	chatMessages.appendChild(msgDiv);
@@ -247,14 +252,15 @@ async function runChatLoop() {
 						assistantContentDOM.textContent = '';
 					}
 					streamedText += chunk;
-					assistantContentDOM.innerHTML = snarkdown(streamedText);
+					assistantContentDOM.innerHTML =
+						renderMarkdown(streamedText);
 					window.scrollTo(0, document.body.scrollHeight);
 				},
 				(toolCalls) => {
 					const names = toolCalls
 						.map((tc) => tc.function.name)
 						.join(', ');
-					assistantContentDOM.innerHTML = `<em>Calling tools: [${names}]...</em>`;
+					assistantContentDOM.innerHTML = `<em>Calling tools: [${escapeHTML(names)}]...</em>`;
 				}
 			);
 
@@ -267,7 +273,7 @@ async function runChatLoop() {
 				messageHistory.push(assistantMsg);
 
 				if (streamResult.text) {
-					assistantContentDOM.innerHTML = snarkdown(
+					assistantContentDOM.innerHTML = renderMarkdown(
 						streamResult.text
 					);
 				} else {

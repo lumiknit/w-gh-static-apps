@@ -6,6 +6,7 @@ import './style.css';
 import { RegMachine, type Rule, type StepResult } from './logic';
 import { EXAMPLES } from './examples';
 import { getElemById } from '@/lib/fore';
+import { escapeHTML } from '@/lib/util';
 
 let machine: RegMachine | null = null;
 let currentStr = '';
@@ -179,7 +180,7 @@ function resetMachine() {
 
 	const div = document.createElement('div');
 	div.className = 'log-item';
-	div.innerHTML = `<div class="log-rule">Initial</div><div class="log-str">${currentStr}</div>`;
+	div.innerHTML = `<div class="log-rule">Initial</div><div class="log-str">${escapeHTML(currentStr)}</div>`;
 	logContainer.prepend(div);
 }
 

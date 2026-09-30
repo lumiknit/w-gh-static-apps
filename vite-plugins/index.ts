@@ -59,6 +59,11 @@ export const embedCommonHTMLHead = (): PluginOption => {
 				'<head no-icon>',
 				`<head>${commonHead}`
 			);
+			// Bare pages: common meta only, no icons and no embedded CSS.
+			replaced = replaced.replace(
+				'<head bare>',
+				`<head data-bare>${commonHead}`
+			);
 			return replaced;
 		},
 	};

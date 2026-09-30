@@ -9,7 +9,10 @@ function loadersFromGlob(
 ): TranslationLoaderMap {
 	return Object.fromEntries(
 		Object.entries(imports).map(([path, loader]) => [
-			path.split('/').pop()!.replace(/\.json$/, ''),
+			path
+				.split('/')
+				.pop()!
+				.replace(/\.json$/, ''),
 			loader,
 		])
 	);
