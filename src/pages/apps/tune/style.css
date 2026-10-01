@@ -42,18 +42,15 @@
 .tune-range {
 	text-align: right;
 }
-.tune-tempo {
-	text-align: center;
+.tune-nav-controls {
+	align-items: center;
+	gap: 0.25rem !important;
 	font-variant-numeric: tabular-nums;
 }
-.tune-tempo-row {
-	display: flex;
-	align-items: center;
-	gap: 0.35rem;
-	white-space: nowrap;
-}
-.tune-tempo-row button {
+
+.tune-nav-controls button {
 	padding: 0.25rem 0.6rem;
+	white-space: nowrap;
 }
 .tune-vol {
 	height: 6px;
