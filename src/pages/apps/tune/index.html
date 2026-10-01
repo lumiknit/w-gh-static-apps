@@ -29,10 +29,41 @@
 					<div class="tune-sub">Range</div>
 					<div id="range">-</div>
 				</div>
+				<div class="tune-tempo">
+					<div class="tune-sub">Tempo</div>
+					<div class="tune-tempo-row">
+						<span id="bpm">— BPM</span
+						><button id="btn-tap" type="button">Tap</button>
+					</div>
+				</div>
+				<button id="btn-settings" type="button" aria-haspopup="dialog">
+					Option
+				</button>
 			</div>
 			<div class="tune-vol"><div id="vol"></div></div>
-			<canvas id="graph"></canvas>
+			<div class="tune-graph">
+				<canvas id="graph-range"></canvas>
+				<canvas id="graph"></canvas>
+			</div>
 			<button id="btn-rec" class="w-full">Record</button>
+			<dialog id="settings-dialog" class="tune-dialog">
+				<form method="dialog" class="tune-dialog-content">
+					<div class="tune-dialog-head">
+						<strong>Display options</strong>
+						<button type="submit" aria-label="Close">×</button>
+					</div>
+					<label class="tune-setting" for="display-mode"
+						>Graph style
+						<select id="display-mode">
+							<option value="candles">Candles</option>
+							<option value="dots">Dots</option>
+						</select>
+					</label>
+					<button id="btn-demo" type="button" class="w-full">
+						Test without mic
+					</button>
+				</form>
+			</dialog>
 			<audio id="player" controls hidden></audio>
 		</main>
 		<script type="module" src="./main.ts"></script>
