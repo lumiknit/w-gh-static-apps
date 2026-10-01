@@ -228,6 +228,9 @@ input[type='file']::file-selector-button,
 
 	cursor: pointer;
 	user-select: none;
+	-webkit-user-select: none;
+	touch-action: manipulation;
+	-webkit-tap-highlight-color: transparent;
 	-webkit-user-drag: none;
 
 	text-decoration: none;

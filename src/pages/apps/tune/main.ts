@@ -190,8 +190,8 @@ const drawBeatGrid = (
 	ctx2d.restore();
 };
 
-const tapTempo = () => {
-	const now = performance.now() / 1000;
+const tapTempo = (timestamp = performance.now()) => {
+	const now = timestamp / 1000;
 	if (lastTapTime !== null) {
 		const interval = now - lastTapTime;
 		if (interval >= 0.25 && interval <= 2.5) {
@@ -469,7 +469,13 @@ btn.onclick = () => {
 
 demoBtn.onclick = () => (demoActive ? stopDemo() : startDemo());
 settingsBtn.onclick = () => settingsDialog.showModal();
-tapBtn.onclick = tapTempo;
+tapBtn.addEventListener('pointerdown', (event) => {
+	if (event.isPrimary && event.button === 0) tapTempo(event.timeStamp);
+});
+tapBtn.addEventListener('click', (event) => {
+	// Keep keyboard and assistive-technology activation; pointer input is handled on pointerdown.
+	if (event.detail === 0) tapTempo(event.timeStamp);
+});
 
 addEventListener('resize', resize);
 displayMode.addEventListener('change', () => draw(performance.now() / 1000));
