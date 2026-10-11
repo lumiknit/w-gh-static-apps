@@ -1,13 +1,12 @@
-import { readFileSync } from 'fs';
-import { resolve } from 'path';
+import { readFileSync } from 'node:fs';
+import { globSync } from 'node:fs';
+import { resolve } from 'node:path';
 
 const pkg = JSON.parse(
 	readFileSync(resolve(import.meta.dirname, 'package.json'), 'utf-8')
 ) as { version: string };
 
 import { defineConfig } from 'vite';
-import { createHtmlPlugin } from 'vite-plugin-html';
-import glob from 'fast-glob';
 
 import { embedCommonHTMLHead, embedCSS } from './vite-plugins/index.ts';
 
@@ -30,8 +29,7 @@ export default defineConfig({
 		rolldownOptions: {
 			input: {
 				...Object.fromEntries(
-					glob
-						.sync('**/*.html', { cwd: htmlBasePath })
+					globSync('**/*.html', { cwd: htmlBasePath })
 						.map((file) => {
 							return [
 								file.replace('.html', ''),
@@ -96,6 +94,5 @@ export default defineConfig({
 	plugins: [
 		embedCommonHTMLHead(),
 		embedCSS(embeddedCSS),
-		createHtmlPlugin({ minify: true }),
 	],
 });

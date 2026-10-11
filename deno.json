@@ -1,6 +1,0 @@
-{
-	"imports": {
-		"path": "node:path",
-		"fs": "node:fs"
-	}
-}
