@@ -5,6 +5,7 @@ import './style.css';
 
 const editor = document.querySelector<HTMLTextAreaElement>('#source')!;
 const actions = document.querySelector<HTMLSelectElement>('#tool-action')!;
+const sourceStats = document.querySelector<HTMLElement>('#source-stats')!;
 const fileInput = document.querySelector<HTMLInputElement>('#file-input')!;
 const status = document.querySelector<HTMLElement>('#status')!;
 const runDialog = document.querySelector<HTMLDialogElement>('#run-dialog')!;
@@ -14,6 +15,17 @@ const runState = document.querySelector<HTMLElement>('#run-state')!;
 let savedSource = editor.value;
 let statusTimer = 0;
 
+function updateSourceStats() {
+	const bytes = new TextEncoder().encode(editor.value).byteLength;
+	const lines = editor.value.length
+		? editor.value.split(/\r\n|\r|\n/).length
+		: 0;
+	const size =
+		bytes < 1024 ? `${bytes} B` : `${(bytes / 1024).toFixed(1)} KB`;
+	sourceStats.textContent = `${size} · ${lines} lines`;
+	sourceStats.title = `${bytes} bytes, ${lines} lines`;
+}
+
 function announce(message: string) {
 	status.textContent = message;
 	window.clearTimeout(statusTimer);
@@ -22,6 +34,7 @@ function announce(message: string) {
 
 function setSource(source: string) {
 	editor.value = source;
+	updateSourceStats();
 	editor.focus();
 	editor.setSelectionRange(source.length, source.length);
 }
@@ -173,6 +186,8 @@ async function runAction(action: string) {
 }
 
 actions.addEventListener('change', () => void runAction(actions.value));
+editor.addEventListener('change', updateSourceStats);
+updateSourceStats();
 
 fileInput.addEventListener('change', async () => {
 	const file = fileInput.files?.[0];
