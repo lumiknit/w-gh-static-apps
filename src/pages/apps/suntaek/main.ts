@@ -34,7 +34,7 @@ let llmConfig: LLMConfig;
 const toastContainer = getElemById('toast-container');
 const sectionResult = getElemById('section-result');
 const resultList = getElemById('result-list');
-const btnChoose = getElemById('btn-choose');
+const btnChoose = getElemById<HTMLButtonElement>('btn-choose');
 const chooseReady = getElemById<HTMLElement>('choose-ready');
 const chooseLoading = getElemById<HTMLElement>('choose-loading');
 const resultTime = getElemById<HTMLTimeElement>('result-time');
