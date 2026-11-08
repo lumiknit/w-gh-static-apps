@@ -28,19 +28,6 @@
 			<main class="navbar-content">
 				<div>
 					<a class="brand" href="#" data-i18n="title.main">Suntaek</a>
-				</div>
-				<div>
-					<a href="/apps" data-i18n="nav_apps">Apps</a>
-				</div>
-			</main>
-		</nav>
-		<main class="container main-wrap">
-			<header>
-				<hgroup>
-					<div>
-						<h1 data-i18n="title.main">Suntaek</h1>
-						<p data-i18n="title.sub">Random Choice Utility</p>
-					</div>
 					<div class="github">
 						<a
 							href="https://github.com/lumiknit/suntaek"
@@ -59,9 +46,14 @@
 							</svg>
 						</a>
 					</div>
-				</hgroup>
-			</header>
-
+				</div>
+				<div>
+					<a href="/apps" data-i18n="nav_apps">Apps</a>
+				</div>
+			</main>
+		</nav>
+		
+		<main class="container main-wrap">
 			<div id="toast-container"></div>
 
 			<!-- Result Section -->
@@ -69,23 +61,6 @@
 				<h4 data-i18n="result.title">Result</h4>
 				<ul id="result-list" class="list-reset"></ul>
 			</div>
-
-			<!-- Options Setup -->
-			<details>
-				<summary class="outline" data-i18n="options.title">
-					Options
-				</summary>
-				<label class="opt-label">
-					<input type="checkbox" id="opt-allow-duplicates" checked />
-					<span data-i18n="options.label.allow_duplicates"
-						>Allow Duplicates</span
-					>
-				</label>
-				<h6 data-i18n="options.label.count" class="opt-subtitle">
-					Count
-				</h6>
-				<input type="number" min="1" id="opt-count" value="1" />
-			</details>
 
 			<hr />
 
@@ -119,6 +94,24 @@
 				</div>
 				<small id="share-copy-status" aria-live="polite" hidden></small>
 			</div>
+
+			<!-- Options Setup -->
+			<details>
+				<summary class="outline" data-i18n="options.title">
+					Options
+				</summary>
+				<label class="opt-label">
+					<input type="checkbox" id="opt-allow-duplicates" checked />
+					<span data-i18n="options.label.allow_duplicates"
+						>Allow Duplicates</span
+					>
+				</label>
+				<h6 data-i18n="options.label.count" class="opt-subtitle">
+					Count
+				</h6>
+				<input type="number" min="1" id="opt-count" value="1" />
+			</details>
+
 
 			<!-- LLM Generate -->
 			<details>
@@ -188,7 +181,8 @@
 				</div>
 			</details>
 
-			<h4 data-i18n="tips.title">Tips</h4>
+			<details>
+			<summary data-i18n="tips.title">Tips</summary>
 			<ul>
 				<li>
 					<span data-i18n="tips.2">It supports dice notations!</span>
@@ -205,6 +199,7 @@
 					</ul>
 				</li>
 			</ul>
+			</details>
 
 			<a href="#" id="btn-go-top" data-i18n="clickable.label.go_to_top"
 				>Go to Top</a
