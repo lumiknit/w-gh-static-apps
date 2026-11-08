@@ -1,86 +1,45 @@
-export const TYPES = ['gemini', 'gpt'];
+import { completeChat, PROVIDERS, PROVIDER_IDS } from '@/lib/llm';
+import type { Provider } from '@/lib/llm';
 
-export const LLM_INFO: Record<string, any> = {
-	gemini: {
-		models: [
-			'gemini-2.0-flash-lite',
-			'gemini-2.0-flash',
-			'gemini-1.5-flash',
-			'gemini-1.5-pro',
-			'gemini-1.0-pro',
-		],
-		apiKeyURL: 'https://aistudio.google.com/app/apikey',
-		defaultBaseURL: 'https://generativelanguage.googleapis.com',
-		run: async (config: any, systemPrompt: string, userPrompt: string) => {
-			const textPart = (role: string, text: string) => ({
-				role,
-				parts: [{ text }],
-			});
-			const prompt = systemPrompt + '\n\nUser:\n' + userPrompt;
-
-			const baseURL =
-				config.baseURL || 'https://generativelanguage.googleapis.com';
-			const url = `${baseURL}/v1beta/models/${config.model}:generateContent?key=${config.apiKey}`;
-			const resp = await fetch(url, {
-				method: 'POST',
-				headers: {
-					'Content-Type': 'application/json',
-				},
-				body: JSON.stringify({
-					contents: [textPart('user', prompt)],
-				}),
-			});
-			if (!resp.ok) {
-				throw new Error('Failed to request: ' + (await resp.text()));
-			}
-			const data = await resp.json();
-			return data.candidates[0].content.parts[0].text;
+export const TYPES = PROVIDER_IDS;
+export const LLM_INFO: Record<
+	string,
+	{ models: string[]; apiKeyURL: string; defaultBaseURL: string }
+> = Object.fromEntries(
+	TYPES.map((type) => [
+		type,
+		{
+			models: PROVIDERS[type].models.map((model) => model.id),
+			apiKeyURL: PROVIDERS[type].apiKeyURL,
+			defaultBaseURL: PROVIDERS[type].baseURL,
 		},
-	},
-	gpt: {
-		models: ['gpt-4o-mini', 'gpt-4o', 'gpt-3.5-turbo', 'gpt-4'],
-		apiKeyURL: 'https://platform.openai.com/api-keys',
-		defaultBaseURL: 'https://api.openai.com',
-		run: async (config: any, systemPrompt: string, userPrompt: string) => {
-			const baseURL = config.baseURL || 'https://api.openai.com';
-			const resp = await fetch(`${baseURL}/v1/chat/completions`, {
-				method: 'POST',
-				headers: {
-					'Content-Type': 'application/json',
-					Authorization: `Bearer ${config.apiKey}`,
-				},
-				body: JSON.stringify({
-					model: config.model,
-					messages: [
-						{ role: 'system', content: systemPrompt },
-						{ role: 'user', content: userPrompt },
-					],
-				}),
-			});
-			if (!resp.ok) {
-				throw new Error('Failed to request: ' + (await resp.text()));
-			}
-			const data = await resp.json();
-			return data.choices[0].message.content;
-		},
-	},
-};
+	])
+);
 
 export const runLLM = async (
 	config: any,
 	systemPrompt: string,
 	userPrompt: string
 ) => {
-	const info = LLM_INFO[config.type];
-	if (!info) throw new Error('Invalid LLM type');
-	return info.run(config, systemPrompt, userPrompt);
+	return completeChat(
+		{
+			provider: config.type as Provider,
+			apiKey: config.apiKey,
+			model: config.model,
+			baseURL: config.baseURL,
+		},
+		[
+			{ role: 'system', content: systemPrompt },
+			{ role: 'user', content: userPrompt },
+		]
+	);
 };
 
 const llmConfigStorageKey = '--llm-config';
 
 const defaultLLMConfig = () => ({
 	type: 'gemini',
-	model: 'gemini-1.5-flash',
+	model: 'gemini-3.8-flash',
 	apiKey: '',
 	baseURL: '',
 });
@@ -95,6 +54,11 @@ export const loadLLMConfig = (): any => {
 	if (storedConfig) {
 		try {
 			Object.assign(config, JSON.parse(storedConfig));
+			if (config.type === 'gpt') config.type = 'openai';
+			const provider = LLM_INFO[config.type];
+			if (provider && !provider.models.includes(config.model)) {
+				config.model = provider.models[0];
+			}
 		} catch (e) {
 			console.error('Failed to parse LLM config from local storage', e);
 			saveLLMConfig(config);

@@ -8,8 +8,8 @@ import { escapeHTML } from '@/lib/util';
 import DOMPurify from 'dompurify';
 import snarkdown from 'snarkdown';
 import { performBraveSearch } from './search';
-import { streamChatCompletion, fetchAvailableModels } from './chat';
-import type { Message, ToolDefinition, ChatConfig } from './chat';
+import { streamChatCompletion, fetchAvailableModels } from '@/lib/llm';
+import type { Message, ToolDefinition, ChatConfig } from '@/lib/llm';
 
 const renderMarkdown = (md: string): string =>
 	DOMPurify.sanitize(snarkdown(md));
@@ -28,7 +28,7 @@ interface AppConfig extends ChatConfig {
 const defaultConfig = (): AppConfig => ({
 	endpoint: 'https://api.openai.com',
 	apiKey: '',
-	model: 'gpt-4o-mini',
+	model: 'gpt-6-luna',
 	braveKey: '',
 	searchEnabled: false,
 });
@@ -353,9 +353,9 @@ providerPresetSelect.addEventListener('change', () => {
 	if (val) {
 		inputEndpoint.value = val;
 		if (val.includes('googleapis.com')) {
-			inputModel.value = 'gemini-1.5-flash';
+			inputModel.value = 'gemini-3.8-flash';
 		} else if (val.includes('openai.com')) {
-			inputModel.value = 'gpt-4o-mini';
+			inputModel.value = 'gpt-6-luna';
 		} else if (val.includes('openrouter.ai')) {
 			inputModel.value = 'google/gemini-2.0-flash-lite:free';
 		} else if (val.includes('groq.com')) {

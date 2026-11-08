@@ -29,13 +29,12 @@ export default defineConfig({
 		rolldownOptions: {
 			input: {
 				...Object.fromEntries(
-					globSync('**/*.html', { cwd: htmlBasePath })
-						.map((file) => {
-							return [
-								file.replace('.html', ''),
-								resolve(htmlBasePath, file),
-							];
-						})
+					globSync('**/*.html', { cwd: htmlBasePath }).map((file) => {
+						return [
+							file.replace('.html', ''),
+							resolve(htmlBasePath, file),
+						];
+					})
 				),
 				sw: resolve(projectRoot, 'src/lib/service-worker/worker.ts'),
 			},
@@ -91,8 +90,5 @@ export default defineConfig({
 		},
 	},
 
-	plugins: [
-		embedCommonHTMLHead(),
-		embedCSS(embeddedCSS),
-	],
+	plugins: [embedCommonHTMLHead(), embedCSS(embeddedCSS)],
 });
