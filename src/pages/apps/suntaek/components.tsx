@@ -17,7 +17,7 @@ export const choiceRow = (
 			class="choice-input w-full"
 			value={choice}
 			data-idx={idx}
-			oninput={(e: Event) =>
+			onchange={(e: Event) =>
 				onChange((e.target as HTMLInputElement).value)
 			}
 			onkeydown={(e: KeyboardEvent) => {
@@ -31,12 +31,12 @@ export const choiceRow = (
 );
 
 export const resultRow = (
-	origIdx: number,
 	result: string,
+	resultIdx: number,
 	notes: string
 ): HTMLElement => (
 	<li class="chosen">
-		<div class="index">#{1 + origIdx}</div>
+		<span class="index">#{1 + resultIdx}</span>
 		<b>{result}</b>
 		{notes ? <small>({notes})</small> : undefined}
 	</li>

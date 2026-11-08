@@ -26,9 +26,9 @@
 	},
 	"share": {
 		"label": "Share link",
-		"copy": "Copy",
-		"copied": "Link copied!",
-		"copy_failed": "Could not copy. Select the link and copy it manually."
+		"copy": "Copy URL",
+		"copied": "URL copied!",
+		"copy_failed": "Could not copy the URL. Copy it from the address bar."
 	},
 	"tips": {
 		"title": "Tips",

@@ -33,13 +33,10 @@ li.chosen {
 	list-style: none;
 }
 
-li.chosen div.index {
-	position: absolute;
-	top: 0.5rem;
-	right: 1rem;
-	z-index: -1;
-	font-size: 1rem;
-	color: #8888;
+li.chosen .index {
+	margin-right: 0.5rem;
+	font-size: 0.85em;
+	color: #888b;
 }
 
 li.chosen small {
@@ -79,17 +76,6 @@ li.chosen small {
 
 .share-link {
 	margin-top: 0.75rem;
-}
-
-.share-link-row {
-	display: flex;
-	gap: 0.5rem;
-}
-
-.share-link-row input {
-	min-width: 0;
-	flex: 1;
-	margin: 0;
 }
 
 #share-copy-status:not([hidden]) {

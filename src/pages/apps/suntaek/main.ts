@@ -43,7 +43,6 @@ const btnClear = getElemById('btn-clear');
 const choicesContainer = getElemById('choices-container');
 const btnAddChoice = getElemById('btn-add-choice');
 const outputTitle = getElemById('output-title');
-const shareLink = getElemById<HTMLInputElement>('share-link');
 const btnCopyLink = getElemById<HTMLButtonElement>('btn-copy-link');
 const shareCopyStatus = getElemById<HTMLElement>('share-copy-status');
 
@@ -57,7 +56,7 @@ function updateShareLink() {
 	url.search = '';
 	const query = params.toString();
 	url.hash = query ? `?${query}` : '';
-	shareLink.value = url.toString();
+	window.history.replaceState(window.history.state, '', url.toString());
 	shareCopyStatus.textContent = '';
 	shareCopyStatus.hidden = true;
 }
@@ -149,8 +148,8 @@ function handleDeleteButtonClick(idx: number) {
 
 btnChoose.addEventListener('click', () => {
 	const nonEmptyChoices = choices
-		.map((choice, idx) => ({ text: choice.trim(), origIdx: idx }))
-		.filter((x) => x.text.length > 0);
+		.map((choice) => choice.trim())
+		.filter((choice) => choice.length > 0);
 
 	if (nonEmptyChoices.length === 0) {
 		showToast(i18n.s('toast.error_no_items_to_choose'), 'danger');
@@ -168,7 +167,7 @@ btnChoose.addEventListener('click', () => {
 
 		const chosenIndex = Math.floor(Math.random() * pool.length);
 		const chosenItem = pool[chosenIndex];
-		let result = chosenItem.text;
+		let result = chosenItem;
 		let notes = '';
 
 		const n = rollDice(result);
@@ -178,7 +177,6 @@ btnChoose.addEventListener('click', () => {
 		}
 
 		results.push({
-			origIdx: chosenItem.origIdx,
 			result,
 			notes,
 		});
@@ -190,10 +188,8 @@ btnChoose.addEventListener('click', () => {
 
 	if (results.length > 0) {
 		resultList.innerHTML = '';
-		results.forEach((res) => {
-			resultList.appendChild(
-				resultRow(res.origIdx, res.result, res.notes)
-			);
+		results.forEach((res, idx) => {
+			resultList.appendChild(resultRow(res.result, idx, res.notes));
 		});
 		sectionResult.hidden = false;
 		showToast(i18n.s('toast.success_chosen'), 'ok');
@@ -221,7 +217,7 @@ btnAddChoice.addEventListener('click', () => addInputField());
 
 btnCopyLink.addEventListener('click', async () => {
 	try {
-		await navigator.clipboard.writeText(shareLink.value);
+		await navigator.clipboard.writeText(window.location.href);
 		shareCopyStatus.textContent = i18n.s('share.copied');
 	} catch {
 		shareCopyStatus.textContent = i18n.s('share.copy_failed');

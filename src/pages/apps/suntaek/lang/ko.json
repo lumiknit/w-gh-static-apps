@@ -26,9 +26,9 @@
 	},
 	"share": {
 		"label": "공유 링크",
-		"copy": "복사",
-		"copied": "링크를 복사했어요!",
-		"copy_failed": "복사하지 못했어요. 링크를 선택해 직접 복사해주세요."
+		"copy": "URL 복사",
+		"copied": "URL을 복사했어요!",
+		"copy_failed": "URL을 복사하지 못했어요. 주소창에서 복사해주세요."
 	},
 	"tips": {
 		"title": "깨알 조언",
