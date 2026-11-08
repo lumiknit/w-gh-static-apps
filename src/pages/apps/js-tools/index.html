@@ -1,0 +1,79 @@
+<!doctype html>
+<html>
+	<head>
+		<title>JS Tools</title>
+	</head>
+	<body>
+		<nav class="navbar">
+			<main class="navbar-content">
+				<div><a class="brand" href="#">JS Tools</a></div>
+				<div><a href="/apps">Apps</a></div>
+			</main>
+		</nav>
+
+		<main class="tools-page">
+			<div class="tools-toolbar">
+				<label class="sr-only" for="tool-action">Actions</label>
+				<select id="tool-action" aria-label="Actions">
+					<option value="">☰ Tools</option>
+					<optgroup label="Load">
+						<option value="load-clipboard">From clipboard</option>
+						<option value="load-file">From file…</option>
+					</optgroup>
+					<optgroup label="Save">
+						<option value="save-file">Save to file</option>
+						<option value="copy-all">Copy all</option>
+						<option value="bookmarklet">Copy as bookmarklet</option>
+					</optgroup>
+					<optgroup label="Transform">
+						<option value="erase-types">Erase types</option>
+						<option value="prettify">Prettify</option>
+						<option value="minify">Minify</option>
+					</optgroup>
+					<optgroup label="Run">
+						<option value="run-worker">Run in worker</option>
+					</optgroup>
+				</select>
+			</div>
+
+			<textarea
+				id="source"
+				spellcheck="false"
+				autocapitalize="off"
+				autocomplete="off"
+				autocorrect="off"
+				aria-label="JavaScript source"
+			></textarea>
+			<input
+				id="file-input"
+				type="file"
+				accept=".js,.mjs,.cjs,.ts,.txt,text/*"
+				hidden
+			/>
+		</main>
+
+		<dialog id="run-dialog" aria-labelledby="run-title">
+			<form method="dialog">
+				<header>
+					<div class="run-heading">
+						<h2 id="run-title">Worker result</h2>
+						<span
+							id="run-state"
+							class="run-state"
+							role="status"
+							aria-live="polite"
+							>Ready</span
+						>
+					</div>
+					<button value="close" class="ghost" aria-label="Close">
+						×
+					</button>
+				</header>
+				<pre id="run-output"></pre>
+			</form>
+		</dialog>
+
+		<div id="status" role="status" aria-live="polite"></div>
+		<script type="module" src="./main.ts"></script>
+	</body>
+</html>
