@@ -44,6 +44,16 @@ li.chosen small {
 	color: #888d;
 }
 
+.result-heading {
+	display: flex;
+	align-items: baseline;
+	justify-content: space-between;
+}
+
+#result-time {
+	font-size: 0.75em;
+}
+
 .btn-choose-wrap {
 	position: fixed;
 	z-index: 10;
@@ -62,6 +72,28 @@ li.chosen small {
 	font-weight: bold;
 	padding: 0.75em 1.5em;
 	font-size: 1.25rem;
+}
+
+.btn-choose > span:not([hidden]) {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	gap: 0.5rem;
+}
+
+.choose-spinner {
+	width: 1em;
+	height: 1em;
+	border: 2px solid currentColor;
+	border-right-color: transparent;
+	border-radius: 50%;
+	animation: choose-spin 0.7s linear infinite;
+}
+
+@keyframes choose-spin {
+	to {
+		transform: rotate(360deg);
+	}
 }
 
 .flex-row {

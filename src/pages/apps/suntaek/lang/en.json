@@ -5,7 +5,8 @@
 	},
 	"clickable": {
 		"btn": {
-			"main_choose": "Choose!"
+			"main_choose": "Choose!",
+			"choosing": "Choosing..."
 		},
 		"label": {
 			"go_to_top": "Go to Top"

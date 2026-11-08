@@ -35,6 +35,9 @@ const toastContainer = getElemById('toast-container');
 const sectionResult = getElemById('section-result');
 const resultList = getElemById('result-list');
 const btnChoose = getElemById('btn-choose');
+const chooseReady = getElemById<HTMLElement>('choose-ready');
+const chooseLoading = getElemById<HTMLElement>('choose-loading');
+const resultTime = getElemById<HTMLTimeElement>('result-time');
 const optAllowDuplicates = getElemById<HTMLInputElement>(
 	'opt-allow-duplicates'
 );
@@ -146,7 +149,8 @@ function handleDeleteButtonClick(idx: number) {
 	renderChoices();
 }
 
-btnChoose.addEventListener('click', () => {
+btnChoose.addEventListener('click', async () => {
+	if (btnChoose.disabled) return;
 	const nonEmptyChoices = choices
 		.map((choice) => choice.trim())
 		.filter((choice) => choice.length > 0);
@@ -156,44 +160,63 @@ btnChoose.addEventListener('click', () => {
 		return;
 	}
 
-	const results = [];
+	const drawCount = count;
+	const duplicatesAllowed = allowDuplicates;
 	const pool = [...nonEmptyChoices];
+	btnChoose.disabled = true;
+	btnChoose.setAttribute('aria-busy', 'true');
+	chooseReady.hidden = true;
+	chooseLoading.hidden = false;
 
-	for (let i = 0; i < count; i++) {
-		if (pool.length === 0) {
-			showToast(i18n.s('toast.error_no_items_more'), 'danger');
-			break;
+	try {
+		await new Promise((resolve) => setTimeout(resolve, 500));
+
+		const results = [];
+		for (let i = 0; i < drawCount; i++) {
+			if (pool.length === 0) {
+				showToast(i18n.s('toast.error_no_items_more'), 'danger');
+				break;
+			}
+
+			const chosenIndex = Math.floor(Math.random() * pool.length);
+			const chosenItem = pool[chosenIndex];
+			let result = chosenItem;
+			let notes = '';
+
+			const n = rollDice(result);
+			if (n !== null) {
+				notes = `dice: ${result}`;
+				result = `${n}`;
+			}
+
+			results.push({ result, notes });
+
+			if (!duplicatesAllowed) {
+				pool.splice(chosenIndex, 1);
+			}
 		}
 
-		const chosenIndex = Math.floor(Math.random() * pool.length);
-		const chosenItem = pool[chosenIndex];
-		let result = chosenItem;
-		let notes = '';
-
-		const n = rollDice(result);
-		if (n !== null) {
-			notes = `dice: ${result}`;
-			result = `${n}`;
+		if (results.length > 0) {
+			resultList.innerHTML = '';
+			results.forEach((res, idx) => {
+				resultList.appendChild(resultRow(res.result, idx, res.notes));
+			});
+			const selectedAt = new Date();
+			resultTime.dateTime = selectedAt.toISOString();
+			resultTime.textContent = selectedAt.toLocaleTimeString(undefined, {
+				hour: '2-digit',
+				minute: '2-digit',
+				second: '2-digit',
+			});
+			sectionResult.hidden = false;
+			showToast(i18n.s('toast.success_chosen'), 'ok');
+			window.scrollTo({ top: 0, behavior: 'smooth' });
 		}
-
-		results.push({
-			result,
-			notes,
-		});
-
-		if (!allowDuplicates) {
-			pool.splice(chosenIndex, 1);
-		}
-	}
-
-	if (results.length > 0) {
-		resultList.innerHTML = '';
-		results.forEach((res, idx) => {
-			resultList.appendChild(resultRow(res.result, idx, res.notes));
-		});
-		sectionResult.hidden = false;
-		showToast(i18n.s('toast.success_chosen'), 'ok');
-		window.scrollTo({ top: 0, behavior: 'smooth' });
+	} finally {
+		btnChoose.disabled = false;
+		btnChoose.setAttribute('aria-busy', 'false');
+		chooseReady.hidden = false;
+		chooseLoading.hidden = true;
 	}
 });
 

@@ -5,7 +5,8 @@
 	},
 	"clickable": {
 		"btn": {
-			"main_choose": "고르기!"
+			"main_choose": "고르기!",
+			"choosing": "고르는 중..."
 		},
 		"label": {
 			"go_to_top": "최상단으로"
